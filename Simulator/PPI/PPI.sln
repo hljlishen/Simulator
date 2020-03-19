@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPI", "PPI\PPI.csproj", "{646B555E-DBA5-4A8A-A20C-0308BEF6AA64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mapper", "CoordinateMapper\Mapper.csproj", "{5FFA42D8-CDF6-4C02-96D1-BB934830D6C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapperTests", "MapperTests\MapperTests.csproj", "{FAFE33E0-C630-4CBD-8C99-DD75CE797EB9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{646B555E-DBA5-4A8A-A20C-0308BEF6AA64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{646B555E-DBA5-4A8A-A20C-0308BEF6AA64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{646B555E-DBA5-4A8A-A20C-0308BEF6AA64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{646B555E-DBA5-4A8A-A20C-0308BEF6AA64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FFA42D8-CDF6-4C02-96D1-BB934830D6C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FFA42D8-CDF6-4C02-96D1-BB934830D6C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FFA42D8-CDF6-4C02-96D1-BB934830D6C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FFA42D8-CDF6-4C02-96D1-BB934830D6C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAFE33E0-C630-4CBD-8C99-DD75CE797EB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAFE33E0-C630-4CBD-8C99-DD75CE797EB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAFE33E0-C630-4CBD-8C99-DD75CE797EB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAFE33E0-C630-4CBD-8C99-DD75CE797EB9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C239CDC5-C183-417B-B3A8-8981F136D030}
+	EndGlobalSection
+EndGlobal
