@@ -1,48 +1,51 @@
 ﻿using System;
 using System.Windows.Forms;
+using FPGA;
 using JXI750x;
 using JXIPXIe7660;
 using JXIPXIe7760;
 using Mapper;
 using PPI;
 
-namespace Simulator
+namespace SimView
 {
-    public partial class Form1 : Form
+    public partial class ControlPanel : Form
     {
-        public Form1(IDeviceController controller)
-        {
-            InitializeComponent();
-            mapper = new SquaredScreenRectDecorator(new ScreenToCoordinateMapper());
-            display = new PPIDisplay(ppi_pb, mapper);
-
-            display.DmeStateChanged += Display_DmeStateChanged;
-            this.controller = controller;
-            UpdateForm(controller.Model);
-            Visible = true;
-        }
-
-        private void UpdateForm(TacanModel model)
-        {
-            _ = model.Distance_ini.ToString("0.00");
-            dis_tb.Text = model.Distance_ini.ToString("0.00");
-            az_tb.Text = model.Azimuth_ini.ToString("0.00");
-            display.SetDmeState(model.Azimuth_ini, model.Distance_ini);
-        }
-
-        private void Display_DmeStateChanged(double arg1, double arg2)
-        {
-            az_tb.Text = arg1.ToString("0.00");
-            dis_tb.Text = arg2.ToString("0.00");
-        }
-
         private JXI750xAWGTask aotask;
         private JXI750xDigitizerTask aiTask;
         private PPIDisplay display;
         private IScreenToCoordinateMapper mapper;
         private IDeviceController controller;
+        public ControlPanel(IDeviceController controller)
+        {
+            InitializeComponent();
 
-        private void Form1_Load(object sender, EventArgs e)
+            mapper = new SquaredScreenRectDecorator(new ScreenToCoordinateMapper());
+            display = new PPIDisplay(ppi_pb, mapper);
+            //var dd = new DeviceDrive();
+            //dd.SetFrequencyAndPower(1000 * 1E6, 0);
+
+            display.DmeStateChanged += Display_DmeStateChanged;
+            this.controller = controller;
+            UpdateForm(controller.Model);
+        }
+        private void Display_DmeStateChanged(double arg1, double arg2)
+        {
+            az_tb.Text = arg1.ToString("0.00");
+            dis_tb.Text = arg2.ToString("0.00");
+        }
+        private void UpdateForm(TacanModel model)
+        {
+            _ = model.Distance_ini.ToString("0.00");
+            dis_tb.Text = model.Distance_ini.ToString("0.00");
+            az_tb.Text = model.Azimuth_ini.ToString("0.00");
+            channel_tb.Text = model.Channel_ini.ToString();
+            //responsePower_tb.Text = model.ResponsePower_ini.ToString();
+            trackBar1.Value = (int)model.ResponsePower_ini;
+            display.SetDmeState(model.Azimuth_ini, model.Distance_ini);
+        }
+
+        private void ControlPanel_Load(object sender, EventArgs e)
         {
             aotask = new JXI750xAWGTask(0);
             aotask.Mode = AOMode.ContinuousWrapping;
@@ -53,7 +56,7 @@ namespace Simulator
             aotask.DataFormat = DataFormat.Complex;
             //if (checkBox1.Checked)
             //{
-                aotask.AddChannel(-1, 70e6, 1.0, 0);
+            aotask.AddChannel(-1, 70e6, 1.0, 0);
             //}
             //else
             //{
@@ -63,16 +66,18 @@ namespace Simulator
             aotask.Commit();
             aiTask = new JXI750xDigitizerTask(0);
             aiTask.SampleRate = 20e6;
-            FPGADrive.FPGA fpga = FPGADrive.FPGA.GetInstance();
+            //FPGADrive.FPGA fpga = FPGADrive.FPGA.GetInstance();
             //fpga.Write(0x54008, 10);
-            int ret;
-            while(true)
-                _ = fpga.Read(0x54008, out ret);
+            //fpga.Write(0x54000, 11);
+            //fpga.Write(0x54004, 12);
+            //int ret;
+            //while (true)
+            //    _ = fpga.Read(0x54008, out ret);
         }
 
         private void Dis_tb_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if(e.KeyChar == 0x0d)
+            if (e.KeyChar == 0x0d)
             {
                 display.Distance = double.Parse(dis_tb.Text);
                 dis_tb.SelectAll();
@@ -92,6 +97,16 @@ namespace Simulator
         {
             controller.SetAzimuth(double.Parse(az_tb.Text));
             controller.SetDistance(double.Parse(dis_tb.Text));
+            controller.SetResponsePower(double.Parse(responsePower_tb.Text));   //SetResponsePower要在SetChannel之前
+            controller.SetChannel(uint.Parse(channel_tb.Text));
+            controller.SetEncodeMode(x_rb.Checked ? EncodeType.X : EncodeType.Y);
+
+            controller.CommitChanges();
+        }
+
+        private void TrackBar1_ValueChanged(object sender, EventArgs e)
+        {
+            responsePower_tb.Text = trackBar1.Value.ToString();
         }
     }
 }

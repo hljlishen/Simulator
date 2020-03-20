@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FPGA;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,7 @@ namespace Simulator
 
     class PXES2590Controller : IDeviceController
     {
+        //private DeviceDrive device = new DeviceDrive();
         public PXES2590Controller(TacanModel model)
         {
             Model = model;

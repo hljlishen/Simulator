@@ -1,0 +1,3943 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JXI750x</name>
+    </assembly>
+    <members>
+        <member name="T:JXI750x.JXI750xDevice">
+            <summary>
+            设备类
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xDevice.ClockSource">
+            <summary>
+            时钟模式，Internal/External/PXI Clk10
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xDevice.ExternalClockFrequency">
+            <summary>
+            设置外部参考时钟频率，默认是10M
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xDevice.DeviceInformation">
+            <summary>
+            只读属性，包含多个string，用于获取产品序列号、硬件版本、固件版本、板载内存容量等信息。
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xDevice.Temperature">
+            <summary>
+            获取设备温度(板卡上的温度传感器上获取到的值)
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xDevice.FPGATemperature">
+            <summary>
+            获取FPGA芯片温度(FPGA上的温度传感器获取到的值)
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xDevice.Sync">
+            <summary>
+            Synchroniztion
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xDevice.List">
+            <summary>
+            All device list.
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDevice._slotNumber">
+            <summary>
+            板卡编号，构造此类对象时的入参
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDevice._aliasName">
+            <summary>
+            板卡别名
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDevice._listThisInst">
+            <summary>
+            用于保存每个cardnumber构造出的实例
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xDevice.CardID">
+            <summary>
+            调用Register后得到的cardID
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xDevice.AIChannelCount">
+            <summary>
+            AI通道总数
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xDevice.AOChannelCount">
+            <summary>
+            AO通道总数
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXI750xDevice.DigitizerInit">
+            <summary>
+            init Digitizer.
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXI750xDevice.AWGInit">
+            <summary>
+            Init Digitizer.
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXI750xDevice.GetInstance(System.Int32)">
+            <summary>
+            根据board number获取操作实例,保证每张板卡只有一个注册实例
+            </summary>
+            <param name="slotNum"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI750x.JXI750xDevice.GetInstance(System.String)">
+            <summary>
+            根据别名获取操作实例,保证每张板卡只有一个注册实例
+            </summary>
+            <param name="aliasName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI750x.JXI750xDevice.#ctor(System.Int32)">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXI750xDevice.Release">
+            <summary>
+            关闭AD设备,禁止传输,并释放资源，该函数自动在类的析构函数中执行
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXI750xDevice.Finalize">
+            <summary>
+            析构函数，释放硬件资源
+            </summary>
+        </member>
+        <member name="T:JXI750x.ClockSource">
+            <summary>
+            基准时钟源
+            </summary>
+        </member>
+        <member name="F:JXI750x.ClockSource.Internal">
+            <summary>
+            内部时钟源
+            </summary>
+        </member>
+        <member name="F:JXI750x.ClockSource.External">
+            <summary>
+            外部时钟源
+            </summary>
+        </member>
+        <member name="T:JXI750x.DataFormat">
+            <summary>
+            数据格式
+            </summary>
+        </member>
+        <member name="F:JXI750x.DataFormat.Real">
+            <summary>
+            获取ADC数据
+            </summary>
+        </member>
+        <member name="F:JXI750x.DataFormat.Complex">
+            <summary>
+            获取DDC的IQ数据
+            </summary>
+        </member>
+        <member name="T:JXI750x.ExportSignalSource">
+            <summary>
+            Export signal source
+            </summary>
+        </member>
+        <member name="F:JXI750x.ExportSignalSource.None">
+            <summary>
+            None
+            </summary>
+        </member>
+        <member name="F:JXI750x.ExportSignalSource.AIReadyForStartTrigger">
+            AIReadyForStartTrigger -> 9
+        </member>
+        <member name="F:JXI750x.ExportSignalSource.AIReadyForRefTrigger">
+            AIReadyForRefTrigger -> 10
+        </member>
+        <member name="F:JXI750x.ExportSignalSource.AIReadyForAdvanceTrigger">
+            AIReadyForAdvanceTrigger -> 11
+        </member>
+        <member name="F:JXI750x.ExportSignalSource.AIStartTrigger">
+            AIStartTrigger -> 12
+        </member>
+        <member name="F:JXI750x.ExportSignalSource.AIRefTrigger0">
+            AIRefTrigger0 -> 13
+        </member>
+        <member name="F:JXI750x.ExportSignalSource.AIAdvanceTriggerO">
+            AIAdvanceTriggerO -> 14
+        </member>
+        <member name="F:JXI750x.ExportSignalSource.AIEndOfRecord">
+            AIEndOfRecord -> 15
+        </member>
+        <member name="F:JXI750x.ExportSignalSource.AIEndOfAcquisition">
+            AIEndOfAcquisition -> 16
+        </member>
+        <member name="F:JXI750x.ExportSignalSource.AOReadyForStartTrigger">
+            AOReadyForStartTrigger -> 17
+        </member>
+        <member name="F:JXI750x.ExportSignalSource.AOStartTrigger">
+            AOStartTrigger -> 18
+        </member>
+        <member name="F:JXI750x.ExportSignalSource.AOGenerationDone">
+            AOGenerationDone -> 19
+        </member>
+        <member name="F:JXI750x.ExportSignalSource.AIPowerTrigger">
+            AIPowerTrigger -> 20
+        </member>
+        <member name="F:JXI750x.ExportSignalSource.AIAnalogTrigger">
+            AIAnalogTrigger -> 21
+        </member>
+        <member name="T:JXI750x.ExportSignalDestination">
+            <summary>
+            Export signal destination
+            </summary>
+        </member>
+        <member name="F:JXI750x.ExportSignalDestination.PFIOut0">
+            PFIOut0 -> 0
+        </member>
+        <member name="F:JXI750x.ExportSignalDestination.PFIOut1">
+            PFIOut1 -> 1
+        </member>
+        <member name="F:JXI750x.ExportSignalDestination.PFIOut2">
+            PFIOut2 -> 2
+        </member>
+        <member name="F:JXI750x.ExportSignalDestination.PFIOut3">
+            PFIOut3 -> 3
+        </member>
+        <member name="F:JXI750x.ExportSignalDestination.PFIOut4">
+            PFIOut4 -> 4
+        </member>
+        <member name="F:JXI750x.ExportSignalDestination.PFIOut5">
+            PFIOut5 -> 5
+        </member>
+        <member name="F:JXI750x.ExportSignalDestination.PFIOut6">
+            PFIOut6 -> 6
+        </member>
+        <member name="F:JXI750x.ExportSignalDestination.PFIOut7">
+            PFIOut7 -> 7
+        </member>
+        <member name="F:JXI750x.ExportSignalDestination.TriggerOut">
+            TriggerOut -> 8
+        </member>
+        <member name="T:JXI750x.DeviceInformation">
+            <summary>
+            DeviceInformation
+            </summary>
+        </member>
+        <member name="P:JXI750x.DeviceInformation.ProductSerialNum">
+            <summary>
+            产品序列号
+            </summary>
+        </member>
+        <member name="P:JXI750x.DeviceInformation.HardwareVersion">
+            <summary>
+            硬件版本
+            </summary>
+        </member>
+        <member name="P:JXI750x.DeviceInformation.FirmwareVersion">
+            <summary>
+            固件版本
+            </summary>
+        </member>
+        <member name="P:JXI750x.DeviceInformation.OnboardMemoryCapacity">
+            <summary>
+            板载内存容量
+            </summary>
+        </member>
+        <member name="P:JXI750x.DeviceInformation.Ability">
+            <summary>
+            Gets the ability of device.
+            </summary>
+            <value>The ability.</value>
+        </member>
+        <member name="T:JXI750x.ExportClockSource">
+            <summary>
+            导出时钟的源
+            </summary>
+        </member>
+        <member name="F:JXI750x.ExportClockSource.None">
+            <summary>
+            不导出
+            </summary>
+        </member>
+        <member name="F:JXI750x.ExportClockSource.AISampleClk">
+            <summary>
+            AI 的采样时钟
+            </summary>
+        </member>
+        <member name="F:JXI750x.ExportClockSource.AOSampleClk">
+            <summary>
+            AO 的采样时钟
+            </summary>
+        </member>
+        <member name="F:JXI750x.ExportClockSource.SpecifiedFrequency">
+            <summary>
+            指定导出特定频率
+            </summary>
+        </member>
+        <member name="T:JXI750x.ExportClockDestination">
+            <summary>
+            AI导出时钟的目的端口或引脚
+            </summary>
+        </member>
+        <member name="F:JXI750x.ExportClockDestination.Ref_Out">
+            <summary>
+            Ref_Out端口
+            </summary>
+        </member>
+        <member name="T:JXI750x.ExportClock">
+            <summary>
+            导出时钟配置
+            </summary>
+        </member>
+        <member name="P:JXI750x.ExportClock.Source">
+            <summary>
+            导出时钟源
+            </summary>
+        </member>
+        <member name="P:JXI750x.ExportClock.ExportSourceFrequency">
+            <summary>
+            导出时钟频率，导出时钟源为SpecifiedFrequency时有效
+            </summary>
+        </member>
+        <member name="T:JXI750x.ExportClockContainer">
+            <summary>
+            Export clock
+            </summary>
+        </member>
+        <member name="P:JXI750x.ExportClockContainer.Item(JXI750x.ExportClockDestination)">
+            <summary>
+            Export clock configuration by destination terminal
+            </summary>
+            <param name="dest">export destination terminal</param>
+            <returns></returns>
+        </member>
+        <member name="T:JXI750x.ExportSignalContainer">
+            <summary>
+            Export clock
+            </summary>
+        </member>
+        <member name="P:JXI750x.ExportSignalContainer.Item(JXI750x.ExportSignalDestination)">
+            <summary>
+            Export clock configuration by destination terminal
+            </summary>
+            <param name="dest">export destination terminal</param>
+            <returns></returns>
+        </member>
+        <member name="T:JXI750x.Sync">
+            <summary>
+            Synchroniztion class
+            </summary>
+        </member>
+        <member name="P:JXI750x.Sync.ExportClock">
+            <summary>
+            Export clock configuration
+            </summary>
+        </member>
+        <member name="P:JXI750x.Sync.ExportSignal">
+            <summary>
+            导出信号
+            </summary>
+        </member>
+        <member name="M:JXI750x.Sync.Commit">
+            <summary>
+            Commit configuration 
+            </summary>
+        </member>
+        <member name="T:JXI750x.CardAbility">
+            <summary>
+            The card ability class
+            </summary>
+        </member>
+        <member name="P:JXI750x.CardAbility.AWGSupported">
+            <summary>
+            Is AWG Supported
+            </summary>
+        </member>
+        <member name="P:JXI750x.CardAbility.DigitizerSupported">
+            <summary>
+            Is Digitizer Supported
+            </summary>
+        </member>
+        <member name="T:JXI750x.JXI750xDeviceInformation">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDeviceInformation._aliasName">
+            char[64]
+        </member>
+        <member name="P:JXI750x.JXI750xDeviceInformation.AliasName">
+            <summary>
+            alias name
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDeviceInformation._slotNumber">
+            int
+        </member>
+        <member name="P:JXI750x.JXI750xDeviceInformation.SlotNumber">
+            <summary>
+            slot number
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDeviceInformation._serialNumber">
+            char[33]
+        </member>
+        <member name="P:JXI750x.JXI750xDeviceInformation.SerialNumber">
+            <summary>
+            serial number
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDeviceInformation._model">
+            char[65]
+        </member>
+        <member name="P:JXI750x.JXI750xDeviceInformation.Model">
+            <summary>
+            model
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDeviceInformation._hardwareVer">
+            char[16]
+        </member>
+        <member name="P:JXI750x.JXI750xDeviceInformation.HardwareVersion">
+            <summary>
+            hardware version
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDeviceInformation._firmwareVer">
+            char[16]
+        </member>
+        <member name="P:JXI750x.JXI750xDeviceInformation.FirmwareVersion">
+            <summary>
+            firmware version
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDeviceInformation._frameworkVer">
+            char[16]
+        </member>
+        <member name="P:JXI750x.JXI750xDeviceInformation.FrameworkVersion">
+            <summary>
+            frame work version
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDeviceInformation._driverSetVer">
+            char[16]
+        </member>
+        <member name="P:JXI750x.JXI750xDeviceInformation.DriverSetVersion">
+            <summary>
+            driver set version
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDeviceInformation._productionDate">
+            char[16]
+        </member>
+        <member name="P:JXI750x.JXI750xDeviceInformation.ProductionDate">
+            <summary>
+            production date
+            </summary>
+        </member>
+        <member name="T:JXI750x.BufferBlock">
+            <summary>
+            BufferBlock
+            </summary>
+        </member>
+        <member name="F:JXI750x.BufferBlock.Buffer">
+            <summary>
+            Buffer
+            </summary>
+        </member>
+        <member name="F:JXI750x.BufferBlock.Ptr">
+            <summary>
+            Ptr
+            </summary>
+        </member>
+        <member name="F:JXI750x.BufferBlock.GCHandle">
+            <summary>
+            GCHandle
+            </summary>
+        </member>
+        <member name="M:JXI750x.BufferBlock.#ctor(System.Int16[],System.IntPtr,System.Runtime.InteropServices.GCHandle)">
+            <summary>
+            Default value
+            </summary>
+            <param name="buffer"></param>
+            <param name="ptr"></param>
+            <param name="gcHandle"></param>
+        </member>
+        <member name="T:JXI750x.JXIVectorFileListReader">
+            <summary>
+            Vector file list reader
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXIVectorFileListReader.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXIVectorFileListReader.NumberOfChannel">
+            <summary>
+            Channel count
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXIVectorFileListReader.DataType">
+            <summary>
+            The data type
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXIVectorFileListReader.NumberOfSamples">
+            <summary>
+            Sample count per channel for added files
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXIVectorFileListReader.SampleRate">
+            <summary>
+            The sample rate
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXIVectorFileListReader.SizeOfSample">
+            <summary>
+            每个采样点的字节数
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXIVectorFileListReader.StartFileIndex">
+            <summary>
+            File read start index of all files
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXIVectorFileListReader.StartFile">
+            <summary>
+            The start file
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXIVectorFileListReader.StartFilePosition">
+            <summary>
+            File read start Position of start file
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXIVectorFileListReader.SampleLengthFromStartPosition">
+            <summary>
+            从起始文件的位置开始到结尾总共的样点数
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXIVectorFileListReader._currentReadLength">
+            <summary>
+            current read length
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXIVectorFileListReader.WrappingLength">
+            <summary>
+            Wrapping length in sample
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXIVectorFileListReader.CurrentFileIndex">
+            <summary>
+            Current file index
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXIVectorFileListReader.CurrentFilePosition">
+            <summary>
+            Current file position
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXIVectorFileListReader.FileList">
+            <summary>
+            File list
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXIVectorFileListReader.AddFile(System.String)">
+            <summary>
+            Add vector file
+            </summary>
+            <param name="path"></param>
+        </member>
+        <member name="M:JXI750x.JXIVectorFileListReader.AddFile(System.String[])">
+            <summary>
+            Add vector files
+            </summary>
+            <param name="path"></param>
+        </member>
+        <member name="M:JXI750x.JXIVectorFileListReader.RemoveFile(System.String)">
+            <summary>
+            Remove file
+            </summary>
+            <param name="path"></param>
+        </member>
+        <member name="M:JXI750x.JXIVectorFileListReader.RemoveFile(System.String[])">
+            <summary>
+            Remove files
+            </summary>
+            <param name="path"></param>
+        </member>
+        <member name="M:JXI750x.JXIVectorFileListReader.IndexOfFile(System.String)">
+            <summary>
+            Index of file
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="P:JXI750x.JXIVectorFileListReader.Item(System.String)">
+            <summary>
+            Get vector file info by path
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI750x.JXIVectorFileListReader.ReadNext(System.IntPtr,System.Int32)">
+            <summary>
+            Read next data
+            </summary>
+            <param name="data"></param>
+            <param name="sampleToRead"></param>
+        </member>
+        <member name="M:JXI750x.JXIVectorFileListReader.Reset">
+            <summary>
+            Reset read status
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXIVectorFileListReader.Dispose(System.Boolean)">
+            <summary>
+            Dispose
+            </summary>
+            <param name="disposing"></param>
+        </member>
+        <member name="M:JXI750x.JXIVectorFileListReader.Finalize">
+            <summary>
+            TODO: 仅当以上 Dispose(bool disposing) 拥有用于释放未托管资源的代码时才替代终结器。
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXIVectorFileListReader.Dispose">
+            <summary>
+            接口实现
+            </summary>
+        </member>
+        <member name="T:JXI750x.JXIVectorFileInfo">
+            <summary>
+            内部使用，终于保存添加后的文件信息
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXIVectorFileInfo.SizeOfSample">
+            <summary>
+            每个样点所占的字节数
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXIVectorFileInfo.FileName">
+            <summary>
+            the file name
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXIVectorFileInfo.ChannelCount">
+            <summary>
+            the channel count
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXIVectorFileInfo.SampleRate">
+            <summary>
+            The sample rate 
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXIVectorFileInfo.NumberOfSample">
+            <summary>
+            number of sample per channel
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXIVectorFileInfo.DataType">
+            <summary>
+            The data type
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXIVectorFileInfo.CurrentPosition">
+            <summary>
+            the current position
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXIVectorFileInfo.ReadNext(System.IntPtr,System.Int32)">
+            <summary>
+            Current position由外部调用方维护，保证调用的时候都一定能读取到数据
+            </summary>
+            <param name="data"></param>
+            <param name="samples"></param>
+        </member>
+        <member name="M:JXI750x.JXIVectorFileInfo.Dispose(System.Boolean)">
+            <summary>
+            Dispose
+            </summary>
+            <param name="disposing"></param>
+        </member>
+        <member name="M:JXI750x.JXIVectorFileInfo.Finalize">
+            <summary>
+            TODO: 仅当以上 Dispose(bool disposing) 拥有用于释放未托管资源的代码时才替代终结器。
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXIVectorFileInfo.Dispose">
+            <summary>
+            Release file: close
+            </summary>
+        </member>
+        <member name="T:JXI750x.JXI750xAWGTask">
+            <summary>
+            AO输出任务类,是Sealed类，不可被继承
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXI750xAWGTask.#ctor(System.Int32)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="slotNum">板卡的槽位号，只有一块卡的时候可以使用0初始化</param>
+        </member>
+        <member name="M:JXI750x.JXI750xAWGTask.#ctor(System.String)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="aliasName">板卡的别名</param>
+        </member>
+        <member name="F:JXI750x.JXI750xAWGTask._readDataLengthInSecond">
+            <summary>
+            每次读取数据的时间长度，秒为单位
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xAWGTask._startRecordPlaybackSignal">
+            <summary>
+            流盘回放开始信号，用于等待文件读取
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xAWGTask.Device">
+            <summary>
+            操作硬件的对象
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xAWGTask._channelMask">
+            <summary>
+            使能的通道
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xAWGTask._aoStarted">
+            <summary>
+            AO是否已经启动
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xAWGTask._aoCommitted">
+            <summary>
+            AO参数是否已提交
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xAWGTask.Mode">
+            <summary>
+            输出模式
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xAWGTask.SampleRate">
+            <summary>
+            DAC更新率
+            如果是Real，范围是31.25M到250M
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xAWGTask.InverseSincEnabled">
+            <summary>
+            是否使能DA的InverseSinc，默认false
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xAWGTask.TimeBaseRate">
+            <summary>
+            时钟基准
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xAWGTask.DataFormat">
+            <summary>
+            数据格式，Real/Complex 
+            Real：获取ADC数据 
+            Complex：获取DDC的IQ数据
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xAWGTask.EnableDUC">
+            <summary>
+            是否使能DDC
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xAWGTask.WaveformLength">
+            <summary>
+            设定任意波形的长度，以Sample为单位。当模式为Stream时，不用设置此属性；
+            当模式为Finite时，若波形为一次写入，则不需设置此属性(默认为-1)，若波形为分次写入，则需要先设置此属性。
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xAWGTask.Channels">
+            <summary>
+            通道列表
+            各通道的独立参数，包括幅度、频率、数字增益，其中频率和数字增益仅对于Complex数据有效。
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xAWGTask.AvailableStreamSpace">
+            <summary>
+            只读属性，当前Stream Buffer的空闲点数，即可写入的数据点数。仅在流模式下使用。
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xAWGTask.Trigger">
+            <summary>
+            AO触发参数设置
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xAWGTask._bufLenInBytes">
+            <summary>
+            缓冲区大小设置，单位是字节
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xAWGTask.BuildInTestSignal">
+            <summary>
+            板载数字发生器
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xAWGTask.DataSource">
+            <summary>
+            数据来源，Waveform/BIT
+            Waveform：输出通过Write方法设定的波形
+            BIT：输出板载数字波形发生器生成的波形，用于自测试
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXI750xAWGTask.Commit">
+            <summary>
+            提交已设置的公共属性至设备
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXI750xAWGTask.Start">
+            <summary>
+            启动信号发生
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXI750xAWGTask.Stop">
+            <summary>
+            停止当前正在执行的信号发生
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXI750xAWGTask.WaitUntilDone(System.Int32)">
+            <summary>
+            等待当前正在执行的信号发生完成
+            </summary>
+            <param name="timeout"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI750x.JXI750xAWGTask.GetGenerationStatus(System.Boolean@,System.Int64@,System.Int32@)">
+            <summary>
+            查询当前正在执行的信号发生状态
+            </summary>
+            <param name="done"></param>
+            <param name="sampleGenerated">每通道已经生成的点数</param>
+            <param name="availableBufferLengthInSample">每通道剩余的缓存空间大小</param>
+        </member>
+        <member name="M:JXI750x.JXI750xAWGTask.SendSoftwareTrigger">
+            <summary>
+            发送Software Trigger，使得当前已设置的触发条件被满足。
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXI750xAWGTask.AddChannel(System.Int32)">
+            <summary>
+            添加通道
+            当DataFormat=Real时，只需设定通道号和幅度
+            当DataFormat=Complex时，可设定频率和数字增益，其中数字增益只在Stream模式下有效。
+            </summary>
+            <param name="channel"></param>
+        </member>
+        <member name="M:JXI750x.JXI750xAWGTask.AddChannel(System.Int32,System.Double,System.Double,System.Int32)">
+            <summary>
+            添加通道
+            <para>当DataFormat=Real时，可设定数字增益，通道延迟</para>
+            <para>当DataFormat=Complex时，可设定数字增益，通道延迟和中心频率</para>
+            </summary>
+            <param name="channel">通道号</param>
+            <param name="delay">通道输出延迟，单位ns</param>
+            <param name="digitalGain">数字增益</param>
+            <param name="centerFrequency">中心频率</param>
+        </member>
+        <member name="M:JXI750x.JXI750xAWGTask.RemoveChannel(System.Int32)">
+            <summary>
+            移除已添加的通道，-1为移除所有通道。
+            </summary>
+            <param name="channel"></param>
+        </member>
+        <member name="M:JXI750x.JXI750xAWGTask.WriteWaveform(System.Double[])">
+            <summary>
+            单通道，Real格式，double数据
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:JXI750x.JXI750xAWGTask.WriteWaveform(System.Double[0:,0:])">
+            <summary>
+            多通道，Real格式，double数据
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:JXI750x.JXI750xAWGTask.WriteWaveform(System.Int16[])">
+            <summary>
+            单通道或多通道，Real或Complex，Int16数据，多通道/Complex时为Channel/IQ Interleaved
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:JXI750x.JXI750xAWGTask.WriteWaveform(System.Int16[0:,0:])">
+            <summary>
+            多通道，Real或Complex，Int16数据，Complex时为IQ Interleaved
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:JXI750x.JXI750xAWGTask.WriteWaveform(System.IntPtr,System.UInt32)">
+            <summary>
+            多通道，Real或Complex，Int16数据，Complex时为IQ Interleaved
+            </summary>
+            <param name="data">要写入的波形数据指针</param>
+            <param name="samplesToWrite">要写入的样点数></param>
+        </member>
+        <member name="M:JXI750x.JXI750xAWGTask.WriteWaveform(System.Numerics.Complex[])">
+            <summary>
+            单通道，Complex格式(IQ)，double数据
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:JXI750x.JXI750xAWGTask.WriteWaveform(System.Numerics.Complex[0:,0:])">
+            <summary>
+            多通道，Complex格式(IQ)，double数据
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="F:JXI750x.JXI750xAWGTask._recordTotalSamplePerTime">
+            <summary>
+            回放块大小，一次读文件的样点数（所有通道的总和）
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xAWGTask._taskDone">
+            <summary>
+            回放任务结束标志 
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xAWGTask._thdUpdateData">
+            <summary>
+            DMA写数据线程
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xAWGTask._thdReadDataFile">
+            <summary>
+            读文件的线程
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xAWGTask._samplesReadPerChannel">
+            <summary>
+            已经回放的总样点数
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xAWGTask._playedTimeLength">
+            <summary>
+            已经回放的每通道样点时间长度 = 已经回放的每通道样点数 / 采样率
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xAWGTask._readFileDone">
+            <summary>
+            文件读取完成
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xAWGTask._writeDataDone">
+            <summary>
+            写数据完成
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xAWGTask.Playback">
+            <summary>
+            回放相关参数设置
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXI750xAWGTask.ThdReadDataFile">
+            <summary>
+            读取文件数据
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXI750xAWGTask.ThdUpdateData">
+            <summary>
+            DMA更新数据
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXI750xAWGTask.GetNearestOfMBlocksize(System.UInt32,System.UInt32)">
+            <summary>
+            获取里requestsize最近的Blocksize的整数倍的数
+            </summary>
+            <param name="requestSize"></param>
+            <param name="blockSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI750x.JXI750xAWGTask.GetPlaybackStatus(System.Double@,System.Boolean@)">
+            <summary>
+            获取回放状态
+            </summary>
+            <param name="playedLength">
+            已回放的长度 = 总回放的样点数 / 通道数 / 用户设置的采样率
+            总回放的样点数 = 实数是real点数，short，占两个字节，复数是Complex点数，Complex，相当于两个short，占四个字节</param>
+            <param name="playedDone">回放是否结束，当回放模式是有限模式时有效</param>
+        </member>
+        <member name="T:JXI750x.Playback">
+            <summary>
+            回放相关的参数定义
+            </summary>
+        </member>
+        <member name="P:JXI750x.Playback.FileList">
+            <summary>
+            已添加的文件列表
+            </summary>
+        </member>
+        <member name="P:JXI750x.Playback.Mode">
+            <summary>
+            回放模式，有限回放或者循环回放
+            </summary>
+        </member>
+        <member name="P:JXI750x.Playback.FileSampleLengh">
+            <summary>
+            获取文件的样点数（每通道），在设置文件路径之后可获取
+            </summary>
+        </member>
+        <member name="P:JXI750x.Playback.BufferLength">
+            <summary>
+            回放缓冲区大小，单位MByte
+            </summary>
+        </member>
+        <member name="P:JXI750x.Playback.StartFile">
+            <summary>
+            回放起始的文件
+            </summary>
+        </member>
+        <member name="P:JXI750x.Playback.StartFilePosition">
+            <summary>
+            回放开始的文件起始位置
+            </summary>
+        </member>
+        <member name="P:JXI750x.Playback.Lengh">
+            <summary>
+            回放点数（每通道），需小于文件的样点数（每通道）,减去起始位置之前的样点数，如果是Wrapping模式，这该值为环绕读取的点数
+            </summary>
+        </member>
+        <member name="M:JXI750x.Playback.#ctor(JXI750x.JXI750xAWGTask)">
+            <summary>
+            默认构造函数
+            </summary>
+        </member>
+        <member name="M:JXI750x.Playback.AddFile(System.String)">
+            <summary>
+            添加要回放的文件
+            </summary>
+            <param name="path">文件路径</param>
+        </member>
+        <member name="M:JXI750x.Playback.AddFile(System.String[])">
+            <summary>
+            添加要回放的文件
+            </summary>
+            <param name="paths">文件路径数组</param>
+        </member>
+        <member name="M:JXI750x.Playback.RemoveFile(System.String)">
+            <summary>
+            移除指定文件
+            </summary>
+            <param name="path">文件路径</param>
+        </member>
+        <member name="M:JXI750x.Playback.RemoveFile(System.String[])">
+            <summary>
+            移除指定文件
+            </summary>
+            <param name="paths">文件路径数组</param>
+        </member>
+        <member name="M:JXI750x.Playback.IndexOfFile(System.String)">
+            <summary>
+            根据文件路径获取文件在List中的索引
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JXI750x.PlaybackMode">
+            <summary>
+            回放模式
+            </summary>
+        </member>
+        <member name="F:JXI750x.PlaybackMode.Finite">
+            <summary>
+            有限点回放，可设置文件起始位置和回放的长度，回放完成后自动停止
+            </summary>
+        </member>
+        <member name="F:JXI750x.PlaybackMode.Wrapping">
+            <summary>
+            循环回放，回放到文件末尾后自动跳转到文件头继续回放，用户执行stop时停止
+            </summary>
+        </member>
+        <member name="T:JXI750x.AOTrigger">
+            <summary>
+            AO触发参数配置类
+            </summary>
+        </member>
+        <member name="P:JXI750x.AOTrigger.Type">
+            <summary>
+            AO触发类型
+            </summary>
+        </member>
+        <member name="P:JXI750x.AOTrigger.Digital">
+            <summary>
+            AO数字触发设置
+            </summary>
+        </member>
+        <member name="M:JXI750x.AOTrigger.#ctor">
+            <summary>
+            默认构造函数
+            </summary>
+        </member>
+        <member name="T:JXI750x.AODigitalTrigger">
+            <summary>
+            AO数字触发
+            </summary>
+        </member>
+        <member name="P:JXI750x.AODigitalTrigger.Source">
+            <summary>
+            AI数字触发源
+            </summary>
+        </member>
+        <member name="P:JXI750x.AODigitalTrigger.Condition">
+            <summary>
+            AI数字触发边沿
+            </summary>
+        </member>
+        <member name="T:JXI750x.AOTriggerType">
+            <summary>
+            AO触发类型
+            </summary>
+        </member>
+        <member name="F:JXI750x.AOTriggerType.Immediate">
+            <summary>
+            立即触发
+            </summary>
+        </member>
+        <member name="F:JXI750x.AOTriggerType.Software">
+            <summary>
+            软件触发
+            </summary>
+        </member>
+        <member name="F:JXI750x.AOTriggerType.Digital">
+            <summary>
+            外部数字触发
+            </summary>
+        </member>
+        <member name="T:JXI750x.AODigitalTriggerSource">
+            <summary>
+            AI外部数字触发源
+            </summary>
+        </member>
+        <member name="F:JXI750x.AODigitalTriggerSource.Trig_In">
+            <summary>
+            External digital trigger in
+            </summary>
+        </member>
+        <member name="F:JXI750x.AODigitalTriggerSource.AIStartTriggerEvent">
+            <summary>
+            AI Start Trigger Event
+            </summary>
+        </member>
+        <member name="F:JXI750x.AODigitalTriggerSource.AIReferenceTriggerEvent">
+            <summary>
+            AI Reference Trigger Event
+            </summary>
+        </member>
+        <member name="F:JXI750x.AODigitalTriggerSource.AIAdvanceTriggerEvent">
+            <summary>
+            AI Advance Trigger Event
+            </summary>
+        </member>
+        <member name="F:JXI750x.AODigitalTriggerSource.PFI0">
+            <summary>
+            PFI0
+            </summary>
+        </member>
+        <member name="F:JXI750x.AODigitalTriggerSource.PFI1">
+            <summary>
+            PFI1
+            </summary>
+        </member>
+        <member name="F:JXI750x.AODigitalTriggerSource.PFI2">
+            <summary>
+            PFI2
+            </summary>
+        </member>
+        <member name="F:JXI750x.AODigitalTriggerSource.PFI3">
+            <summary>
+            PFI3
+            </summary>
+        </member>
+        <member name="F:JXI750x.AODigitalTriggerSource.PFI4">
+            <summary>
+            PFI4
+            </summary>
+        </member>
+        <member name="F:JXI750x.AODigitalTriggerSource.PFI5">
+            <summary>
+            PFI5
+            </summary>
+        </member>
+        <member name="F:JXI750x.AODigitalTriggerSource.PFI6">
+            <summary>
+            PFI6
+            </summary>
+        </member>
+        <member name="F:JXI750x.AODigitalTriggerSource.PFI7">
+            <summary>
+            PFI7
+            </summary>
+        </member>
+        <member name="T:JXI750x.AODigitalTriggerCondition">
+            <summary>
+            AO外部数字出发边沿
+            </summary>
+        </member>
+        <member name="F:JXI750x.AODigitalTriggerCondition.RisingEdge">
+            <summary>
+            Rising_Edge_Trigger
+            </summary>
+        </member>
+        <member name="F:JXI750x.AODigitalTriggerCondition.FallingEdge">
+            <summary>
+            Falling_Edge_Trigger
+            </summary>
+        </member>
+        <member name="F:JXI750x.AODigitalTriggerCondition.HighLevel">
+            <summary>
+            High_Level_Trigger
+            </summary>
+        </member>
+        <member name="F:JXI750x.AODigitalTriggerCondition.LowLevel">
+            <summary>
+            Low_Level_Trigger
+            </summary>
+        </member>
+        <member name="T:JXI750x.AOMode">
+            <summary>
+            AO工作模式枚举类型
+            </summary>
+        </member>
+        <member name="F:JXI750x.AOMode.Finite">
+            <summary>
+            有限点方式
+            </summary>
+        </member>
+        <member name="F:JXI750x.AOMode.ContinuousWrapping">
+            <summary>
+            连续方式
+            </summary>
+        </member>
+        <member name="F:JXI750x.AOMode.Stream">
+            <summary>
+            Stream
+            </summary>
+        </member>
+        <member name="F:JXI750x.AOMode.Playback">
+            <summary>
+            回放
+            </summary>
+        </member>
+        <member name="T:JXI750x.AOChannel">
+            <summary>
+            AO通道参数类
+            </summary>
+        </member>
+        <member name="P:JXI750x.AOChannel.ChannelID">
+            <summary>
+            通道号。与AO通道的物理序号相对应。
+            </summary>
+        </member>
+        <member name="P:JXI750x.AOChannel.CenterFrequency">
+            <summary>
+            Center Frequency
+            </summary>
+        </member>
+        <member name="P:JXI750x.AOChannel.DigitalGain">
+            <summary>
+            DigitalGain
+            </summary>
+        </member>
+        <member name="P:JXI750x.AOChannel.Delay">
+            <summary>
+            通道0的时延，单位ns
+            </summary>
+        </member>
+        <member name="M:JXI750x.AOChannel.#ctor(JXI750x.JXI750xAWGTask,System.Int32,System.Int32,System.Double,System.Double)">
+            <summary>
+            构造函数，创建AOChannel对象
+            </summary>
+            <param name="tsk"></param>
+            <param name="channelID">通道物理序号</param>
+            <param name="centerFreqency"></param>
+            <param name="digitalGain"></param>
+            <param name="delay"></param>
+        </member>
+        <member name="T:JXI750x.BITSignal">
+            <summary>
+            BITSignal
+            </summary>
+        </member>
+        <member name="P:JXI750x.BITSignal.Frequency">
+            <summary>
+            频率
+            </summary>
+        </member>
+        <member name="T:JXI750x.AODataSource">
+            <summary>
+            数据来源
+            </summary>
+        </member>
+        <member name="F:JXI750x.AODataSource.Waveform">
+            <summary>
+            输出通过Write方法设定的波形        
+            </summary>
+        </member>
+        <member name="F:JXI750x.AODataSource.BIT">
+            <summary>
+            输出板载数字波形发生器生成的波形，用于自测试
+            </summary>
+        </member>
+        <member name="T:JXI750x.JXI750xDigitizerTask">
+            <summary>
+            AI采集任务类,是Sealed类，不可被继承
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXI750xDigitizerTask.#ctor(System.String)">
+            <summary>
+            构造函数,仅输入板卡编号
+            </summary>
+            <param name="aliasName">板卡的编号</param>
+        </member>
+        <member name="M:JXI750x.JXI750xDigitizerTask.#ctor(System.Int32)">
+            <summary>
+            构造函数,仅输入板卡编号
+            </summary>
+            <param name="boardNum">板卡的编号</param>
+        </member>
+        <member name="M:JXI750x.JXI750xDigitizerTask.Init">
+            <summary>
+            初始化函数
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xDigitizerTask.Device">
+            <summary>
+            操作硬件的对象
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDigitizerTask.MaxBufLenInByte">
+            <summary>
+            最大板载缓存大小，单位字节
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDigitizerTask._channelMask">
+            <summary>
+            AI添加的通道
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDigitizerTask._threadException">
+            <summary>
+            线程异常报告
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDigitizerTask._aiCommitted">
+            <summary>
+            AI参数是否提交
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDigitizerTask._vectorFile">
+            <summary>
+            流盘文件对象
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDigitizerTask._scaleFactor">
+            <summary>
+            电压转换系数
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDigitizerTask._retriggerEnabled">
+            <summary>
+            重触发是否使能了
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xDigitizerTask.Mode">
+            <summary>
+            AI采集模式
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xDigitizerTask.SampleRate">
+            <summary>
+            ADC采样率
+            采样率获取：在调用Commit之前，获取的是用户设置的采样率的值；
+            在调用Commit之后，获取的是实际的采样率
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xDigitizerTask.TimeBaseRate">
+            <summary>
+            时钟基准
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xDigitizerTask.DataFormat">
+            <summary>
+            数据格式，Real/Complex 
+            Real：获取ADC数据 
+            Complex：获取DDC的IQ数据
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xDigitizerTask.EnableDDC">
+            <summary>
+            是否使能DDC
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xDigitizerTask.SamplesToAcquire">
+            <summary>
+            有限点采集时, 每通道采集的样点数。
+            <para>默认值为1000</para>
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xDigitizerTask.Channels">
+            <summary>
+            通道列表
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xDigitizerTask.AvailableSamples">
+            <summary>
+            缓冲区内可以读取的点数
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDigitizerTask._bufLenInSamples">
+            <summary>
+            用户是否设置缓冲区大小
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xDigitizerTask.BufLenInSamples">
+            <summary>
+            缓冲区大小设置，单位是每通道的Sample数
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xDigitizerTask.Trigger">
+            <summary>
+            AI触发参数设置
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXI750xDigitizerTask.Commit">
+            <summary>
+            提交已设置的公共属性至设备，
+            之后即可获取ADCSampleRate/IQSampleRate的实际数值，
+            以及各通道的ScaleFactor换算因子。
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXI750xDigitizerTask.Start">
+            <summary>
+            启动数据采集任务。
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXI750xDigitizerTask.Stop">
+            <summary>
+            停止正在执行的采集任务。
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXI750xDigitizerTask.WaitUntilDone(System.Int32)">
+            <summary>
+            等待当前正在执行的采集任务完成。
+            通常用于Finite采集模式下等待触发信号。
+            也可用于有限流盘模式等待流盘任务完成
+            </summary>
+            <param name="timeout"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI750x.JXI750xDigitizerTask.WaitForDataReady(System.Int32,System.Int32)">
+            <summary>
+            等待当前正在执行的采集任务中的AvailableSamples超过设定的blockSize。
+            通常用于Continuous采集模式下的获取数据的流量控制。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JXI750x.JXI750xDigitizerTask.SendSoftwareTrigger">
+            <summary>
+            发送软件触发，所有已配置的触发均会被满足。
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXI750xDigitizerTask.AddChannel(System.Int32)">
+            <summary>
+            添加采集通道，当DataFormat=Real时，只需设定通道号，当DataFormat=Complex时，可设定频率和数字增益。
+            </summary>
+            <param name="channel">通道号</param>
+        </member>
+        <member name="M:JXI750x.JXI750xDigitizerTask.AddChannel(System.Int32,System.Double,System.Double)">
+            <summary>
+            添加采集通道
+            <para>当DataFormat=Real时，设定中心频率为0，可设定数字增益</para>
+            <para>当DataFormat=Complex时，可设定中心频率，数字增益</para>
+            </summary>
+            <param name="channel">通道号</param>
+            <param name="centerFrequency">中心频率</param>
+            <param name="digitalGain">数字增益倍数，取值为2^N，N=0~7，自动向下取最接近的数值，如100，自动向下找2^N，则取值64</param>
+        </member>
+        <member name="M:JXI750x.JXI750xDigitizerTask.RemoveChannel(System.Int32)">
+            <summary>
+            移除已添加的通道，-1为移除所有通道。
+            </summary>
+            <param name="channel"></param>
+        </member>
+        <member name="M:JXI750x.JXI750xDigitizerTask.ReadWaveform(System.Double[]@,System.Int32)">
+            <summary>
+            单通道，Real格式，double数据
+            </summary>
+            <param name="data"></param>
+            <param name="timeout"></param>
+        </member>
+        <member name="M:JXI750x.JXI750xDigitizerTask.ReadWaveform(System.Double[0:,0:]@,System.Int32)">
+            <summary>
+            多通道，Real格式，double数据
+            </summary>
+            <param name="data"></param>
+            <param name="timeout"></param>
+        </member>
+        <member name="M:JXI750x.JXI750xDigitizerTask.ReadWaveform(System.Int16[]@,System.Int32)">
+            <summary>
+            单通道或多通道，Real或Complex，Int16数据多通道/Complex时为Channel/IQ Interleaved
+            </summary>
+            <param name="data"></param>
+            <param name="timeout"></param>
+        </member>
+        <member name="M:JXI750x.JXI750xDigitizerTask.ReadWaveform(System.Int16[0:,0:]@,System.Int32)">
+            <summary>
+            多通道，Real或Complex，Int16数据Complex时为IQ Interleaved
+            </summary>
+            <param name="data"></param>
+            <param name="timeout"></param>
+        </member>
+        <member name="M:JXI750x.JXI750xDigitizerTask.ReadWaveform(System.Int16[]@,System.Double[]@,System.Boolean[]@,System.Int32)">
+            <summary>
+            单通道或多通道，Real或Complex，Int16数据多通道/Complex时为Channel/IQ Interleaved
+            </summary>
+            <param name="data"></param>
+            <param name="scaleFactor">原始数据转换系数</param>
+            <param name="isOverload">是否过载</param>
+            <param name="timeout"></param>
+        </member>
+        <member name="M:JXI750x.JXI750xDigitizerTask.ReadWaveform(System.Int16[0:,0:]@,System.Double[]@,System.Boolean[]@,System.Int32)">
+            <summary>
+            多通道，Real或Complex，Int16数据Complex时为IQ Interleaved
+            </summary>
+            <param name="data"></param>
+            <param name="scaleFactor">原始数据转换系数</param>
+            <param name="isOverload">是否过载</param>
+            <param name="timeout"></param>
+        </member>
+        <member name="M:JXI750x.JXI750xDigitizerTask.ReadWaveform(System.Numerics.Complex[]@,System.Int32)">
+            <summary>
+            单通道，Complex格式(IQ)，double数据
+            </summary>
+            <param name="data"></param>
+            <param name="timeout"></param>
+        </member>
+        <member name="M:JXI750x.JXI750xDigitizerTask.ReadWaveform(System.Numerics.Complex[0:,0:]@,System.Int32)">
+            <summary>
+            多通道，Complex格式(IQ)，double数据
+            </summary>
+            <param name="data"></param>
+            <param name="timeout"></param>
+        </member>
+        <member name="M:JXI750x.JXI750xDigitizerTask.ThdGetOverrunStatus">
+            <summary>
+            流模式检查缓冲区是否溢出
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDigitizerTask._aiLock">
+            <summary>
+            AI启动的锁
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDigitizerTask._localPreviewBuffer">
+            <summary>
+            流盘预览缓冲内存
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDigitizerTask._previewDataConvertBuffer">
+            <summary>
+            流盘预览缓冲转换前的数组
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDigitizerTask._previewBufferLock">
+            <summary>
+            流盘预览缓冲区锁
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDigitizerTask._recordCountPerTime">
+            <summary>
+            流盘块大小，一次写文件的样点总数，乘以通道数以后的，单位是short sample
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDigitizerTask._recordedSampleCount">
+            <summary>
+            已经流盘的总样点数
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDigitizerTask._recordedTimeLength">
+            <summary>
+            已经流盘的每通道样点时间长度 = 已经流盘的每通道样点数 / 采样率
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDigitizerTask._thdAcquireData">
+            <summary>
+            DMA取数据线程
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDigitizerTask._thdWriteDataFile">
+            <summary>
+            写文件的线程
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDigitizerTask._taskDone">
+            <summary>
+            流盘任务结束标志 
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDigitizerTask._waitUntilDoneEvent">
+            <summary>
+            WaitUntilDone等待事件
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDigitizerTask._waitLock">
+            <summary>
+            等待锁, 用于限制多线程并行读操作. 需要等一个线程读取完成后, 另一个线程才能读(排队).
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xDigitizerTask.EventQueue">
+            <summary>
+            事件队列。调用WaitUntilDone()或者ReadBuffer()时，使用事件通知方式，提高效率。
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xDigitizerTask._recordDone">
+            <summary>
+            流盘是否完成
+            </summary>
+        </member>
+        <member name="P:JXI750x.JXI750xDigitizerTask.Record">
+            <summary>
+            流盘相关参数设置
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXI750xDigitizerTask.GetRecordPreviewData(System.Double[0:,0:]@,System.Int32)">
+            <summary>
+            获取流盘时预览的数据
+            </summary>
+            <param name="buf">用户定义返回数据的缓冲区</param>
+            <param name="timeout">超时时间，单位ms，-1为无限等待</param>
+        </member>
+        <member name="M:JXI750x.JXI750xDigitizerTask.GetRecordPreviewData(System.Double[]@,System.Int32)">
+            <summary>
+            获取流盘时预览的数据
+            </summary>
+            <param name="buf">用户定义返回数据的缓冲区</param>
+            <param name="timeout">超时时间，单位ms，-1为无限等待</param>
+        </member>
+        <member name="M:JXI750x.JXI750xDigitizerTask.GetRecordStatus(System.Double@,System.Boolean@)">
+            <summary>
+            获取流盘状态
+            </summary>
+            <param name="recordedLength">已流盘的长度</param>
+            <param name="recordDone">流盘是否结束</param>
+        </member>
+        <member name="M:JXI750x.JXI750xDigitizerTask.ThdAcquireData">
+            <summary>
+            DMA数据读取
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXI750xDigitizerTask.ThdWriteDataFile">
+            <summary>
+            数据写入文件
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXI750xDigitizerTask.ActivateWaitEvents">
+            <summary>
+            激活等待事件
+            </summary>
+        </member>
+        <member name="M:JXI750x.JXI750xDigitizerTask.GetNearestOfMBlocksize(System.UInt32,System.UInt32)">
+            <summary>
+            获取里requestsize最近的Blocksize的整数倍的数
+            </summary>
+            <param name="requestSize"></param>
+            <param name="blockSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI750x.JXI750xDigitizerTask.GetNearest2N(System.UInt32)">
+            <summary>
+            取大于输入整数a的2的N方的数
+            </summary>
+            <param name="a"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JXI750x.Record">
+            <summary>
+            流盘相关的参数定义
+            </summary>
+        </member>
+        <member name="P:JXI750x.Record.FilePath">
+            <summary>
+            流盘文件的路径，绝对路径，包含文件名
+            </summary>
+        </member>
+        <member name="P:JXI750x.Record.Mode">
+            <summary>
+            流盘模式
+            </summary>
+        </member>
+        <member name="P:JXI750x.Record.Length">
+            <summary>
+            流盘时间长度，单位为秒，当Mode为Finite时有效
+            </summary>
+        </member>
+        <member name="P:JXI750x.Record.EnablePreview">
+            <summary>
+            是否使能预览
+            </summary>
+        </member>
+        <member name="P:JXI750x.Record.MaxMemorySizeInByte">
+            <summary>
+            最大使用的内存大小（单位MByte），最小200
+            </summary>
+        </member>
+        <member name="M:JXI750x.Record.#ctor">
+            <summary>
+            默认构造函数
+            </summary>
+        </member>
+        <member name="T:JXI750x.RecordMode">
+            <summary>
+            流盘模式枚举定义
+            </summary>
+        </member>
+        <member name="F:JXI750x.RecordMode.Finite">
+            <summary>
+            有限长度流盘
+            </summary>
+        </member>
+        <member name="F:JXI750x.RecordMode.Infinite">
+            <summary>
+            无限长度流盘
+            </summary>
+        </member>
+        <member name="T:JXI750x.AIChannel">
+            <summary>
+            AI通道参数类
+            </summary>
+        </member>
+        <member name="P:JXI750x.AIChannel.ChannelID">
+            <summary>
+            通道号。与AI通道的物理序号相对应。
+            </summary>
+        </member>
+        <member name="P:JXI750x.AIChannel.Frequency">
+            <summary>
+            Frequency
+            </summary>
+        </member>
+        <member name="P:JXI750x.AIChannel.PreFilterGain">
+            <summary>
+            PreFilterGain
+            </summary>
+        </member>
+        <member name="P:JXI750x.AIChannel.DigitalGain">
+            <summary>
+            数字增益倍数，取值为2^N，N=0~7，自动向下取最接近的数值，如100，自动向下找2^N，则取值64
+            </summary>
+        </member>
+        <member name="P:JXI750x.AIChannel.ScaleFactor">
+            <summary>
+            ScaleFactor
+            </summary>
+        </member>
+        <member name="M:JXI750x.AIChannel.#ctor(System.Int32,System.Double,System.Double,System.Int32,System.Double)">
+            <summary>
+            构造函数，创建AIChannel对象
+            </summary>
+            <param name="channelID">通道物理序号</param>
+            <param name="freqency"></param>
+            <param name="preFilterGain"></param>
+            <param name="digitalGainShift"></param>
+            <param name="scaleFactor"></param>
+        </member>
+        <member name="M:JXI750x.AIChannel.#ctor(System.Int32)">
+            <summary>
+            构造函数，创建AIChannel对象
+            </summary>
+            <param name="channelID"></param>
+        </member>
+        <member name="T:JXI750x.AITrigger">
+            <summary>
+            AI触发参数配置类
+            </summary>
+        </member>
+        <member name="P:JXI750x.AITrigger.PreTriggerSamples">
+            <summary>
+            触发前的点数,使用硬件的立即触发或延迟触发模式应将其置为0,
+            使用硬件的预触发或中间触发模式应将其设置为触发前需要采集的点数(>0)
+            </summary>
+        </member>
+        <member name="P:JXI750x.AITrigger.AutoTriggerTime">
+            <summary>
+            两个trigger间隔的最大时间，超时之后自动触发，-1为永久等待,单位us
+            </summary>
+        </member>
+        <member name="P:JXI750x.AITrigger.HoldOffTime">
+            <summary>
+            两个trigger间隔的最小时间长度，在HOLD_OFF这段时间内，不允许接收新的trigger信号,单位us
+            </summary>
+        </member>
+        <member name="P:JXI750x.AITrigger.Retrigger">
+            <summary>
+            重触发配置
+            </summary>
+        </member>
+        <member name="P:JXI750x.AITrigger.Digital">
+            <summary>
+            AI数字触发设置
+            </summary>
+        </member>
+        <member name="P:JXI750x.AITrigger.Analog">
+            <summary>
+            AI模拟触发设置
+            </summary>
+        </member>
+        <member name="P:JXI750x.AITrigger.Type">
+            <summary>
+            AI触发类型
+            </summary>
+        </member>
+        <member name="M:JXI750x.AITrigger.#ctor(JXI750x.JXI750xDigitizerTask)">
+            <summary>
+            默认构造函数
+            </summary>
+        </member>
+        <member name="T:JXI750x.AIRetrigger">
+            <summary>
+            重触发配置类
+            </summary>
+        </member>
+        <member name="P:JXI750x.AIRetrigger.Count">
+            <summary>
+            重触发的次数, -1表示无限重触发，0表示不使能重触发
+            </summary>
+        </member>
+        <member name="P:JXI750x.AIRetrigger.AvailableCount">
+            <summary>
+            已完成还未读取的触发次数
+            </summary>
+        </member>
+        <member name="P:JXI750x.AIRetrigger.CompletedCount">
+            <summary>
+            已完成触发的次数
+            </summary>
+        </member>
+        <member name="T:JXI750x.AIDigitalTrigger">
+            <summary>
+            AI数字触发
+            </summary>
+        </member>
+        <member name="P:JXI750x.AIDigitalTrigger.Source">
+            <summary>
+            AI数字触发源
+            </summary>
+        </member>
+        <member name="P:JXI750x.AIDigitalTrigger.Condition">
+            <summary>
+            AI数字触发条件
+            </summary>
+        </member>
+        <member name="T:JXI750x.AIAnalogTrigger">
+            <summary>
+            AI模拟触发
+            </summary>
+        </member>
+        <member name="P:JXI750x.AIAnalogTrigger.Condition">
+            <summary>
+            AI模拟触发条件
+            </summary>
+        </member>
+        <member name="P:JXI750x.AIAnalogTrigger.Source">
+            <summary>
+            AI模拟触发源
+            </summary>
+        </member>
+        <member name="P:JXI750x.AIAnalogTrigger.Type">
+            <summary>
+            AI模拟触发类型
+            </summary>
+        </member>
+        <member name="P:JXI750x.AIAnalogTrigger.HighLevel">
+            <summary>
+            高阈值
+            </summary>
+        </member>
+        <member name="P:JXI750x.AIAnalogTrigger.LowLevel">
+            <summary>
+            低阈值
+            </summary>
+        </member>
+        <member name="T:JXI750x.AIAnalogTriggerSource">
+            <summary>
+            AI模拟触发源
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIAnalogTriggerSource.CH0Raw">
+            <summary>
+            通道0
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIAnalogTriggerSource.CH1Raw">
+            <summary>
+            通道1
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIAnalogTriggerSource.CH0IQ">
+            <summary>
+            IQ通道0
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIAnalogTriggerSource.CH1IQ">
+            <summary>
+            IQ通道1
+            </summary>
+        </member>
+        <member name="T:JXI750x.AIAnalogTriggerType">
+            <summary>
+            AI模拟触发类型
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIAnalogTriggerType.Power">
+            <summary>
+            边沿触发
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIAnalogTriggerType.Window">
+            <summary>
+            窗触发
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIAnalogTriggerType.Hysteresis">
+            <summary>
+            迟滞触发
+            </summary>
+        </member>
+        <member name="T:JXI750x.AIAnalogTriggerCondition">
+            <summary>
+            AI模拟触发条件
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIAnalogTriggerCondition.EnteringWindow">
+            <summary>
+            进窗
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIAnalogTriggerCondition.LeavingWindow">
+            <summary>
+            出窗
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIAnalogTriggerCondition.RisingHysteresis">
+            <summary>
+            上升沿
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIAnalogTriggerCondition.FallingHysteresis">
+            <summary>
+            下降沿
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIAnalogTriggerCondition.PowerHigh">
+            <summary>
+            PowerHigh
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIAnalogTriggerCondition.PowerLow">
+            <summary>
+            PowerLow
+            </summary>
+        </member>
+        <member name="T:JXI750x.AIMode">
+            <summary>
+            AI工作模式枚举类型
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIMode.Finite">
+            <summary>
+            有限点方式
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIMode.Continuous">
+            <summary>
+            连续方式
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIMode.Record">
+            <summary>
+            流盘模式
+            </summary>
+        </member>
+        <member name="T:JXI750x.AITriggerType">
+            <summary>
+            AI触发类型
+            </summary>
+        </member>
+        <member name="F:JXI750x.AITriggerType.Immediate">
+            <summary>
+            立即触发
+            </summary>
+        </member>
+        <member name="F:JXI750x.AITriggerType.Software">
+            <summary>
+            软件触发
+            </summary>
+        </member>
+        <member name="F:JXI750x.AITriggerType.Digital">
+            <summary>
+            外部数字触发
+            </summary>
+        </member>
+        <member name="F:JXI750x.AITriggerType.Analog">
+            <summary>
+            外部模拟触发
+            </summary>
+        </member>
+        <member name="T:JXI750x.AIDigitalTriggerSource">
+            <summary>
+            AI外部数字触发源
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIDigitalTriggerSource.Trig_In">
+            <summary>
+            External digital trigger in
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIDigitalTriggerSource.AOStartTriggerEvent">
+            <summary>
+            AO Reference Trigger Event
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIDigitalTriggerSource.PFI0">
+            <summary>
+            PFI0
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIDigitalTriggerSource.PFI1">
+            <summary>
+            PFI1
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIDigitalTriggerSource.PFI2">
+            <summary>
+            PFI2
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIDigitalTriggerSource.PFI3">
+            <summary>
+            PFI3
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIDigitalTriggerSource.PFI4">
+            <summary>
+            PFI4
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIDigitalTriggerSource.PFI5">
+            <summary>
+            PFI5
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIDigitalTriggerSource.PFI6">
+            <summary>
+            PFI6
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIDigitalTriggerSource.PFI7">
+            <summary>
+            PFI7
+            </summary>
+        </member>
+        <member name="T:JXI750x.AIDigitalTriggerCondition">
+            <summary>
+            AI外部数字出发边沿
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIDigitalTriggerCondition.RisingEdge">
+            <summary>
+            上升沿触发
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIDigitalTriggerCondition.FallingEdge">
+            <summary>
+            下降沿触发
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIDigitalTriggerCondition.HighLevel">
+            <summary>
+            高电平触发
+            </summary>
+        </member>
+        <member name="F:JXI750x.AIDigitalTriggerCondition.LowLevel">
+            <summary>
+            低电平触发
+            </summary>
+        </member>
+        <member name="T:JXI750x.JXI750xImport">
+            <summary>
+            异常字典
+            </summary>
+            <summary>
+            枚举和结构体
+            </summary>
+            <summary>
+            错误代码定义
+            </summary>
+            <summary>
+            Eeprom读写
+            </summary>
+            <summary>
+            函数导入
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xImport.OSPMode.OSPReal">
+            OSPReal -> 0
+        </member>
+        <member name="F:JXI750x.JXI750xImport.OSPMode.OSPComplex">
+            OSPComplex -> 1
+        </member>
+        <member name="F:JXI750x.JXI750xImport.TriggerType.Immediate_Trigger">
+            Immediate_Trigger -> 0x0
+        </member>
+        <member name="F:JXI750x.JXI750xImport.TriggerType.Soft_Trigger">
+            Soft_Trigger -> 0x1
+        </member>
+        <member name="F:JXI750x.JXI750xImport.TriggerType.Digital_Trigger">
+            Digital_Trigger -> 0x2
+        </member>
+        <member name="F:JXI750x.JXI750xImport.TriggerType.Analog_Trigger">
+            Analog_Trigger -> 0x3
+        </member>
+        <member name="F:JXI750x.JXI750xImport.GenerationMode.Finite">
+            Finite -> 0
+        </member>
+        <member name="F:JXI750x.JXI750xImport.GenerationMode.ContinuousWrapping">
+            ContinuousWrapping -> 1
+        </member>
+        <member name="F:JXI750x.JXI750xImport.GenerationMode.Stream">
+            Stream -> 2
+        </member>
+        <member name="F:JXI750x.JXI750xImport.AWGDataSource.AWGDataSourceBIT">
+            AWGDataSourceBIT -> 0
+        </member>
+        <member name="F:JXI750x.JXI750xImport.AWGDataSource.AWGDataSourceDAC">
+            AWGDataSourceDAC -> 1
+        </member>
+        <member name="T:JXI750x.JXI750xImport.EEPROMIdBlock">
+            <summary>
+            EEPROM Identification block structure
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xImport.EEPROMIdBlock.EEPROMSize">
+            short
+        </member>
+        <member name="F:JXI750x.JXI750xImport.EEPROMIdBlock.StartSentinel">
+            short
+        </member>
+        <member name="F:JXI750x.JXI750xImport.EEPROMIdBlock.ModelCode">
+            short
+        </member>
+        <member name="F:JXI750x.JXI750xImport.EEPROMIdBlock.SerialNumber">
+            int
+        </member>
+        <member name="F:JXI750x.JXI750xImport.EEPROMIdBlock.HardwareVersion">
+            int
+        </member>
+        <member name="F:JXI750x.JXI750xImport.EEPROMIdBlock.DescriptorAddress">
+            short
+        </member>
+        <member name="F:JXI750x.JXI750xImport.EEPROMIdBlock.Reserved">
+            int[4]
+        </member>
+        <member name="T:JXI750x.JXI750xImport.CalibrationConstant">
+            <summary>
+            Calibration Constant Structure
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xImport.CalibrationConstant.AI_CH0_k">
+            float
+        </member>
+        <member name="F:JXI750x.JXI750xImport.CalibrationConstant.AI_CH0_b">
+            float
+        </member>
+        <member name="F:JXI750x.JXI750xImport.CalibrationConstant.AI_CH1_k">
+            float
+        </member>
+        <member name="F:JXI750x.JXI750xImport.CalibrationConstant.AI_CH1_b">
+            float
+        </member>
+        <member name="F:JXI750x.JXI750xImport.CalibrationConstant.AO_CH0_k">
+            float
+        </member>
+        <member name="F:JXI750x.JXI750xImport.CalibrationConstant.AO_CH0_b">
+            float
+        </member>
+        <member name="F:JXI750x.JXI750xImport.CalibrationConstant.AO_CH1_k">
+            float
+        </member>
+        <member name="F:JXI750x.JXI750xImport.CalibrationConstant.AO_CH1_b">
+            float
+        </member>
+        <member name="T:JXI750x.JXI750xImport.EEPROMCalibrationBlock">
+            <summary>
+            EEPROM Calibration block structure
+            </summary>
+        </member>
+        <member name="F:JXI750x.JXI750xImport.EEPROMCalibrationBlock.CalibrationTimeStamp">
+            long
+        </member>
+        <member name="F:JXI750x.JXI750xImport.EEPROMCalibrationBlock.CalibrationTemperature">
+            short
+        </member>
+        <member name="F:JXI750x.JXI750xImport.EEPROMCalibrationBlock.ConstantListSize">
+            short
+        </member>
+        <member name="F:JXI750x.JXI750xImport.EEPROMCalibrationBlock.ConstantList">
+            CalibrationConstant->Anonymous_2876de58_6fc3_4c4f_8164_83ce7c360ba2
+        </member>
+        <member name="F:JXI750x.JXI750xImport.EEPROMCalibrationBlock.CRC16">
+            short
+        </member>
+        <member name="F:JXI750x.JXI750xImport.AWGTriggerType.ImmediateTrigger">
+            ImmediateTrigger -> 0x0
+        </member>
+        <member name="F:JXI750x.JXI750xImport.AWGTriggerType.SoftTrigger">
+            SoftTrigger -> 0x1
+        </member>
+        <member name="F:JXI750x.JXI750xImport.AWGTriggerType.DigitalTrigger">
+            DigitalTrigger -> 0x2
+        </member>
+        <member name="F:JXI750x.JXI750xImport.AcquisitionMode.Finite_Sample">
+            Finite_Sample -> 0x0
+        </member>
+        <member name="F:JXI750x.JXI750xImport.AcquisitionMode.Continuous_Sample">
+            Continuous_Sample -> 0x1
+        </member>
+        <member name="F:JXI750x.JXI750xImport.DigitalTriggerSource.TriggerIn">
+            TriggerIn -> 16
+        </member>
+        <member name="F:JXI750x.JXI750xImport.DigitalTriggerSource.PFI0">
+            PFI0 -> 0
+        </member>
+        <member name="F:JXI750x.JXI750xImport.DigitalTriggerSource.PFI1">
+            PFI1 -> 1
+        </member>
+        <member name="F:JXI750x.JXI750xImport.DigitalTriggerSource.PFI2">
+            PFI2 -> 2
+        </member>
+        <member name="F:JXI750x.JXI750xImport.DigitalTriggerSource.PFI3">
+            PFI3 -> 3
+        </member>
+        <member name="F:JXI750x.JXI750xImport.DigitalTriggerSource.PFI4">
+            PFI4 -> 4
+        </member>
+        <member name="F:JXI750x.JXI750xImport.DigitalTriggerSource.PFI5">
+            PFI5 -> 5
+        </member>
+        <member name="F:JXI750x.JXI750xImport.DigitalTriggerSource.PFI6">
+            PFI6 -> 6
+        </member>
+        <member name="F:JXI750x.JXI750xImport.DigitalTriggerSource.PFI7">
+            PFI7 -> 7
+        </member>
+        <member name="F:JXI750x.JXI750xImport.AnalogTriggerType.AnalogHysteresisTrigger">
+            AnalogHysteresisTrigger -> 0x00
+        </member>
+        <member name="F:JXI750x.JXI750xImport.AnalogTriggerType.AnalogWindowTrigger">
+            AnalogWindowTrigger -> 0x1
+        </member>
+        <member name="F:JXI750x.JXI750xImport.AnalogTriggerType.AnalogPowerTrigger">
+            AnalogPowerTrigger -> 0x2
+        </member>
+        <member name="F:JXI750x.JXI750xImport.AnalogTriggerSource.AnalogTriggerSourceCH0Raw">
+            AnalogTriggerSourceCH0Raw -> 0x00
+        </member>
+        <member name="F:JXI750x.JXI750xImport.AnalogTriggerSource.AnalogTriggerSourceCH1Raw">
+            AnalogTriggerSourceCH1Raw -> 0x01
+        </member>
+        <member name="F:JXI750x.JXI750xImport.AnalogTriggerSource.AnalogTriggerSourceIQCHO">
+            AnalogTriggerSourceIQCHO -> 0x02
+        </member>
+        <member name="F:JXI750x.JXI750xImport.AnalogTriggerSource.AnalogTriggerSourceIQCH1">
+            AnalogTriggerSourceIQCH1 -> 0x03
+        </member>
+        <member name="F:JXI750x.JXI750xImport.AnalogTriggerConditioning.AnalogTriggerConditioningPowerHigh">
+            AnalogTriggerConditioningPowerHigh -> High_Level_Trigger
+        </member>
+        <member name="F:JXI750x.JXI750xImport.AnalogTriggerConditioning.AnalogTriggerConditioningPowerLow">
+            AnalogTriggerConditioningPowerLow -> Low_Level_Trigger
+        </member>
+        <member name="F:JXI750x.JXI750xImport.AnalogTriggerConditioning.AnalogTriggerConditioningEnteringWindow">
+            AnalogTriggerConditioningEnteringWindow -> Falling_Edge_Trigger
+        </member>
+        <member name="F:JXI750x.JXI750xImport.AnalogTriggerConditioning.AnalogTriggerConditioningLeavingWindow">
+            AnalogTriggerConditioningLeavingWindow -> Rising_Edge_Trigger
+        </member>
+        <member name="F:JXI750x.JXI750xImport.AnalogTriggerConditioning.AnalogTriggerConditioningRising">
+            AnalogTriggerConditioningRising -> Rising_Edge_Trigger
+        </member>
+        <member name="F:JXI750x.JXI750xImport.AnalogTriggerConditioning.AnalogTriggerConditioningFalling">
+            AnalogTriggerConditioningFalling -> Falling_Edge_Trigger
+        </member>
+        <member name="F:JXI750x.JXI750xImport.JXISuccess">
+            _JXI_7506A_H_ -> 
+            JXISuccess -> (0)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.JXIFailed">
+            JXIFailed -> (-1)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorNotSupport">
+            ErrorNotSupport -> (-11001)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorInvalidParam">
+            ErrorInvalidParam -> (-11002)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorWriteRegisterFailed">
+            ErrorWriteRegisterFailed -> (-11003)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorReadRegisterFailed">
+            ErrorReadRegisterFailed -> (-11004)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorCardNotOpened">
+            ErrorCardNotOpened -> (-11005)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorCardHasBeenOpened">
+            ErrorCardHasBeenOpened -> (-11006)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorInternalError">
+            ErrorInternalError -> (-11007)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorCardIDNotMatch">
+            ErrorCardIDNotMatch -> (-11008)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorOSPModeNotSupport">
+            ErrorOSPModeNotSupport -> (-11009)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorWaveformSizeOverflow">
+            ErrorWaveformSizeOverflow -> (-11010)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorAllocMemoryFailed">
+            ErrorAllocMemoryFailed -> (-11011)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorWaveformNotExist">
+            ErrorWaveformNotExist -> (-11012)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorChannelMaskNotMatch">
+            ErrorChannelMaskNotMatch -> (-11013)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorCanNotCallForStream">
+            ErrorCanNotCallForStream -> (-11014)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorActiveWaveformNotSet">
+            ErrorActiveWaveformNotSet -> (-11015)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorWaveformNotFound">
+            ErrorWaveformNotFound -> (-11016)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorDMATransferFailed">
+            ErrorDMATransferFailed -> (-11017)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorADDASampleRateConfict">
+            ErrorADDASampleRateConfict -> (-11018)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorADCSampleRateNoSet">
+            ErrorADCSampleRateNoSet -> (-11019)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorDACSampleRateNoSet">
+            ErrorDACSampleRateNoSet -> (-11020)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorPLLUpdateFailed">
+            ErrorPLLUpdateFailed -> (-11021)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorOperatingTimeout">
+            ErrorOperatingTimeout -> (-11022)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorNotForStreamWaveform">
+            ErrorNotForStreamWaveform -> (-11023)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorChannelCountNotMatch">
+            ErrorChannelCountNotMatch -> (-11024)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorExceedMaxSample">
+            ErrorExceedMaxSample -> (-11025)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorPeakLevelOutofRange">
+            ErrorPeakLevelOutofRange -> (-11026)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorWaveformHasNoGain">
+            ErrorWaveformHasNoGain -> (-11027)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorSampleRateNotSupport">
+            ErrorSampleRateNotSupport -> (-11028)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorConfigHBFailed">
+            ErrorConfigHBFailed -> (-11029)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorAcquisitionStopped">
+            ErrorAcquisitionStopped -> (-11030)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorEEPROMCalCRCFailed">
+            ErrorEEPROMCalCRCFailed -> (-11031)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.NoError">
+            NoError -> (0)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorOpenDeviceFailed">
+            ErrorOpenDeviceFailed -> (-10001)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorCloseDeviceFailed">
+            ErrorCloseDeviceFailed -> (-10002)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorResetDeviceFailed">
+            ErrorResetDeviceFailed -> (-10003)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorDeviceSlotNum">
+            ErrorDeviceSlotNum -> (-10004)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.CardNotOpened">
+            CardNotOpened -> (-10005)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorDuplicateDevice">
+            ErrorDuplicateDevice -> (-10006)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorDeviceNotExistsOrDriverNoMatch">
+            ErrorDeviceNotExistsOrDriverNoMatch -> (-10007)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorTimeOut">
+            ErrorTimeOut -> (-10008)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorCountOfDataOverflow">
+            ErrorCountOfDataOverflow -> (-10009)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorCountOfDataNotEnough">
+            ErrorCountOfDataNotEnough -> (-10010)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorTaskNotDone">
+            ErrorTaskNotDone -> (-10011)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorDeviceBusy">
+            ErrorDeviceBusy -> (-10012)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorDeviceStateInvalid">
+            ErrorDeviceStateInvalid -> (-10013)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorUnsupportedAccess">
+            ErrorUnsupportedAccess -> (-10014)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorClockSource">
+            ErrorClockSource -> (-10015)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorGetPLLStatusFailed">
+            ErrorGetPLLStatusFailed -> (-10016)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorSampleRateParam">
+            ErrorSampleRateParam -> (-10017)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorSetSampleRateFailed">
+            ErrorSetSampleRateFailed -> (-10018)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorPLLLockedFailed">
+            ErrorPLLLockedFailed -> (-10019)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorDataSourceParam">
+            ErrorDataSourceParam -> (-10020)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorSetDataSourceFailed">
+            ErrorSetDataSourceFailed -> (-10021)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorBITSignalType">
+            ErrorBITSignalType -> (-10022)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorBITSignalFrequency">
+            ErrorBITSignalFrequency -> (-10023)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorSetBITSignalTypeFailed">
+            ErrorSetBITSignalTypeFailed -> (-10022)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorSetBITSignalFrequencyFailed">
+            ErrorSetBITSignalFrequencyFailed -> (-10023)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorGetADCMaxMinValueFailed">
+            ErrorGetADCMaxMinValueFailed -> (-10024)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorResetADCMaxMinValueFailed">
+            ErrorResetADCMaxMinValueFailed -> (-10025)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorOSPModeParam">
+            ErrorOSPModeParam -> (-10026)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorSetOSPModeFailed">
+            ErrorSetOSPModeFailed -> (-10027)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorSampleModeParam">
+            ErrorSampleModeParam -> (-10030)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorSetSampleModeFailed">
+            ErrorSetSampleModeFailed -> (-10031)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorTriggerTypeParam">
+            ErrorTriggerTypeParam -> (-10032)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorSetTriggerTypeFailed">
+            ErrorSetTriggerTypeFailed -> (-10033)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorDigitalTriggerSourceParam">
+            ErrorDigitalTriggerSourceParam -> (-10034)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorSetDigitalTriggerSourceFailed">
+            ErrorSetDigitalTriggerSourceFailed -> (-10035)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorDigitalTriggerEdgeParam">
+            ErrorDigitalTriggerEdgeParam -> (-10036)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorSetDigitalTriggerEdgeFailed">
+            ErrorSetDigitalTriggerEdgeFailed -> (-10037)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorChannelParam">
+            ErrorChannelParam -> (-10038)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorIQSampleRateParam">
+            ErrorIQSampleRateParam -> (-10039)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorSetIQSampleRateFailed">
+            ErrorSetIQSampleRateFailed -> (-10040)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorPreTriggerSamplesParam">
+            ErrorPreTriggerSamplesParam -> (-10041)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorSetPreTriggerSamplesFailed">
+            ErrorSetPreTriggerSamplesFailed -> (-10042)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorTaskSampClkUnSupportTrigger">
+            ErrorTaskSampClkUnSupportTrigger -> (-10043)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorReadFailed">
+            ErrorReadFailed -> (-10044)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorSetChannelFailed">
+            ErrorSetChannelFailed -> (-10045)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorSamplesParam">
+            ErrorSamplesParam -> (-10046)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorSetSamplesToAcquire">
+            ErrorSetSamplesToAcquire -> (-10047)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorGetAcquisitionStatusFailed">
+            ErrorGetAcquisitionStatusFailed -> (-10048)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorSampleModeAndRefTriggerNotMatch">
+            ErrorSampleModeAndRefTriggerNotMatch -> (-10049)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorSendSoftTriggerFailed">
+            ErrorSendSoftTriggerFailed -> (-10052)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorReadSamplesParam">
+            ErrorReadSamplesParam -> (-10053)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorPointerNotNull">
+            ErrorPointerNotNull -> (-10054)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorGetDDRDataNumberFailed">
+            ErrorGetDDRDataNumberFailed -> (-10055)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorGetOverrunStatusFailed">
+            ErrorGetOverrunStatusFailed -> (-10056)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorPointerIsNull">
+            ErrorPointerIsNull -> (-10057)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorOverrn">
+            ErrorOverrn -> (-10058)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorDDCFrequence">
+            ErrorDDCFrequence -> (-10059)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorSetDDCFrequenceFailed">
+            ErrorSetDDCFrequenceFailed -> (-10060)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorSampleModeTriggerNotMatch">
+            ErrorSampleModeTriggerNotMatch -> (-10049)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorSetDDCIQExchangeFailed">
+            ErrorSetDDCIQExchangeFailed -> (-10050)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorTriggerModeParam">
+            ErrorTriggerModeParam -> (-10061)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorAnalogTriggerConditioningParam">
+            ErrorAnalogTriggerConditioningParam -> (-10062)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.CardHasBeenOpened">
+            CardHasBeenOpened -> (-10200)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorTaskStartFailed">
+            ErrorTaskStartFailed -> (-10100)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorTaskStopFailed">
+            ErrorTaskStopFailed -> (-10101)
+        </member>
+        <member name="F:JXI750x.JXI750xImport.ErrorUnknown">
+            ErrorUnknown -> (-11000)
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_ReadFWVer(System.Int32,System.Int32@)">
+             Return Type: int
+            cardID: int
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_EEPROM_ReadCalibrationBlock(System.Int32,JXI750x.JXI750xImport.EEPROMCalibrationBlock@)">
+             Return Type: int
+            card_int: int
+            cb: EEPROMCalibrationBlock*
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_EEPROM_WriteCalibrationBlock(System.Int32,JXI750x.JXI750xImport.EEPROMCalibrationBlock@)">
+             Return Type: int
+            card_int: int
+            cb: EEPROMCalibrationBlock*
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_EEPROM_InitializeIdBlock(System.Int32)">
+             Return Type: int
+            card_int: int
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_EEPROM_InitializeCalibrationBlock(System.Int32)">
+             Return Type: int
+            card_int: int
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_EEPROM_ReadIdBlock(System.Int32,JXI750x.JXI750xImport.EEPROMIdBlock@)">
+             <summary>
+            读EEPROMIdBlock
+             </summary>
+             <param name="card_int">cardID</param>
+             <param name="id">EEPROMIdBlock</param>
+             <returns>成功 0；失败 ：错误码</returns>
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_EEPROM_SerialNumber_String2Int(System.String,System.Int32@)">
+             Return Type: int
+            serialNumberString: char*
+            serialNumberInt: int*
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_EEPROM_SerialNumber_Int2String(System.Int32,System.IntPtr)">
+             Return Type: int
+            serialNumberInt: int
+            serialNumberString: char*
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_Open(System.Int32,System.Int32@)">
+             Return Type: int
+            slotNumber: int
+            reset: int
+            cardID: int*
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_Close(System.Int32)">
+             Return Type: int
+            cardID: int
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_GetTemperature(System.Int32,System.Double@,System.Double@)">
+             Return Type: int
+            cardID: int
+            temperature: double*
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_SetClockSource(System.Int32,JXI750x.JXI750xImport.ClockSource)">
+             Return Type: int
+            cardID: int
+            clockSource: ClockSource->Anonymous_5bffcbdc_9e92_4850_804a_3d0c88f4c7ab
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_SetExternalReferenceClockFrequency(System.Int32,System.Double)">
+             <summary>
+            设置外参考时钟的频率
+             </summary>
+             <param name="cardID">cardID</param>
+             <param name="frequency">频率</param>
+             <returns>成功 0；失败 ：错误码</returns>
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_Digitizer_GetReTriggerStatus(System.Int32,System.Boolean@,System.UInt64@,System.UInt64@)">
+             <summary>
+            获取重触发状态
+             </summary>
+             <param name="cardID">cardID</param>
+             <param name="isOverFlow">是否溢出</param>
+             <param name="remainingCounts">还未完成的触发次数</param>
+             <param name="completedCounts">已经完成触发次数</param>
+             <returns>成功 0；失败 ：错误码</returns>
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_Digitizer_SetReTriggerParam(System.Int32,System.UInt64,System.Double,System.Double)">
+             <summary>
+            设置重触发参数
+             </summary>
+             <param name="cardID">cardID</param>
+             <param name="reTriggerCounts">重触发次数</param>
+             <param name="autoTriggerTime">两个trigger间隔的最大时间，超时之后自动触发，-1为永久等待,单位us</param>
+             <param name="holdOffTime">两个trigger间隔的最小时间长度，在HOLD_OFF这段时间内，不允许接收新的trigger信号,单位us</param>
+             <returns>成功 0；失败 ：错误码</returns>
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_Digitizer_Commit(System.Int32)">
+             Return Type: int
+            cardID: int
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_Digitizer_SetTimebase(System.Int32,System.Double)">
+             Return Type: int
+            cardID: int
+            timebaseRate: double
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_Digitizer_GetTimebase(System.Int32,System.Double@)">
+             Return Type: int
+            cardID: int
+            actualTimebase: double*
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_Digitizer_SetSampleRate(System.Int32,System.Double)">
+             Return Type: int
+            cardID: int
+            sampleRate: double
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_Digitizer_GetSampleRate(System.Int32,System.Double@)">
+             Return Type: int
+            cardID: int
+            sampleRate: double*
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_Digitizer_SetOSPMode(System.Int32,JXI750x.JXI750xImport.OSPMode,System.Boolean)">
+             <summary>
+            设置OSP模式
+             </summary>
+             <param name="cardID">cardID</param>
+             <param name="ospMode">OSP模式</param>
+             <param name="enbleDDC">实数模式下是否使能DDC</param>
+             <returns>成功 0；失败 ：错误码</returns>
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_Digitizer_SetDDCParam(System.Int32,System.Int32,System.Double,System.Int32)">
+             Return Type: int
+            cardID: int
+            channelMask: int
+            frequency: double
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_Digitizer_SetTriggerType(System.Int32,JXI750x.JXI750xImport.TriggerType)">
+             Return Type: int
+            cardID: int
+            triggerType: TriggerType->Anonymous_98b64d70_a2dc_4793_ac50_421be1f33180
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_Digitizer_SetDigitalTrigger(System.Int32,JXI750x.JXI750xImport.DigitalTriggerConditioning,JXI750x.JXI750xImport.DigitalTriggerSource)">
+             Return Type: int
+            cardID: int
+            digitalTriggerType: DigitalTriggerConditioning->Anonymous_1c963348_01bd_48cd_87a5_03ad8e7a452c
+            digitalTriggerSource: DigitalTriggerSource->Anonymous_af2e85dc_7a4e_4a6c_adb9_f30c67818b73
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_Digitizer_SetAnalogTrigger(System.Int32,JXI750x.JXI750xImport.AnalogTriggerType,JXI750x.JXI750xImport.AnalogTriggerSource,JXI750x.JXI750xImport.AnalogTriggerConditioning,System.Double,System.Double)">
+             Return Type: int
+            cardID: int
+            analogTriggerType: AnalogTriggerType->Anonymous_6c65560d_24bb_47cc_b218_e47e0e05823a
+            analogTriggerSource: AnalogTriggerSource->Anonymous_8c9719e0_5752_4613_8e10_6ec226c8e1ea
+            analogTriggerConditioning: AnalogTriggerConditioning->Anonymous_240af845_e317_460c_9f76_d78b2a9a2c44
+            highThreshold: double
+            lowThreshold: double
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_Digitizer_SetPreTriggerSamples(System.Int32,System.UInt32)">
+             Return Type: int
+            cardID: int
+            preTriggerSamples: unsigned int
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_Digitizer_SetEnabledChannels(System.Int32,System.Int32)">
+             Return Type: int
+            cardID: int
+            channelMask: int
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_Digitizer_SetAcquisitionMode(System.Int32,JXI750x.JXI750xImport.AcquisitionMode)">
+             Return Type: int
+            cardID: int
+            acquisitionMode: AcquisitionMode->Anonymous_f45699eb_7998_4ddf_b66b_7656860f25f6
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_Digitizer_SetSamplesToAcquire(System.Int32,System.Int32)">
+             Return Type: int
+            cardID: int
+            samplesToAcquire: int
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_Digitizer_Start(System.Int32)">
+             Return Type: int
+            cardID: int
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_Digitizer_Stop(System.Int32)">
+             Return Type: int
+            cardID: int
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_Digitizer_GetAcquisitionStatus(System.Int32,System.Boolean@,System.Int32@)">
+             Return Type: int
+            cardID: int
+            isOverFlow: boolean*
+            availableSamples: int*
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_Digitizer_WaitForAcqComplete(System.Int32,System.Int32,System.Boolean@)">
+             Return Type: int
+            cardID: int
+            timeout: int
+            complete: boolean*
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_Digitizer_ReadDataBinary16(System.Int32,System.Int16[],System.UInt32,System.UInt32@,System.Double@,System.Boolean@,System.Int32)">
+             Return Type: int
+            cardID: int
+            dataBuffer: short*
+            samplesToRead: unsigned int
+            actualSamples: unsigned int
+            timeout: int
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_Digitizer_SetBufferLength(System.Int32,System.UInt32)">
+             Return Type: int
+            cardID: int
+            length: unsigned int
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_Digitizer_ReadDataDbl64(System.Int32,System.Double@,System.UInt32,System.Int32)">
+             Return Type: int
+            cardID: int
+            dataBuffer: double*
+            samplesToRead: unsigned int
+            timeout: int
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_Digitizer_SendSoftwareTrigger(System.Int32)">
+             Return Type: int
+            cardID: int
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_AWG_SendSoftwareTrigger(System.Int32)">
+             Return Type: int
+            cardID: int
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_AWG_SetEnabledChannels(System.Int32,System.Int32)">
+             Return Type: int
+            cardID: int
+            channelMask: int
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_AWG_SetGenerationMode(System.Int32,JXI750x.JXI750xImport.GenerationMode)">
+             Return Type: int
+            cardID: int
+            generationMode: GenerationMode->Anonymous_a406515b_5707_42d1_8f9a_524a7373a3e8
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_AWG_SetOSPMode(System.Int32,JXI750x.JXI750xImport.OSPMode,System.Boolean)">
+             <summary>
+            设置OSP模式
+             </summary>
+             <param name="cardID">cardID</param>
+             <param name="ospMode">OSP模式</param>
+             <param name="enableDUC">实数模式下是否使能DUC</param>
+             <returns>成功 0；失败 ：错误码</returns>
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_AWG_Commit(System.Int32)">
+             Return Type: int
+            cardID: int
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_AWG_Start(System.Int32)">
+             Return Type: int
+            cardID: int
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_AWG_Stop(System.Int32)">
+             Return Type: int
+            cardID: int
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_AWG_GetGenerationStatus(System.Int32,System.Boolean@,System.Int64@,System.Int32@)">
+             Return Type: int
+            cardID: int
+            complete: boolean*
+            samplesGenerated: unsigned int*
+            availableBufferLength: unsigned int*
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_AWG_SetCenterFrequency(System.Int32,System.Int32,System.Double)">
+             Return Type: int
+            cardID: int
+            channelMask: int
+            frequency: double
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_AWG_SetDigitalGain(System.Int32,System.Int32,System.Double)">
+             Return Type: int
+            cardID: int
+            channelMask: int
+            frequency: double
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_AWG_SetTriggerType(System.Int32,JXI750x.JXI750xImport.AWGTriggerType)">
+             Return Type: int
+            cardID: int
+            triggerType: AWGTriggerType->Anonymous_564623fe_577e_4e66_b428_8c23d90938c2
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_AWG_SetDigitalTrigger(System.Int32,JXI750x.JXI750xImport.DigitalTriggerConditioning,JXI750x.JXI750xImport.DigitalTriggerSource)">
+             Return Type: int
+            cardID: int
+            digitalTriggerType: DigitalTriggerConditioning->Anonymous_1c963348_01bd_48cd_87a5_03ad8e7a452c
+            digitalTriggerSource: DigitalTriggerSource->Anonymous_af2e85dc_7a4e_4a6c_adb9_f30c67818b73
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_AWG_SetSampleRate(System.Int32,System.Double)">
+             Return Type: int
+            cardID: int
+            sampleRate: double
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_AWG_GetSampleRate(System.Int32,System.Double@)">
+             Return Type: int
+            cardID: int
+            sampleRate: double*
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_AWG_SetTimebase(System.Int32,System.Double)">
+             Return Type: int
+            cardID: int
+            timebaseRate: double
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_AWG_GetTimebase(System.Int32,System.Double@)">
+             Return Type: int
+            cardID: int
+            actualTimebase: double*
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_AWG_WriteDataBinary16(System.Int32,System.Int16[],System.UInt32,System.UInt32@,System.Int32)">
+             Return Type: int
+            cardID: int
+            dataBuffer: short*
+            samplesToWrite: unsigned int
+            actualSamples: unsigned int*
+            timeout: int
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_AWG_WriteDbl64(System.Int32,System.Double[],System.UInt32,System.UInt32@,System.Int32)">
+             Return Type: int
+            cardID: int
+            dataBuffer: short*
+            samplesToWrite: unsigned int
+            actualSamples: unsigned int*
+            timeout: int
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_AWG_SetBufferLength(System.Int32,System.UInt32)">
+             Return Type: int
+            cardID: int
+            length: unsigned int
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_AWG_SetSamplesToWrite(System.Int32,System.Int32)">
+             Return Type: int
+            cardID: int
+            samplesToWrite: int
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_AWG_SetDataSource(System.Int32,JXI750x.JXI750xImport.AWGDataSource)">
+             <summary>
+            设置数据源
+             </summary>
+             <param name="cardID">cardID</param>
+             <param name="dataSource">数据源,默认AWGDataSourceDAC</param>
+             <returns>成功 0；失败 ：错误码</returns>
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_AWG_SetBITFrequency(System.Int32,System.Double)">
+             <summary>
+            BIT输出信号的频率
+             </summary>
+             <param name="cardID">cardID</param>
+             <param name="expectedFrequency">BIT期望的输出信号的频率</param>
+             <returns>成功 0；失败 ：错误码</returns>
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_AWG_GetChannelDelay(System.Int32,System.Double@,System.Double@)">
+             <summary>
+            获取通道时延，commit之后调用此函数有效
+             </summary>
+             <param name="cardID">cardID</param>
+             <param name="Ch0Delay">通道0的时延，单位ns</param>
+             <param name="Ch1Delay">通道1的时延，单位ns</param>
+             <returns>成功 0；失败 ：错误码</returns>
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_AWG_SetChannelDelay(System.Int32,System.Double,System.Double)">
+             <summary>
+            设置通道时延
+             </summary>
+             <param name="cardID">cardID</param>
+             <param name="Ch0Delay">通道0的时延，单位ns</param>
+             <param name="Ch1Delay">通道1的时延，单位ns</param>
+             <returns>成功 0；失败 ：错误码</returns>
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_AWG_SetEnableInverseSinc(System.Int32,System.Boolean)">
+             <summary>
+            是否使能DA的InverseSinc
+             </summary>
+             <param name="cardID">cardID</param>
+             <param name="enableInverseSinc">是否使能DA的InverseSinc，默认否</param>
+             <returns>成功 0；失败 ：错误码</returns>
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_GetCardAbility(System.Int32,System.IntPtr)">
+             <summary>
+            是否使能DA的InverseSinc
+             </summary>
+             <param name="cardID">cardID</param>
+             <param name="cardAbiblity">card ability</param>
+             <returns>成功 0；失败 ：错误码</returns>
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_Digitizer_Init(System.Int32)">
+            <summary>
+            Digitizer Init, only need to call once
+            </summary>
+            <param name="cardID">cardID</param>
+            <returns>成功 0；失败 ：错误码</returns>
+        </member>
+        <member name="M:JXI750x.JXI750xImport.JXI750xCore_AWG_Init(System.Int32)">
+            <summary>
+            AWG Init, only need to call once
+            </summary>
+            <param name="cardID">cardID</param>
+            <returns>成功 0；失败 ：错误码</returns>
+        </member>
+        <member name="T:JXI750x.JYLogLevel">
+            <summary>
+            日志级别定义
+            </summary>
+        </member>
+        <member name="F:JXI750x.JYLogLevel.DEBUG">
+            <summary>
+            DEBUG Level指出细粒度信息事件对调试应用程序是非常有帮助的
+            </summary>
+        </member>
+        <member name="F:JXI750x.JYLogLevel.INFO">
+            <summary>
+            INFO level表明 消息在粗粒度级别上突出强调应用程序的运行过程
+            </summary>
+        </member>
+        <member name="F:JXI750x.JYLogLevel.WARN">
+            <summary>
+            WARN level表明会出现潜在错误的情形。
+            </summary>
+        </member>
+        <member name="F:JXI750x.JYLogLevel.ERROR">
+            <summary>
+            ERROR level指出虽然发生错误事件，但仍然不影响系统的继续运行。
+            </summary>
+        </member>
+        <member name="F:JXI750x.JYLogLevel.FATAL">
+            <summary>
+            FATAL level指出每个严重的错误事件将会导致应用程序的退出。
+            </summary>
+        </member>
+        <member name="T:JXI750x.JYLog">
+            <summary>
+            日志打印类，用于在程序逻辑中打印一些日记记录到文件，方便调试程序，
+            同时客户使用时如果遇到问题，也可以使能日志打印的功能，方便定位错误的原因
+            </summary>
+        </member>
+        <member name="P:JXI750x.JYLog.LogLevel">
+            <summary>
+            日志等级，默认为ERROR
+            </summary>
+        </member>
+        <member name="F:JXI750x.JYLog._logMsgQ">
+            <summary>
+            用于日志消息缓存的队列，首次调用时初始化
+            </summary>
+        </member>
+        <member name="P:JXI750x.JYLog.EnableLog">
+            <summary>
+            使能日志打印功能
+            </summary>
+        </member>
+        <member name="M:JXI750x.JYLog.Print(System.String,System.Object[])">
+            <summary>
+            写入日志文件,需要定义宏ENABLELOG 或 DEBUG，此方法兼容旧版
+            </summary>
+            <param name="logMsg">要打印的消息内容</param>
+            <param name="args">参数</param>
+        </member>
+        <member name="M:JXI750x.JYLog.Print(JXI750x.JYLogLevel,System.String,System.Object[])">
+            <summary>
+            写入日志文件,需要定义宏ENABLELOG 或 DEBUG
+            </summary>
+            <param name="logLevel">日志等级</param>
+            <param name="logMsg">要打印的消息内容</param>
+            <param name="args">参数</param>
+        </member>
+        <member name="M:JXI750x.JYLog.FuncWriteLog">
+            <summary>
+            轮询日志队列的定时器回调函数
+            </summary>
+        </member>
+        <member name="T:JXI750x.JYErrorCode">
+            <summary>
+            错误代码的定义
+            </summary>
+        </member>
+        <member name="F:JXI750x.JYErrorCode.NoError">
+            <summary>
+            无错误
+            </summary>
+        </member>
+        <member name="F:JXI750x.JYErrorCode.TimeOut">
+            <summary>
+            超时
+            </summary>
+        </member>
+        <member name="F:JXI750x.JYErrorCode.ErrorParam">
+            <summary>
+            参数错误
+            </summary>
+        </member>
+        <member name="F:JXI750x.JYErrorCode.IncorrectCallOrder">
+            <summary>
+            调用顺序不正确
+            </summary>
+        </member>
+        <member name="F:JXI750x.JYErrorCode.CannotCall">
+            <summary>
+            当前配置不能调用该方法
+            </summary>
+        </member>
+        <member name="F:JXI750x.JYErrorCode.UserBufferError">
+            <summary>
+            用户缓冲区错误
+            </summary>
+        </member>
+        <member name="F:JXI750x.JYErrorCode.BufferOverflow">
+            <summary>
+            缓冲区溢出
+            </summary>
+        </member>
+        <member name="F:JXI750x.JYErrorCode.BufferDownflow">
+            <summary>
+            缓冲区下溢出
+            </summary>
+        </member>
+        <member name="F:JXI750x.JYErrorCode.HardwareResourceReserved">
+            <summary>
+            硬件资源已被占用
+            </summary>
+        </member>
+        <member name="T:JXI750x.JYDriverExceptionPublic">
+            <summary>
+            驱动常用错误代码枚举定义
+            </summary>
+        </member>
+        <member name="F:JXI750x.JYDriverExceptionPublic.UnKnown">
+            <summary>
+            未知异常
+            </summary>
+        </member>
+        <member name="F:JXI750x.JYDriverExceptionPublic.InitializeFailed">
+            <summary>
+            初始化失败
+            </summary>
+        </member>
+        <member name="F:JXI750x.JYDriverExceptionPublic.TimeOut">
+            <summary>
+            超时
+            </summary>
+        </member>
+        <member name="F:JXI750x.JYDriverExceptionPublic.ErrorParam">
+            <summary>
+            参数错误
+            </summary>
+        </member>
+        <member name="F:JXI750x.JYDriverExceptionPublic.IncorrectCallOrder">
+            <summary>
+            调用顺序不正确
+            </summary>
+        </member>
+        <member name="F:JXI750x.JYDriverExceptionPublic.CannotCall">
+            <summary>
+            当前配置不能调用该方法
+            </summary>
+        </member>
+        <member name="F:JXI750x.JYDriverExceptionPublic.UserBufferError">
+            <summary>
+            用户缓冲区错误
+            </summary>
+        </member>
+        <member name="F:JXI750x.JYDriverExceptionPublic.BufferOverflow">
+            <summary>
+            缓冲区溢出
+            </summary>
+        </member>
+        <member name="F:JXI750x.JYDriverExceptionPublic.BufferDownflow">
+            <summary>
+            缓冲区下溢出
+            </summary>
+        </member>
+        <member name="F:JXI750x.JYDriverExceptionPublic.HardwareResourceReserved">
+            <summary>
+            硬件资源已被占用
+            </summary>
+        </member>
+        <member name="F:JXI750x.JYDriverExceptionPublic.NotSupported">
+            <summary>
+            Not supported.
+            </summary>
+        </member>
+        <member name="T:JXI750x.JYDriverException">
+            <summary>
+            JY异常类
+            </summary>
+        </member>
+        <member name="P:JXI750x.JYDriverException.FollowingException">
+            <summary>
+            异常链表指针, 指向后一个异常。
+            </summary>
+        </member>
+        <member name="M:JXI750x.JYDriverException.#ctor(System.Int32)">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:JXI750x.JYDriverException.#ctor(JXI750x.JYDriverExceptionPublic)">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:JXI750x.JYDriverException.#ctor(System.String,JXI750x.JYDriverExceptionPublic)">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:JXI750x.JYDriverException.#ctor(JXI750x.JYDriverExceptionPublic,System.String,System.Object[])">
+            <summary>
+            构造函数
+            </summary>
+            <param name="exceptionCode">内部错误代码，通常是底层驱动返回的原始错误代码，无则默认为0</param>
+            <param name="msg">异常描述信息</param>
+            <param name="args">参数列表</param>
+        </member>
+        <member name="M:JXI750x.JYDriverException.#ctor(System.Int32,System.String,System.Object[])">
+            <summary>
+            构造函数
+            </summary>
+            <param name="errorCode">内部错误代码，通常是底层驱动返回的原始错误代码，无则默认为0</param>
+            <param name="msg">异常描述信息</param>
+            <param name="args">格式化参数</param>
+        </member>
+        <member name="M:JXI750x.JYDriverException.#ctor(System.String,System.Exception)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="msg">异常描述信息</param>
+            <param name="innerException">导致当前异常的异常。如果 innerException 不为 null，则在处理内部异常的 catch 块中引发当前异常。</param>
+        </member>
+        <member name="F:JXI750x.JYDriverException.ErrorCode">
+            <summary>
+            错误代码
+            </summary>
+        </member>
+        <member name="F:JXI750x.JYDriverException.ExceptionName">
+            <summary>
+            异常名称
+            </summary>
+        </member>
+        <member name="T:JXI750x.JYDriverThreadExceptionManager">
+            <summary>
+            线程抛出异常管理类
+            </summary>
+        </member>
+        <member name="F:JXI750x.JYDriverThreadExceptionManager._headException">
+            <summary>
+            异常链表头指针。收集非主线程产生的异常并链接成链表，在调用Stop()方法时将这些异常反馈给用户。
+            </summary>
+        </member>
+        <member name="F:JXI750x.JYDriverThreadExceptionManager._currentException">
+            <summary>
+            异常链表当前节点
+            </summary>
+        </member>
+        <member name="M:JXI750x.JYDriverThreadExceptionManager.ClearThreadExceptions">
+            <summary>
+            清除非主线程产生的异常
+            </summary>
+        </member>
+        <member name="M:JXI750x.JYDriverThreadExceptionManager.ReportThreadExceptions">
+            <summary>
+            报告异常
+            </summary>
+        </member>
+        <member name="M:JXI750x.JYDriverThreadExceptionManager.AppendThreadException(JXI750x.JYDriverException)">
+            <summary>
+            将异常添加到异常变量
+            </summary>
+            <param name="e">异常对象</param>
+            <remarks>
+            若使用 
+            <code> (DaqTaskException)Activator.CreateInstance(e.GetType(), e.Message, _currentException);</code>
+            , 虽不必使用FollowingException属性, 但 e.InnerException 信息将丢失.
+            </remarks>
+        </member>
+        <member name="T:JXI750x.WaitEvent">
+            <summary>
+            等待事件类
+            </summary>
+        </member>
+        <member name="P:JXI750x.WaitEvent.Event">
+            <summary>
+            AutoResetEvent事件对象
+            </summary>
+        </member>
+        <member name="P:JXI750x.WaitEvent.ConditionHandler">
+            <summary>
+            执行此操作，返回值为true时，发出（Set）事件（Event）；否则不发出事件。
+            </summary>
+        </member>
+        <member name="P:JXI750x.WaitEvent.IsEnabled">
+            <summary>
+            事件是否处于被等待状态
+            </summary>
+        </member>
+        <member name="M:JXI750x.WaitEvent.#ctor(System.Func{System.Boolean})">
+            <summary>
+            创建等待事件对象
+            </summary>
+            <param name="conditionHandler">事件触发条件</param>
+        </member>
+        <member name="M:JXI750x.WaitEvent.EnqueueWait(System.Collections.Concurrent.ConcurrentQueue{JXI750x.WaitEvent},System.Int32)">
+            <summary>
+            <para>加入事件队列，并等待一段时间，判断事件是否触发。</para>
+            <para>若检测到ConditionHandler()或者timeout为0，立即返回，不使用Event.</para>
+            </summary>
+            <param name="evQueue">事件队列</param>
+            <param name="timeout">超时时间(单位:ms)</param>
+            <returns>
+            <para>true---触发条件满足</para>
+            <para>false---触发条件不满足</para>
+            </returns>
+        </member>
+        <member name="M:JXI750x.WaitEvent.Wait(System.Int32)">
+            <summary>
+            等待一段时间，判断事件是否发出。（不加入事件队列）
+            若检测到ConditionHandler()或者timeout为0，立即返回，不使用Event.
+            </summary>
+            <param name="timeout">超时时间(单位:ms)</param>
+            <returns>
+            <para>true---触发条件满足</para>
+            <para>false---触发条件不满足</para>
+            </returns>
+        </member>
+        <member name="M:JXI750x.WaitEvent.Set">
+            <summary>
+            触发事件
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:JXI750x.CircularBuffer`1">
+            <summary>
+            循环缓冲队列类，旧版本，托管内存
+            </summary>
+            <typeparam name="T">泛型</typeparam>
+        </member>
+        <member name="P:JXI750x.CircularBuffer`1.NumOfElement">
+            <summary>
+            当前的元素个数
+            </summary>
+        </member>
+        <member name="P:JXI750x.CircularBuffer`1.BufferSize">
+            <summary>
+            缓冲区的大小
+            </summary>
+        </member>
+        <member name="P:JXI750x.CircularBuffer`1.CurrentCapacity">
+            <summary>
+            当前能容纳的点数
+            </summary>
+        </member>
+        <member name="M:JXI750x.CircularBuffer`1.#ctor(System.Int32)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="bufferSize"></param>
+        </member>
+        <member name="M:JXI750x.CircularBuffer`1.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:JXI750x.CircularBuffer`1.AdjustSize(System.Int32)">
+            <summary>
+            调整缓冲区大小，数据会被清空
+            </summary>
+            <param name="size"></param>
+        </member>
+        <member name="M:JXI750x.CircularBuffer`1.Clear">
+            <summary>
+            清空缓冲区内的数据
+            </summary>
+        </member>
+        <member name="M:JXI750x.CircularBuffer`1.Enqueue(`0)">
+            <summary>
+            向缓冲队列中放入一个数据
+            </summary>
+            <param name="element"></param>
+        </member>
+        <member name="M:JXI750x.CircularBuffer`1.Enqueue(`0[])">
+            <summary>
+            向缓冲队列中放入一组数据
+            </summary>
+            <param name="elements"></param>
+        </member>
+        <member name="M:JXI750x.CircularBuffer`1.Enqueue(`0[],System.Int32)">
+            <summary>
+            向缓冲队列中放入一组数据
+            </summary>
+            <param name="elements"></param>
+            <param name="len">要入队的元素个数</param>
+        </member>
+        <member name="M:JXI750x.CircularBuffer`1.Enqueue(`0[0:,0:])">
+            <summary>
+            向缓冲队列中放入一组数据
+            </summary>
+            <param name="elements"></param>
+        </member>
+        <member name="M:JXI750x.CircularBuffer`1.Dequeue(`0@)">
+            <summary>
+            从缓冲队列中取一个数据
+            </summary>
+            <returns>失败：-1，1：返回一个数据</returns>
+        </member>
+        <member name="M:JXI750x.CircularBuffer`1.Dequeue(`0[]@,System.Int32)">
+            <summary>
+            从缓冲队列中取出指定长度的数据
+            </summary>
+            <param name="reqBuffer">请求读取缓冲区</param>
+            <param name="len">要出队的元素个数</param>
+            <returns>返回实际取到的数据长度</returns>
+        </member>
+        <member name="M:JXI750x.CircularBuffer`1.Dequeue(`0[0:,0:]@,System.Int32)">
+            <summary>
+            从缓冲队列中取出指定长度的数据
+            </summary>
+            <param name="reqBuffer">请求读取缓冲区</param>
+            <param name="len">要出队的元素个数</param>
+            <returns>返回实际取到的数据长度</returns>
+        </member>
+        <member name="T:JXI750x.WinAPI">
+            <summary>
+            windows api 的函数导入
+            </summary>
+        </member>
+        <member name="T:JXI750x.BufferQueue`1">
+            <summary>
+            缓冲队列类（托管内存固定）该类效率较低，不推荐使用
+            </summary>
+        </member>
+        <member name="T:JXI750x.BufferQueue`1.CDataInfo">
+            <summary>
+            存放数据信息的类
+            </summary>
+        </member>
+        <member name="P:JXI750x.BufferQueue`1.CDataInfo.Count">
+            <summary>
+            数据点数
+            </summary>
+        </member>
+        <member name="P:JXI750x.BufferQueue`1.CDataInfo.ElemType">
+            <summary>
+            数据元素类型
+            </summary>
+        </member>
+        <member name="P:JXI750x.BufferQueue`1.CDataInfo.RDIndex">
+            <summary>
+            读指针位置
+            </summary>
+        </member>
+        <member name="P:JXI750x.BufferQueue`1.CDataInfo.DataPtr">
+            <summary>
+            数据指针
+            </summary>
+        </member>
+        <member name="P:JXI750x.BufferQueue`1.CDataInfo.DataArray">
+            <summary>
+            数据数组
+            </summary>
+        </member>
+        <member name="F:JXI750x.BufferQueue`1.CDataInfo._dataGCHandle">
+            <summary>
+            GC Handle 
+            </summary>
+        </member>
+        <member name="M:JXI750x.BufferQueue`1.CDataInfo.#ctor(System.Int32)">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:JXI750x.BufferQueue`1.CDataInfo.IncIdx(System.Int32)">
+            <summary>
+            递增读指针
+            </summary>
+            <param name="count"></param>
+        </member>
+        <member name="M:JXI750x.BufferQueue`1.CDataInfo.Dispose">
+            <summary>
+            全部释放
+            </summary>
+        </member>
+        <member name="F:JXI750x.BufferQueue`1._dataQ">
+            <summary>
+            用于数据缓存的队列，首次调用时初始化
+            </summary>
+        </member>
+        <member name="M:JXI750x.BufferQueue`1.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="P:JXI750x.BufferQueue`1.NumOfElement">
+            <summary>
+            当前的元素个数
+            </summary>
+        </member>
+        <member name="M:JXI750x.BufferQueue`1.Clear">
+            <summary>
+            清空队列内的数据
+            </summary>
+        </member>
+        <member name="M:JXI750x.BufferQueue`1.Enqueue(`0[])">
+            <summary>
+            向缓冲队列中放入一组数据
+            </summary>
+            <param name="elements"></param>
+        </member>
+        <member name="M:JXI750x.BufferQueue`1.Enqueue(`0[],System.Int32)">
+            <summary>
+            向缓冲队列中放入一组数据
+            </summary>
+            <param name="elements"></param>
+            <param name="len">要入队的元素个数</param>
+        </member>
+        <member name="M:JXI750x.BufferQueue`1.Enqueue(`0[0:,0:])">
+            <summary>
+            向缓冲队列中放入一组数据
+            </summary>
+            <param name="elements"></param>
+        </member>
+        <member name="M:JXI750x.BufferQueue`1.Dequeue(`0[]@,System.Int32)">
+            <summary>
+            从缓冲队列中取出指定长度的数据
+            </summary>
+            <param name="reqBuffer">请求读取缓冲区</param>
+            <param name="len">要出队的元素个数</param>
+            <returns>返回实际取到的数据长度</returns>
+        </member>
+        <member name="M:JXI750x.BufferQueue`1.Dequeue(`0[0:,0:]@,System.Int32)">
+            <summary>
+            从缓冲队列中取出指定长度的数据
+            </summary>
+            <param name="reqBuffer">请求读取缓冲区</param>
+            <param name="len">要出队的元素个数</param>
+            <returns>返回实际取到的数据长度</returns>
+        </member>
+        <member name="T:JXI750x.BufferQueueEx`1">
+            <summary>
+            缓冲队列类（非托管内存）该类效率较低，不推荐使用
+            </summary>
+        </member>
+        <member name="T:JXI750x.BufferQueueEx`1.CDataInfo">
+            <summary>
+            存放数据信息的类
+            </summary>
+        </member>
+        <member name="P:JXI750x.BufferQueueEx`1.CDataInfo.Count">
+            <summary>
+            数据点数
+            </summary>
+        </member>
+        <member name="P:JXI750x.BufferQueueEx`1.CDataInfo.ElemType">
+            <summary>
+            数据元素类型
+            </summary>
+        </member>
+        <member name="P:JXI750x.BufferQueueEx`1.CDataInfo.RDIndex">
+            <summary>
+            读指针位置
+            </summary>
+        </member>
+        <member name="P:JXI750x.BufferQueueEx`1.CDataInfo.DataPtr">
+            <summary>
+            数据指针
+            </summary>
+        </member>
+        <member name="M:JXI750x.BufferQueueEx`1.CDataInfo.#ctor(System.Int32)">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:JXI750x.BufferQueueEx`1.CDataInfo.IncIdx(System.Int32)">
+            <summary>
+            递增读指针
+            </summary>
+            <param name="count"></param>
+        </member>
+        <member name="M:JXI750x.BufferQueueEx`1.CDataInfo.Dispose">
+            <summary>
+            全部释放
+            </summary>
+        </member>
+        <member name="F:JXI750x.BufferQueueEx`1._dataQ">
+            <summary>
+            用于数据缓存的队列，首次调用时初始化
+            </summary>
+        </member>
+        <member name="M:JXI750x.BufferQueueEx`1.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="P:JXI750x.BufferQueueEx`1.NumOfElement">
+            <summary>
+            当前的元素个数
+            </summary>
+        </member>
+        <member name="M:JXI750x.BufferQueueEx`1.Clear">
+            <summary>
+            清空队列内的数据
+            </summary>
+        </member>
+        <member name="M:JXI750x.BufferQueueEx`1.Enqueue(`0[])">
+            <summary>
+            向缓冲队列中放入一组数据
+            </summary>
+            <param name="elements"></param>
+        </member>
+        <member name="M:JXI750x.BufferQueueEx`1.Enqueue(`0[],System.Int32)">
+            <summary>
+            向缓冲队列中放入一组数据
+            </summary>
+            <param name="elements"></param>
+            <param name="len">要入队的元素个数</param>
+        </member>
+        <member name="M:JXI750x.BufferQueueEx`1.Enqueue(`0[0:,0:])">
+            <summary>
+            向缓冲队列中放入一组数据
+            </summary>
+            <param name="elements"></param>
+        </member>
+        <member name="M:JXI750x.BufferQueueEx`1.Dequeue(`0[]@,System.Int32)">
+            <summary>
+            从缓冲队列中取出指定长度的数据
+            </summary>
+            <param name="reqBuffer">请求读取缓冲区</param>
+            <param name="len">要出队的元素个数</param>
+            <returns>返回实际取到的数据长度</returns>
+        </member>
+        <member name="M:JXI750x.BufferQueueEx`1.Dequeue(`0[0:,0:]@,System.Int32)">
+            <summary>
+            从缓冲队列中取出指定长度的数据
+            </summary>
+            <param name="reqBuffer">请求读取缓冲区</param>
+            <param name="len">要出队的元素个数</param>
+            <returns>返回实际取到的数据长度</returns>
+        </member>
+        <member name="T:JXI750x.CircularBufferEx`1">
+            <summary>
+            循环缓冲队列扩展类（非托管内存），主要用于实现循环缓冲链，该类较高，推荐使用，但跨平台需要重新修改
+            </summary>
+            <typeparam name="T">泛型</typeparam>
+        </member>
+        <member name="F:JXI750x.CircularBufferEx`1._sizeOfT">
+            <summary>
+            T的Size，创建队列的时候初始化
+            </summary>
+        </member>
+        <member name="F:JXI750x.CircularBufferEx`1._bufferPtr">
+            <summary>
+            缓冲区的指针首地址
+            </summary>
+        </member>
+        <member name="F:JXI750x.CircularBufferEx`1._WRIdx">
+            <summary>
+            队列写指针
+            </summary>
+        </member>
+        <member name="F:JXI750x.CircularBufferEx`1._RDIdx">
+            <summary>
+            队列读指针
+            </summary>
+        </member>
+        <member name="P:JXI750x.CircularBufferEx`1.NumOfElement">
+            <summary>
+            当前的元素个数
+            </summary>
+        </member>
+        <member name="P:JXI750x.CircularBufferEx`1.BufferSize">
+            <summary>
+            缓冲区的大小
+            </summary>
+        </member>
+        <member name="P:JXI750x.CircularBufferEx`1.CurrentCapacity">
+            <summary>
+            当前能容纳的点数
+            </summary>
+        </member>
+        <member name="M:JXI750x.CircularBufferEx`1.#ctor(System.Int32)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="bufferSize"></param>
+        </member>
+        <member name="M:JXI750x.CircularBufferEx`1.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:JXI750x.CircularBufferEx`1.Dispose">
+            <summary>
+            释放循环缓冲区
+            </summary>
+        </member>
+        <member name="M:JXI750x.CircularBufferEx`1.Clear">
+            <summary>
+            清空循环缓冲区的数据
+            </summary>
+        </member>
+        <member name="M:JXI750x.CircularBufferEx`1.Finalize">
+            <summary>
+            析构函数，避免非托管内存没有释放
+            </summary>
+        </member>
+        <member name="M:JXI750x.CircularBufferEx`1.Enqueue(`0[])">
+            <summary>
+            向缓冲队列中放入一组数据
+            </summary>
+            <param name="elements"></param>
+        </member>
+        <member name="M:JXI750x.CircularBufferEx`1.Enqueue(`0[],System.Int32)">
+            <summary>
+            向缓冲队列中放入一组数据
+            </summary>
+            <param name="elements"></param>
+            <param name="len">要入队的元素个数</param>
+        </member>
+        <member name="M:JXI750x.CircularBufferEx`1.Enqueue(`0[],System.Int32,System.Int32)">
+            <summary>
+            向缓冲队列中放入一组数据
+            </summary>
+            <param name="elements"></param>
+            <param name="srcIdx">源起始偏移</param>
+            <param name="len">要入队的元素个数</param>
+        </member>
+        <member name="M:JXI750x.CircularBufferEx`1.Enqueue(`0[0:,0:])">
+            <summary>
+            向缓冲队列中放入一组数据
+            </summary>
+            <param name="elements"></param>
+        </member>
+        <member name="M:JXI750x.CircularBufferEx`1.Enqueue(`0[0:,0:],System.Int32,System.Int32)">
+            <summary>
+            向缓冲队列中放入一组数据
+            </summary>
+            <param name="elements"></param> 
+            <param name="srcIdx">源起始偏移</param>
+            <param name="len">要入队的元素个数</param>
+        </member>
+        <member name="M:JXI750x.CircularBufferEx`1.Enqueue(System.IntPtr,System.Int32,System.Int32)">
+            <summary>
+            向缓冲队列中放入一组数据
+            </summary>
+            <param name="dataPtr">数据首地址</param>
+            <param name="srcIdx">数据开始的索引（以元素为单位，非字节单位）</param>
+            <param name="len">数据长度（以元素为单位，非字节单位）</param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI750x.CircularBufferEx`1.Dequeue(`0[]@,System.Int32)">
+            <summary>
+            从缓冲队列中取出指定长度的数据
+            </summary>
+            <param name="reqBuffer">请求读取缓冲区</param>
+            <param name="len">要出队的元素个数</param>
+            <returns>返回实际取到的数据长度</returns>
+        </member>
+        <member name="M:JXI750x.CircularBufferEx`1.Dequeue(`0[]@,System.Int32,System.Int32)">
+            <summary>
+            从缓冲队列中取出指定长度的数据
+            </summary>
+            <param name="reqBuffer">请求读取缓冲区</param>
+            <param name="dstIdx">目标数组的偏移</param>
+            <param name="len">要出队的元素个数</param>
+            <returns>返回实际取到的数据长度</returns>
+        </member>
+        <member name="M:JXI750x.CircularBufferEx`1.Dequeue(`0[0:,0:]@,System.Int32,System.Int32)">
+            <summary>
+            从缓冲队列中取出指定长度的数据
+            </summary>
+            <param name="reqBuffer">请求读取缓冲区</param>
+            <param name="dstIdx">目标数组的偏移</param>
+            <param name="len">要出队的元素个数</param>
+            <returns>返回实际取到的数据长度</returns>
+        </member>
+        <member name="M:JXI750x.CircularBufferEx`1.Dequeue(`0[0:,0:]@,System.Int32)">
+            <summary>
+            从缓冲队列中取出指定长度的数据
+            </summary>
+            <param name="reqBuffer">请求读取缓冲区</param>
+            <param name="len">要出队的元素个数</param>
+            <returns>返回实际取到的数据长度</returns>
+        </member>
+        <member name="M:JXI750x.CircularBufferEx`1.Dequeue(System.IntPtr,System.Int32,System.Int32)">
+            <summary>
+            从缓冲队列中取出指定长度的数据
+            </summary>
+            <param name="reqBufferPtr">请求数据的首地址</param>
+            <param name="dstIdx">目标数据的开始索引（以元素为单位，非字节单位）</param>
+            <param name="len">出队数据的长度（以元素为单位，非字节单位）</param>
+            <returns></returns>
+        </member>
+        <member name="T:JXI750x.CircularBufferList`1">
+            <summary>
+            <para>循环缓冲链类，将CircularBufferEx链起来</para>
+            <para>优点：不用预先分配较大的内存，当程序运行时不够用了再按块增加</para>
+            <para>使用注意：块大小要合适，不能太小，也不能太大。</para>
+            <para>----太小：增加内存拷贝的次数，消耗CPU资源；</para>
+            <para>----太大：增加内存占用。</para>
+            <para>推荐分配块大小为入队和出队数据量的4~16倍</para>
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="F:JXI750x.CircularBufferList`1._numOfElement">
+            <summary>
+            元素个数计数
+            </summary>
+        </member>
+        <member name="P:JXI750x.CircularBufferList`1.NumOfElement">
+            <summary>
+            当前元素个数
+            </summary>
+        </member>
+        <member name="P:JXI750x.CircularBufferList`1.CurrentCapacity">
+            <summary>
+            当前缓冲区容量
+            </summary>
+        </member>
+        <member name="F:JXI750x.CircularBufferList`1._blockSize">
+            <summary>
+            块大小
+            </summary>
+        </member>
+        <member name="F:JXI750x.CircularBufferList`1._lstCircleBuffer">
+            <summary>
+            循环缓冲链表
+            </summary>
+        </member>
+        <member name="F:JXI750x.CircularBufferList`1._RDBlockIdx">
+            <summary>
+            读写索引
+            </summary>
+        </member>
+        <member name="F:JXI750x.CircularBufferList`1._WRBlockIdx">
+            <summary>
+            读写索引
+            </summary>
+        </member>
+        <member name="F:JXI750x.CircularBufferList`1._LastBlockCount">
+            <summary>
+            上一次Dequeue后的块数
+            </summary>
+        </member>
+        <member name="F:JXI750x.CircularBufferList`1._firstDequeueFlag">
+            <summary>
+            第一次Dequeue后标志为false
+            </summary>
+        </member>
+        <member name="M:JXI750x.CircularBufferList`1.#ctor(System.Int32)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="blockSize"></param>
+        </member>
+        <member name="M:JXI750x.CircularBufferList`1.Clear">
+            <summary>
+            清空循环缓冲区的数据
+            </summary>
+        </member>
+        <member name="M:JXI750x.CircularBufferList`1.Dispose">
+            <summary>
+            释放循环缓冲区
+            </summary>
+        </member>
+        <member name="M:JXI750x.CircularBufferList`1.Finalize">
+            <summary>
+            析构函数，避免非托管内存没有释放
+            </summary>
+        </member>
+        <member name="M:JXI750x.CircularBufferList`1.Enqueue(`0[])">
+            <summary>
+            数据入队
+            </summary>
+            <param name="elems">入队的数据源数组</param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI750x.CircularBufferList`1.Enqueue(`0[],System.Int32,System.Int32)">
+            <summary>
+            数据入队，带数据源的开始索引
+            </summary>
+            <param name="elems">入队的数据源数组</param>
+            <param name="srcIdx">数据源的开始索引</param>
+            <param name="len">入队的数据长度</param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI750x.CircularBufferList`1.Enqueue(`0[],System.Int32)">
+            <summary>
+            数据入队，不带数据源的开始索引
+            </summary>
+            <param name="elems">入队的数据源数组</param>
+            <param name="len">入队的数据长度</param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI750x.CircularBufferList`1.Enqueue(System.IntPtr,System.Int32,System.Int32)">
+            <summary>
+            数据入队，带数据源的开始索引
+            </summary>
+            <param name="elemsPtr">入队的数据源数组地址</param>
+            <param name="srcIdx">数据源的开始索引（以元素为单位，非字节）</param>
+            <param name="len">入队的数据长度（以元素为单位，非字节）</param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI750x.CircularBufferList`1.Enqueue(`0[0:,0:],System.Int32,System.Int32)">
+            <summary>
+            数据入队，带数据源的开始索引
+            </summary>
+            <param name="elems">入队的数据源数组</param>
+            <param name="srcIdx">数据源的开始索引</param>
+            <param name="len">入队的数据长度</param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI750x.CircularBufferList`1.Enqueue(`0[0:,0:],System.Int32)">
+            <summary>
+            数据入队，不带数据源的开始索引
+            </summary>
+            <param name="elems">入队的数据源数组</param>
+            <param name="len">入队的数据长度</param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI750x.CircularBufferList`1.Dequeue(`0[]@)">
+            <summary>
+            数据出队
+            </summary>
+            <param name="retBuffer">请求出队的目标数组</param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI750x.CircularBufferList`1.Dequeue(`0[]@,System.Int32,System.Int32)">
+            <summary>
+            数据出队，带目标数组的开始索引
+            </summary>
+            <param name="retBuffer">请求出队的目标数组</param>
+            <param name="dstIdx">目标数组的开始索引</param>
+            <param name="len">出队的数据长度</param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI750x.CircularBufferList`1.Dequeue(`0[]@,System.Int32)">
+            <summary>
+            数据出队，不带目标数组的开始索引
+            </summary>
+            <param name="retBuffer">请求出队的目标数组</param>
+            <param name="len">出队的数据长度</param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI750x.CircularBufferList`1.Dequeue(`0[0:,0:]@,System.Int32,System.Int32)">
+            <summary>
+            数据出队，带目标数组的开始索引
+            </summary>
+            <param name="retBuffer">请求出队的目标数组</param>
+            <param name="dstIdx">目标数组的开始索引</param>
+            <param name="len">出队的数据长度</param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI750x.CircularBufferList`1.Dequeue(`0[0:,0:]@,System.Int32)">
+            <summary>
+            数据出队，不带目标数组的开始索引
+            </summary>
+            <param name="retBuffer">请求出队的目标数组</param>
+            <param name="len">出队的数据长度</param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI750x.CircularBufferList`1.Dequeue(System.IntPtr,System.Int32,System.Int32)">
+            <summary>
+            数据出队，带目标数组的开始索引
+            </summary>
+            <param name="retBufferPtr">请求出队的目标数组地址</param>
+            <param name="dstIdx">目标数组的开始索引（以元素为单位，非字节）</param>
+            <param name="len">出队的数据长度（以元素为单位，非字节）</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

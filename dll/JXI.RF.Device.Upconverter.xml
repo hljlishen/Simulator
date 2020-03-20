@@ -1,0 +1,302 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JXI.RF.Device.Upconverter</name>
+    </assembly>
+    <members>
+        <member name="T:JXI.RF.Device.Upconverter.UpconverterPXIe7739">
+            <summary>
+            PXIe-7739上变频类。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.Upconverter.UpconverterPXIe7739.#ctor(System.String)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="resourceName"></param>
+        </member>
+        <member name="M:JXI.RF.Device.Upconverter.UpconverterPXIe7739.ListDevices">
+            <summary>
+            列出当前系统中所有PXIe-7739模块的资源名，若未检测到PXIe-7739模块，则返回null。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JXI.RF.Device.Upconverter.UpconverterPXIe7739.Close">
+            <summary>
+            关闭设备并释放占用的资源。
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.Upconverter.UpconverterSimulation">
+            <summary>
+            上变频仿真类。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.Upconverter.UpconverterSimulation.#ctor(System.String)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="resourceName"></param>
+        </member>
+        <member name="M:JXI.RF.Device.Upconverter.UpconverterSimulation.ListDevices">
+            <summary>
+            列出所有仿真Upconverter设备。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:JXI.RF.Device.Upconverter.UpconverterPXIe7760">
+            <summary>
+            PXIe-7760上变频类。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.Upconverter.UpconverterPXIe7760.#ctor(System.String)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="resourceName"></param>
+        </member>
+        <member name="M:JXI.RF.Device.Upconverter.UpconverterPXIe7760.ListDevices">
+            <summary>
+            列出当前系统中所有PXIe-7760模块的资源名，若未检测到PXIe-7760模块，则返回null。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JXI.RF.Device.Upconverter.UpconverterPXIe7760.Close">
+            <summary>
+            关闭设备并释放占用的资源。
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.Upconverter.Upconverter">
+            <summary>
+            上变频器的基类。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Upconverter.Upconverter.Identity">
+            <summary>
+            Get information of device (SN/Firmware Revision etc).
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Upconverter.Upconverter.Status">
+            <summary>
+            Get status of device (Temperature etc).
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Upconverter.Upconverter.Clock">
+            <summary>
+            时钟参数。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Upconverter.Upconverter.IFInput">
+            <summary>
+            中频输入参数。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Upconverter.Upconverter.RFOutput">
+            <summary>
+            射频输出参数。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.Upconverter.Upconverter.#ctor(System.String)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="resourceName"></param>
+        </member>
+        <member name="M:JXI.RF.Device.Upconverter.Upconverter.CreateUpconverter(JXI.RF.Device.Upconverter.Model,System.String)">
+            <summary>
+            实例化Upconverter。
+            </summary>
+            <param name="model"></param>
+            <param name="resourceName"></param>
+        </member>
+        <member name="M:JXI.RF.Device.Upconverter.Upconverter.ListDevices(JXI.RF.Device.Upconverter.Model)">
+            <summary>
+            列出系统中的所有指定型号的下变频设备。
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI.RF.Device.Upconverter.Upconverter.Close">
+            <summary>
+            关闭设备并释放占用的资源。
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.Upconverter.ClockParams">
+            <summary>
+            参考时钟参数。
+            </summary>
+        </member>
+        <member name="E:JXI.RF.Device.Upconverter.ClockParams.ParamChanged">
+            <summary>
+            参数值改变时触发的事件。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Upconverter.ClockParams.Source">
+            <summary>
+             Configure clock source
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Upconverter.ClockParams.Output">
+            <summary>
+             Configure the clock signal output at "Ref Out" connector.
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.Upconverter.ClockParams.#ctor(JXI.RF.Device.Upconverter.ClockSource,JXI.RF.Device.Upconverter.ClockOutput)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="source"></param>
+            <param name="output"></param>
+        </member>
+        <member name="T:JXI.RF.Device.Upconverter.ClockSource">
+            <summary>
+            Clock Source Types.
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.Upconverter.ClockSource.Internal">
+            <summary>
+            Internal Clock
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.Upconverter.ClockSource.RefIn10MHz">
+            <summary>
+            External 10MHz reference clock at "Ref In" connector
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.Upconverter.ClockSource.PXIClock10MHz">
+            <summary>
+            10 MHz clock from PXI backplane, Connect "PXI Clk 10" to "Ref In" connector
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.Upconverter.ClockOutput">
+            <summary>
+            Clock Output Types
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.Upconverter.ClockOutput.None">
+            <summary>
+             The "Ref Out" connector has no signal output.
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.Upconverter.ClockOutput.RefOut10MHz">
+            <summary>
+             The "Ref Out" connector outputs 10 MHz clock signal.
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.Upconverter.ClockOutput.RefOut100MHz">
+            <summary>
+             The "Ref Out" connector outputs 100 MHz clock signal.
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.Upconverter.RFOutputParams">
+            <summary>
+            射频输出参数。
+            </summary>
+        </member>
+        <member name="E:JXI.RF.Device.Upconverter.RFOutputParams.ParamChanged">
+            <summary>
+            参数值改变时触发的事件。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Upconverter.RFOutputParams.Frequency">
+            <summary>
+            RF output frequency in Hz.
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Upconverter.RFOutputParams.Level">
+            <summary>
+            RF output peak power in dBm.
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Upconverter.RFOutputParams.Bandwidth">
+            <summary>
+            RF output bandwidth in Hz.
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.Upconverter.RFOutputParams.#ctor(System.Double,System.Double,System.Double)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="frequency"></param>
+            <param name="level"></param>
+            <param name="bandwidth"></param>
+        </member>
+        <member name="T:JXI.RF.Device.Upconverter.IFInputParams">
+            <summary>
+            中频输入参数。
+            </summary>
+        </member>
+        <member name="E:JXI.RF.Device.Upconverter.IFInputParams.ParamChanged">
+            <summary>
+            参数值改变时触发的事件。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Upconverter.IFInputParams.Frequency">
+            <summary>
+            Input IF Frequency in Hz.
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Upconverter.IFInputParams.Level">
+            <summary>
+            Nominal IF input level in dBm, default : 0 dBm.
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Upconverter.IFInputParams.Invert">
+            <summary>
+            Configure whether the downconverter inverts the IF output.
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.Upconverter.IFInputParams.#ctor(System.Double,System.Double,System.Boolean)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="frequency"></param>
+            <param name="level"></param>
+            <param name="invert"></param>
+        </member>
+        <member name="T:JXI.RF.Device.Upconverter.Identity">
+            <summary>
+            Hardware and firmware information of device
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Upconverter.Identity.SerialNumber">
+            <summary>
+            序列号。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Upconverter.Identity.FirmwareRevision">
+            <summary>
+            固件版本。
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.Upconverter.Status">
+            <summary>
+            Status of device
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Upconverter.Status.IsLockedToExtClock">
+            <summary>
+            是否已锁相外部参考时钟。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Upconverter.Status.Temperature">
+            <summary>
+             设备温度。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Upconverter.Status.ConversionGain">
+            <summary>
+            从中频输入到射频输出的实际路径增益，dB。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Upconverter.Status.InputFrequency">
+            <summary>
+            中频输入信号的预期频率， Hz。
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.Upconverter.Model">
+            <summary>
+            Upconverter型号。
+            </summary>
+        </member>
+    </members>
+</doc>

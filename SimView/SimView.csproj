@@ -1,19 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E5EE6F9E-013D-427E-B92A-6582CAF108C9}</ProjectGuid>
+    <ProjectGuid>{044A977F-BF76-4C46-8F71-FEDD4E7A3FF5}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Simulator</RootNamespace>
-    <AssemblyName>Simulator</AssemblyName>
+    <RootNamespace>SimView</RootNamespace>
+    <AssemblyName>SimView</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+	<RestoreProjectStyle>PackageReference</RestoreProjectStyle>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <TargetFrameworkProfile />
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,8 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DevComponents.DotNetBar.Charts, Version=14.1.0.0, Culture=neutral, PublicKeyToken=7eb7c3a35b91de04, processorArchitecture=MSIL" />
-    <Reference Include="DevComponents.DotNetBar2, Version=14.1.0.0, Culture=neutral, PublicKeyToken=7eb7c3a35b91de04" />
     <Reference Include="JXI750x">
       <HintPath>..\..\..\..\..\..\..\SeeSharp\JXInst\Hardware\DAQ\JXI750x\Bin\JXI750x.dll</HintPath>
     </Reference>
@@ -48,9 +45,6 @@
     </Reference>
     <Reference Include="RF_6GHzTransceiver">
       <HintPath>..\dll\RF_6GHzTransceiver.dll</HintPath>
-    </Reference>
-    <Reference Include="SeeSharpTools.JXI.FileIO.VectorFile">
-      <HintPath>..\..\..\..\..\..\..\SeeSharp\JXInst\Hardware\DAQ\JXI750x\Bin\SeeSharpTools.JXI.FileIO.VectorFile.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -65,24 +59,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="ControlPanel.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Form2.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form2.Designer.cs">
-      <DependentUpon>Form2.cs</DependentUpon>
+    <Compile Include="ControlPanel.Designer.cs">
+      <DependentUpon>ControlPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="IController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TacanModel.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="ControlPanel.resx">
+      <DependentUpon>ControlPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -92,7 +80,6 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -106,9 +93,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FPGA\FPGADrive.csproj">
@@ -127,37 +111,6 @@
       <Project>{646b555e-dba5-4a8a-a20c-0308bef6aa64}</Project>
       <Name>PPI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\vst-appdriver\CSharp Source\Device Driver\Downconverter\Downconverter.csproj">
-      <Project>{6d3f1add-a739-461a-85a5-d7ebeafef3ea}</Project>
-      <Name>Downconverter</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\vst-appdriver\CSharp Source\Device Driver\IF Transceiver\IF Transceiver.csproj">
-      <Project>{69f28bf2-f866-44c9-b1fb-5428be23cb69}</Project>
-      <Name>IF Transceiver</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\vst-appdriver\CSharp Source\Device Driver\Upconverter\Upconverter.csproj">
-      <Project>{01f66bab-d1fd-4053-a73d-867ce01aa44c}</Project>
-      <Name>Upconverter</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\vst-appdriver\CSharp Source\Device Driver\VST\VST.csproj">
-      <Project>{a5560208-5468-455f-8861-6a2ac873697a}</Project>
-      <Name>VST</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\vst-appdriver\CSharp Source\Public\Data Structure\Data Structure.csproj">
-      <Project>{bd6ae38a-3eaf-487d-a84c-7063dca39384}</Project>
-      <Name>Data Structure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\vst-appdriver\CSharp Source\Public\Digital Signal Processing\Digital Signal Processing.csproj">
-      <Project>{704115a9-61a9-4c56-9a24-8fa250568a06}</Project>
-      <Name>Digital Signal Processing</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

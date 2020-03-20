@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Simulator
+namespace SimView
 {
     static class Program
     {
@@ -17,8 +17,7 @@ namespace Simulator
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             var controller = new PXES2590Controller(IniBind.IniFileObjectFactory<TacanModel>.CreateObject());
-            var form = new Form1(controller);
-            Application.Run(new Form2());
+            Application.Run(new ControlPanel(controller));
         }
     }
 }

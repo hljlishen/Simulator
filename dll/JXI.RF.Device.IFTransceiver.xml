@@ -1,0 +1,794 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JXI.RF.Device.IFTransceiver</name>
+    </assembly>
+    <members>
+        <member name="T:JXI.RF.Device.IFTransceiver.IQGenerationTask">
+            <summary>
+            IQ发生任务，基类。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.IFTransceiver.IQGenerationTask._defaultFrequency">
+            <summary>
+            默认频率，在调用AddChannel()添加通道时，若不带frequency参数，则使用此默认值。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.IFTransceiver.IQGenerationTask.Mode">
+            <summary>
+            IQ发生模式，包括有限点单次，有限点循环，连续流模式。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.IFTransceiver.IQGenerationTask.Channels">
+            <summary>
+            通道列表，只读。请调用AddChannel()/RemoveChannel()方法添加/移除通道。
+            勿直接在Channels的List对象上执行Add()/Remove()操作。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.IFTransceiver.IQGenerationTask.SampleRate">
+            <summary>
+            IQ数据的采样率（IQ数据的输出更新速率），以S/s为单位
+            IQ data sample rate, in S/s.
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.IFTransceiver.IQGenerationTask.WaveformLength">
+            <summary>
+            当模式为Finite时，设定输出波形的长度（以Sample为单位），若波形为分次写入，则必须先设置此属性才能调用WriteWaveform(...)写入波形，若波形为一次写入，可不设置此属性（默认为-1）。
+            当模式为Stream时，不用设置此属性。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.IFTransceiver.IQGenerationTask.AvailableStreamSpace">
+            <summary>
+            当模式为Stream时，当前可写入的数据点数，以Sample为单位。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQGenerationTask.#ctor(JXI.RF.Device.IFTransceiver.IFTransceiver)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="device"></param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQGenerationTask.CreateIQGenerationTask(JXI.RF.Device.IFTransceiver.IFTransceiver)">
+            <summary>
+            创建IQ发生任务。
+            </summary>
+            <param name="device"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQGenerationTask.AddChannel(System.Int32,System.Double,System.Double)">
+            <summary>
+            添加采集通道。
+            </summary>
+            <param name="indexOfPhysicalChannel"></param>
+            <param name="frequency"></param>
+            <param name="outputLevel"></param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQGenerationTask.AddChannel(System.Int32)">
+            <summary>
+            添加采集通道。
+            </summary>
+            <param name="indexOfPhysicalChannel"></param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQGenerationTask.RemoveChannel(System.Int32)">
+            <summary>
+            移除已添加的通道，-1为移除所有通道。
+            </summary>
+            <param name="channel"></param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQGenerationTask.Start">
+            <summary>
+            启动IQ发生任务
+            Start IQ generation task.
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQGenerationTask.Stop">
+            <summary>
+            停止IQ发生任务
+            Start IQ generation task.
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQGenerationTask.WaitUntilDone(System.Int32)">
+            <summary>
+            等待当前正在执行的发生任务完成，仅当发生模式为有限点单次（FiniteSingle）时可用。
+            </summary>
+            <param name="timeout"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQGenerationTask.GetStatus(System.Boolean@,System.Int64@)">
+            <summary>
+            获取发生任务的状态。
+            </summary>
+            <param name="done">任务是否已结束。</param>
+            <param name="numOfSamplesGenerated">已经发生的总样点数</param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQGenerationTask.GetStatus(System.Boolean@)">
+            <summary>
+            获取发生任务的状态。
+            </summary>
+            <param name="done"></param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQGenerationTask.GetStatus">
+            <summary>
+            获取发生任务的状态。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQGenerationTask.WriteIQ(System.Numerics.Complex[])">
+            <summary>
+            写入IQ数据, Complex格式，单通道。
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQGenerationTask.WriteIQ(System.Numerics.Complex[][])">
+            <summary>
+            写入IQ数据, Complex格式，多通道。
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQGenerationTask.WriteIQ(System.Int16[])">
+            <summary>
+            写入IQ数据，Short[]格式，单通道或多通道交织（Channel Interleaved）。
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQGenerationTask.WriteIQ(System.IntPtr,System.UInt32)">
+            <summary>
+            写入IQ数据，IntPtr格式，单通道或多通道交织（Channel Interleaved）。
+            </summary>
+            <param name="data"></param>
+            <param name="numOfSamplesToWrite"></param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQGenerationTask.Commit">
+            <summary>
+            提交已设置的采集参数至设备
+            Commit configured IQ acquisition parameters to device.
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQGenerationTask.GetAvailableStreamSpace">
+            <summary>
+            Stream模式下，获取当前可写入的数据点数（Samples）。
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.IFTransceiver.IQGenerationMode">
+            <summary>
+            IQ发生模式，包括有限点单次，有限点循环，连续流模式。
+            IQ generation mode.
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.IFTransceiver.IQGenerationMode.FiniteSingle">
+            <summary>
+            有限点单次。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.IFTransceiver.IQGenerationMode.FiniteRepeat">
+            <summary>
+            有限点循环。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.IFTransceiver.IQGenerationMode.Stream">
+            <summary>
+            连续流模式。
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.IFTransceiver.IQGenerationChannelParam">
+            <summary>
+            通道参数类。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.IFTransceiver.IQGenerationChannelParam.IndexOfPhysicalChannel">
+            <summary>
+            物理通道号。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.IFTransceiver.IQGenerationChannelParam.Frequency">
+            <summary>
+            IQ发生中心频率，以Hz为单位。
+            Center frequency of IQ generation, in Hz.
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.IFTransceiver.IQGenerationChannelParam.OutputLevel">
+            <summary>
+            输出功率，dBm。
+            当模式为Finite 时，此输出功率为带内功率（有效值功率）。
+            当模式为Stream 时，此输出功率为峰值功率，当写入IQ数据类型为I16时，此功率对应I/Q的模为32767时的功率。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQGenerationChannelParam.#ctor(System.Int32,System.Double,System.Double)">
+            <summary>
+            构造函数，创建Channel参数对象
+            </summary>
+            <param name="channelIndex">通道物理序号</param>
+            <param name="frequency"></param>
+            <param name="outputLevel"></param>
+        </member>
+        <member name="T:JXI.RF.Device.IFTransceiver.IQGenerationTaskJXI750x">
+            <summary>
+            JXI750x IQ发生任务。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQGenerationTaskJXI750x.#ctor(JXI.RF.Device.IFTransceiver.IFTransceiverJXI750x)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="device"></param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQGenerationTaskJXI750x.Start">
+            <summary>
+            启动信号发生
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQGenerationTaskJXI750x.Stop">
+            <summary>
+            停止信号发生
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQGenerationTaskJXI750x.GetStatus(System.Boolean@,System.Int64@)">
+            <summary>
+            查找当前信号发生状态
+            </summary>
+            <param name="done"></param>
+            <param name="numOfSamplesGenerated"></param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQGenerationTaskJXI750x.WriteIQ(System.Numerics.Complex[][])">
+            <summary>
+            写数据，多通道，complex[][]数据格式
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQGenerationTaskJXI750x.WriteIQ(System.Numerics.Complex[])">
+            <summary>
+            写数据，单通道，Complex[] 格式
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQGenerationTaskJXI750x.WriteIQ(System.Int16[])">
+            <summary>
+            写数据，单通道，short[]格式
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQGenerationTaskJXI750x.WriteIQ(System.IntPtr,System.UInt32)">
+            <summary>
+            写数据，数据指针格式
+            </summary>
+            <param name="data"></param>
+            <param name="numOfSamplesToWrite"></param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQGenerationTaskJXI750x.Commit">
+            <summary>
+            提交参数配置至设备
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQGenerationTaskJXI750x.GetAvailableStreamSpace">
+            <summary>
+            获取当前Stream Buffer的空闲点数，即可写入的数据点数。仅在流模式下使用。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:JXI.RF.Device.IFTransceiver.IQGenerationTaskSimulation">
+            <summary>
+            仿真IQ发生任务。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQGenerationTaskSimulation.#ctor(JXI.RF.Device.IFTransceiver.IFTransceiverSimulation)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="device"></param>
+        </member>
+        <member name="T:JXI.RF.Device.IFTransceiver.IQAcquisitionTaskJXI7506">
+            <summary>
+            JXI7506 IQ采集任务。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionTaskJXI7506.#ctor(JXI.RF.Device.IFTransceiver.IFTransceiverJXI750x)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="device"></param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionTaskJXI7506.Start">
+            <summary>
+            启动采集任务。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionTaskJXI7506.Stop">
+            <summary>
+            停止采集任务。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionTaskJXI7506.ReadIQ(System.Numerics.Complex[],System.Int32)">
+            <summary>
+            获取IQ数据, Complex格式，单通道。
+            </summary>
+            <param name="data"></param>
+            <param name="timeout"></param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionTaskJXI7506.ReadIQ(System.Numerics.Complex[][],System.Int32)">
+            <summary>
+            获取IQ数据, Complex格式，多通道。
+            </summary>
+            <param name="data"></param>
+            <param name="timeout"></param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionTaskJXI7506.SendSoftwareTrigger">
+            <summary>
+            发送Software Trigger事件, 所有已启动的以Software Trigger为触发类型的任务均被触发.
+            Send software trigger to arm all started tasks that use "Software Trigger" as trigger type.
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.IFTransceiver.IQAcquisitionTask">
+            <summary>
+            IQ采集任务，基类
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.IFTransceiver.IQAcquisitionTask._defaultFrequency">
+            <summary>
+            默认频率，在调用AddChannel()添加通道时，若不带frequency参数，则使用此默认值。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.IFTransceiver.IQAcquisitionTask._numOfSamplesRead">
+            <summary>
+            已读取的总点数。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionTask.#ctor(JXI.RF.Device.IFTransceiver.IFTransceiver)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="device"></param>
+        </member>
+        <member name="P:JXI.RF.Device.IFTransceiver.IQAcquisitionTask.Mode">
+            <summary>
+            IQ采集方式, 有限点或连续.
+            IQ acquisition mode, Finite or Continuous.
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.IFTransceiver.IQAcquisitionTask.Channels">
+            <summary>
+            通道列表，只读。请调用AddChannel()/RemoveChannel()方法添加/移除通道。
+            勿直接在Channels的List对象上执行Add()/Remove()操作。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.IFTransceiver.IQAcquisitionTask.SampleRate">
+            <summary>
+            IQ采样率，以S/s为单位
+            IQ acquisition sample rate, in S/s.
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.IFTransceiver.IQAcquisitionTask.SamplesToAcquire">
+            <summary>
+            有限点采集时，采集的IQ总点数
+            Samples to acquire when acquisition mode is Finite.
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.IFTransceiver.IQAcquisitionTask.AvailableSamples">
+            <summary>
+            当前可读取的数据点数。采集任务启动后有效。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.IFTransceiver.IQAcquisitionTask.Trigger">
+            <summary>
+            IQ采集触发设置.
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionTask.CreateIQAcquisitionTask(JXI.RF.Device.IFTransceiver.IFTransceiver)">
+            <summary>
+            创建IQ采集任务。
+            </summary>
+            <param name="device"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionTask.AddChannel(System.Int32,System.Double,System.Double)">
+            <summary>
+            添加采集通道。
+            </summary>
+            <param name="indexOfPhysicalChannel"></param>
+            <param name="frequency"></param>
+            <param name="referenceLevel"></param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionTask.AddChannel(System.Int32)">
+            <summary>
+            添加采集通道。
+            </summary>
+            <param name="indexOfPhysicalChannel"></param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionTask.RemoveChannel(System.Int32)">
+            <summary>
+            移除已添加的通道，-1为移除所有通道。
+            </summary>
+            <param name="channel"></param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionTask.Start">
+            <summary>
+            启动IQ采集任务
+            Start IQ acquisition task.
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionTask.Stop">
+            <summary>
+            停止IQ采集任务
+            Start IQ acquisition task.
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionTask.WaitUntilDone(System.Int32)">
+            <summary>
+            等待当前正在执行的采集任务完成
+            </summary>
+            <param name="timeout"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionTask.ReadIQ(System.Numerics.Complex[],System.Int32)">
+            <summary>
+            获取IQ数据, Complex格式，单通道。
+            </summary>
+            <param name="data"></param>
+            <param name="timeout"></param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionTask.ReadIQ(System.Numerics.Complex[][],System.Int32)">
+            <summary>
+            获取IQ数据, Complex格式，多通道。
+            </summary>
+            <param name="data"></param>
+            <param name="timeout"></param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionTask.SendSoftwareTrigger">
+            <summary>
+            发送Software Trigger事件, 所有已启动的以Software Trigger为触发类型的任务均被触发.
+            Send software trigger to arm all started tasks that use "Software Trigger" as trigger type.
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionTask.Commit">
+            <summary>
+            提交已设置的采集参数至设备
+            Commit configured IQ acquisition parameters to device.
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionTask.GetNumOfAvailableSamples">
+            <summary>
+            获取当前可读取的数据点数。
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.IFTransceiver.IQAcquisitionMode">
+            <summary>
+            IQ采集模式，包括有限点采集和连续采集
+            IQ acquisition mode, finite/continuous.
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.IFTransceiver.IQAcquisitionMode.Finite">
+            <summary>
+            有限点采集
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.IFTransceiver.IQAcquisitionMode.Continuous">
+            <summary>
+            连续采集
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.IFTransceiver.IQAcquisitionChannelParam">
+            <summary>
+            通道参数类
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.IFTransceiver.IQAcquisitionChannelParam.IndexOfPhysicalChannel">
+            <summary>
+            物理通道号。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.IFTransceiver.IQAcquisitionChannelParam.Frequency">
+            <summary>
+            IQ采集中心频率，以Hz为单位。
+            Center frequency of IQ acquisition, in Hz.
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.IFTransceiver.IQAcquisitionChannelParam.ReferenceLevel">
+            <summary>
+            Input reference level in dBm.
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionChannelParam.#ctor(System.Int32,System.Double,System.Double)">
+            <summary>
+            构造函数，创建Channel参数对象
+            </summary>
+            <param name="channelIndex">通道物理序号</param>
+            <param name="frequency"></param>
+            <param name="referenceLevel"></param>
+        </member>
+        <member name="T:JXI.RF.Device.IFTransceiver.IQAcquisitionTriggerParam">
+            <summary>
+            IQ采集触发参数配置类
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.IFTransceiver.IQAcquisitionTriggerParam.Type">
+            <summary>
+            触发类型
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.IFTransceiver.IQAcquisitionTriggerParam.PreTriggerSamples">
+            <summary>
+            触发前的点数,使用硬件的立即触发或延迟触发模式应将其置为0,
+            使用硬件的预触发或中间触发模式应将其设置为触发前需要采集的点数(>0)
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.IFTransceiver.IQAcquisitionTriggerParam.Digital">
+            <summary>
+            数字触发设置
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionTriggerParam.#ctor">
+            <summary>
+            默认构造函数
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionTriggerParam.CopyFrom(JXI.RF.Device.IFTransceiver.IQAcquisitionTriggerParam)">
+            <summary>
+            复制对象内容。
+            </summary>
+            <param name="source"></param>
+        </member>
+        <member name="T:JXI.RF.Device.IFTransceiver.IQAcquisitionTriggerType">
+            <summary>
+            IQ采集触发类型
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.IFTransceiver.IQAcquisitionTriggerType.Immediate">
+            <summary>
+            立即触发
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.IFTransceiver.IQAcquisitionTriggerType.Software">
+            <summary>
+            软件触发
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.IFTransceiver.IQAcquisitionTriggerType.Digital">
+            <summary>
+            外部数字触发
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.IFTransceiver.IQAcquisitionDigitalTriggerParam">
+            <summary>
+            数字触发参数配置类
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.IFTransceiver.IQAcquisitionDigitalTriggerParam.Source">
+            <summary>
+            数字触发源
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.IFTransceiver.IQAcquisitionDigitalTriggerParam.Edge">
+            <summary>
+            AI数字触发边沿
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionDigitalTriggerParam.CopyFrom(JXI.RF.Device.IFTransceiver.IQAcquisitionDigitalTriggerParam)">
+            <summary>
+            复制对象内容。
+            </summary>
+            <param name="source"></param>
+        </member>
+        <member name="T:JXI.RF.Device.IFTransceiver.IQAcqDigitalTriggerSource">
+            <summary>
+            外部数字触发源
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.IFTransceiver.IQAcqDigitalTriggerSource.TrigIn">
+            <summary>
+            External trigger in
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.IFTransceiver.IQAcqDigitalTriggerEdge">
+            <summary>
+            外部数字触发边沿类型
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.IFTransceiver.IQAcqDigitalTriggerEdge.Rising">
+            <summary>
+            上升沿触发
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.IFTransceiver.IQAcqDigitalTriggerEdge.Falling">
+            <summary>
+            下降沿触发
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.IFTransceiver.IQAcquisitionTaskSimulation.ToneFrequencyRatio">
+            <summary>
+            生成仿真信号的频率，相对于采样率的比例。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.IFTransceiver.IQAcquisitionTaskSimulation.ToneNoiseRatio">
+            <summary>
+            生成仿真信号的噪声，相对于满量程的比例。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionTaskSimulation.#ctor(JXI.RF.Device.IFTransceiver.IFTransceiverSimulation)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="device"></param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionTaskSimulation.Start">
+            <summary>
+            启动IQ采集任务。
+            Start IQ acquisition task.
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionTaskSimulation.Stop">
+            <summary>
+            停止IQ采集任务。
+            Start IQ acquisition task.
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionTaskSimulation.ReadIQ(System.Numerics.Complex[],System.Int32)">
+            <summary>
+            获取IQ数据, Complex格式，单通道。
+            </summary>
+            <param name="data"></param>
+            <param name="timeout"></param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionTaskSimulation.ReadIQ(System.Numerics.Complex[][],System.Int32)">
+            <summary>
+            获取IQ数据, Complex格式，多通道。
+            </summary>
+            <param name="data"></param>
+            <param name="timeout"></param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionTaskSimulation.SendSoftwareTrigger">
+            <summary>
+            发送Software Trigger事件, 所有已启动的以Software Trigger为触发类型的任务均被触发.
+            Send software trigger to arm all started tasks that use "Software Trigger" as trigger type.
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IQAcquisitionTaskSimulation.GenerateComplexSine(System.Numerics.Complex[],System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            生成复数正弦波。
+            </summary>
+            <param name="x"></param>
+            <param name="sampleRate"></param>
+            <param name="signalFrequency"></param>
+            <param name="singalAmplitude"></param>
+            <param name="noiseAmplitude"></param>
+        </member>
+        <member name="T:JXI.RF.Device.IFTransceiver.IFTransceiver">
+            <summary>
+            IFTransceiver Device 基类。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.IFTransceiver.IFTransceiver._resourceName">
+            <summary>
+            设备资源名。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IFTransceiver.#ctor(System.String)">
+            <summary>
+            实例化Digitizer对象。
+            </summary>
+            <param name="resourceName"></param>
+        </member>
+        <member name="P:JXI.RF.Device.IFTransceiver.IFTransceiver.ClockSource">
+            <summary>
+             时钟模式。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.IFTransceiver.IFTransceiver.ClockOut">
+            <summary>
+             参考时钟输出模式。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.IFTransceiver.IFTransceiver.TimebaseRate">
+            <summary>
+            基准时钟速率。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.IFTransceiver.IFTransceiver.MemorySize">
+            <summary>
+            板载内存大小，Bytes，为所有通道共用的字节数。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IFTransceiver.CreateIFTransceiver(JXI.RF.Device.IFTransceiver.Model,System.String)">
+            <summary>
+            实例化IFTransceiver。
+            </summary>
+            <param name="model"></param>
+            <param name="resourceName"></param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IFTransceiver.Close">
+            <summary>
+            关闭模块并释放资源。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IFTransceiver.CommitClockParams">
+            <summary>
+            提交参考时钟输入输出设置至模块。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IFTransceiver.GetMemorySize">
+            <summary>
+            获取板载内存大小，Bytes，为所有通道共用的字节数。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:JXI.RF.Device.IFTransceiver.ClockSource">
+            <summary>
+            Clock Source Types.
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.IFTransceiver.ClockSource.Internal">
+            <summary>
+            Internal Clock
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.IFTransceiver.ClockSource.RefIn10MHz">
+            <summary>
+            External 10MHz reference clock
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.IFTransceiver.ClockSource.PXIClock10MHz">
+            <summary>
+            10 MHz clock from PXI backplane,
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.IFTransceiver.ClockOutput">
+            <summary>
+            Clock Output Types
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.IFTransceiver.ClockOutput.None">
+            <summary>
+             The "Ref Out" connector has no signal output.
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.IFTransceiver.ClockOutput.RefOut10MHz">
+            <summary>
+             The "Ref Out" connector outputs 10 MHz clock signal.
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.IFTransceiver.ClockOutput.RefOut100MHz">
+            <summary>
+             The "Ref Out" connector outputs 100 MHz clock signal.
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.IFTransceiver.Model">
+            <summary>
+            IF Tranceiver型号。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.IFTransceiver.IFTransceiverJXI750x.CardNumber">
+            <summary>
+            板卡号。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IFTransceiverJXI750x.#ctor(System.String)">
+            <summary>
+            实例化对象。
+            </summary>
+            <param name="resourceName"></param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IFTransceiverJXI750x.Close">
+            <summary>
+            关闭模块并释放资源。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IFTransceiverJXI750x.CommitClockParams">
+            <summary>
+            提交参考时钟输入输出设置至模块。
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.IFTransceiver.IFTransceiverSimulation">
+            <summary>
+            仿真IFTransceiver类。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IFTransceiverSimulation.#ctor(System.String)">
+            <summary>
+             构造函数。
+            </summary>
+            <param name="resourceName"></param>
+        </member>
+        <member name="M:JXI.RF.Device.IFTransceiver.IFTransceiverSimulation.Close">
+            <summary>
+            关闭模块并释放资源。
+            </summary>
+        </member>
+    </members>
+</doc>

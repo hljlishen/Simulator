@@ -1,0 +1,490 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JXIPXIe7760</name>
+    </assembly>
+    <members>
+        <member name="T:JXIPXIe7760.PXIe7760">
+            <summary>
+            JXI PXIe-7760 RF Upconverter.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.PXIe7760.RF_FREQUENCY_PARAM_MIN">
+            <summary>
+            Max/Min values which public property "RFOutput.Frequency" could set.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.PXIe7760.RF_FREQUENCY_VENDOR_MIN">
+            <summary>
+            Max/Min RF frequency values which the vendor driver supports.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.PXIe7760.MAX_NUMBER_OF_DEVICES">
+            <summary>
+            Constants for allocate unmanaged memory to get device information
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.PXIe7760._isDeviceListDone">
+            <summary>
+            Static private member, for calling ListDevices() only once and keep listing device results.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.PXIe7760._extraSettleTime">
+            <summary>
+            Extra settle (Sleep) time in milliseconds (ms) at the end of committing RF Param operation.
+            It is used only when "RFFrequency" param is changed, in this case, we calculate its value 
+            according to RF frequency tuning step (delta frequency) and tuning mode (Normal/Fast).
+            For other RF parameters changing, its value is 0 ms.
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7760.PXIe7760.#ctor(System.String)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="resourceName"></param>
+        </member>
+        <member name="M:JXIPXIe7760.PXIe7760.Finalize">
+            <summary>
+            Destructor
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7760.PXIe7760.Identity">
+            <summary>
+            Get information of device (SN/Firmware Revision etc).
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7760.PXIe7760.Status">
+            <summary>
+            Get status of device (Temperature etc).
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7760.PXIe7760.Clock">
+            <summary>
+            时钟参数。
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7760.PXIe7760.IFInput">
+            <summary>
+            中频输入参数。
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7760.PXIe7760.RFOutput">
+            <summary>
+            射频输出参数。
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7760.PXIe7760.Open(System.String)">
+            <summary>
+            Open device, read device attributes/CalData and store in class private members. 
+            </summary>
+            <param name="resourceName"></param>
+        </member>
+        <member name="M:JXIPXIe7760.PXIe7760.CommitRFParam">
+            <summary>
+            Apply RF parameters to device.
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7760.PXIe7760.CommitClockParam">
+            <summary>
+            Apply Clock parameters to device
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7760.PXIe7760.GetDeviceStatus">
+            <summary>
+            Get device status and store in class private member "_deviceStatus".
+            This function refreshes temperature from device every "TEMPERATURE_REFRESH_INTERVAL".
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7760.PXIe7760.CalcFrequencyTuneSettleTime(JXIPXIe7760.TuneMode,System.Double)">
+            <summary>
+            Calculate required setttle time according to Tune Mode and Tune Step.
+            </summary>
+            <param name="tuneMode"></param>
+            <param name="tuneStep"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JXIPXIe7760.PXIe7760.ListDevices">
+            <summary>
+            List all PXIe-7760 Devices currently installed in system.
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7760.PXIe7760.Close">
+            <summary>
+            Close device.
+            </summary>
+        </member>
+        <member name="T:JXIPXIe7760.ClockParams">
+            <summary>
+            参考时钟参数。
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7760.ClockParams.Source">
+            <summary>
+             Configure clock source
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7760.ClockParams.Output">
+            <summary>
+             Configure the clock signal output at "Ref Out" connector.
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7760.ClockParams.#ctor(JXIPXIe7760.ClockSource,JXIPXIe7760.ClockOutput)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="source"></param>
+            <param name="output"></param>
+        </member>
+        <member name="T:JXIPXIe7760.ClockSource">
+            <summary>
+            Clock Source Types.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.ClockSource.Internal">
+            <summary>
+            Internal Clock
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.ClockSource.RefIn10MHz">
+            <summary>
+            External 10MHz reference clock at "Ref In" connector
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.ClockSource.PXIClock10MHz">
+            <summary>
+            10 MHz clock from PXI backplane, Connect "PXI Clk 10" to "Ref In" connector
+            </summary>
+        </member>
+        <member name="T:JXIPXIe7760.ClockOutput">
+            <summary>
+            Clock Output Types
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.ClockOutput.None">
+            <summary>
+             The "Ref Out" connector has no signal output.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.ClockOutput.RefOut10MHz">
+            <summary>
+             The "Ref Out" connector outputs 10 MHz clock signal.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.ClockOutput.RefOut100MHz">
+            <summary>
+             The "Ref Out" connector outputs 100 MHz clock signal.
+            </summary>
+        </member>
+        <member name="T:JXIPXIe7760.RFOutputParams">
+            <summary>
+            射频输出参数。
+            </summary>
+        </member>
+        <member name="E:JXIPXIe7760.RFOutputParams.FrequencyChanged">
+            <summary>
+            频率参数值改变时触发的事件。
+            </summary>
+        </member>
+        <member name="E:JXIPXIe7760.RFOutputParams.ParamChanged">
+            <summary>
+            除了频率之外，其它参数值改变时触发的事件。
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7760.RFOutputParams.Frequency">
+            <summary>
+            RF output frequency in Hz.
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7760.RFOutputParams.Level">
+            <summary>
+            RF output peak power in dBm.
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7760.RFOutputParams.Bandwidth">
+            <summary>
+            RF output bandwidth in Hz.
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7760.RFOutputParams.Bypass">
+            <summary>
+            是否跳过上变频，若Bypass为true，则中频输入的信号直接连接至射频输出。
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7760.RFOutputParams.#ctor(System.Double,System.Double,System.Double,System.Boolean)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="frequency"></param>
+            <param name="level"></param>
+            <param name="bandwidth"></param>
+            <param name="bypassConversion"></param>
+        </member>
+        <member name="T:JXIPXIe7760.IFInputParams">
+            <summary>
+            中频输入参数。
+            </summary>
+        </member>
+        <member name="E:JXIPXIe7760.IFInputParams.FrequencyChanged">
+            <summary>
+            频率参数值改变时触发的事件。
+            </summary>
+        </member>
+        <member name="E:JXIPXIe7760.IFInputParams.ParamChanged">
+            <summary>
+            除了频率之外，其它参数值改变时触发的事件。
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7760.IFInputParams.Path">
+            <summary>
+            设置中频输出路径为IF3（默认，50 ~ 500 MHz可调）或IF2（固定1250 MHz，反谱）。
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7760.IFInputParams.Frequency">
+            <summary>
+            Input IF Frequency in Hz.
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7760.IFInputParams.Level">
+            <summary>
+            Norminal IF input level in dBm, default : 0 dBm.
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7760.IFInputParams.Invert">
+            <summary>
+            Configure whether the downconverter inverts the IF output.
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7760.IFInputParams.#ctor(JXIPXIe7760.IFInputPath,System.Double,System.Double,System.Boolean)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="path"></param>
+            <param name="frequency"></param>
+            <param name="level"></param>
+            <param name="invert"></param>
+        </member>
+        <member name="T:JXIPXIe7760.IFInputPath">
+            <summary>
+            中频输入路径。
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.IFInputPath.ThirdStage">
+            <summary>
+            第三中频输入。输入中频频率为 50 MHz ～ 500 MHz可设置（5 MHz步进），射频输出带宽为 80 MHz 或 160 MHz（受中频输出频率影响）。
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.IFInputPath.SecondStage">
+            <summary>
+            第二中频输入，输入中频频率为1250 MHz，射频输出带宽为320 MHz，此时射频输出必定反谱，不可配置（即Invert属性无效）。
+            </summary>
+        </member>
+        <member name="T:JXIPXIe7760.Identity">
+            <summary>
+            Hardware and firmware information of device
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7760.Identity.SerialNumber">
+            <summary>
+            序列号。
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7760.Identity.FirmwareRevision">
+            <summary>
+            固件版本。
+            </summary>
+        </member>
+        <member name="T:JXIPXIe7760.Status">
+            <summary>
+            Status of device
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7760.Status.IsLockedToExtClock">
+            <summary>
+            是否已锁相外部参考时钟。
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7760.Status.Temperature">
+            <summary>
+             设备温度。
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7760.Status.ConversionGain">
+            <summary>
+            从中频输入到射频输出的实际路径增益，dB。
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7760.Status.InputFrequency">
+            <summary>
+            中频输入信号的预期频率， Hz。
+            </summary>
+        </member>
+        <member name="T:JXIPXIe7760.TuneMode">
+            <summary>
+            Tune Mode Type
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.TuneMode.Normal">
+            <summary>
+            Default tune mode
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.TuneMode.Fast">
+            <summary>
+            In Fast tune mode, the device settles quicker but might result in worse phase noise.
+            </summary>
+        </member>
+        <member name="T:JXIPXIe7760.NumericValueChangedEventArgs">
+            <summary>
+            浮点数(double)数值改变事件的参数。
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7760.NumericValueChangedEventArgs.OldValue">
+            <summary>
+            Old value.
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7760.NumericValueChangedEventArgs.NewValue">
+            <summary>
+            New value.
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7760.NumericValueChangedEventArgs.#ctor(System.Double,System.Double)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="oldValue"></param>
+            <param name="newVaue"></param>
+        </member>
+        <member name="F:JXIPXIe7760.SC5407A.RF_ATTEN1">
+            <summary>
+            Attenuator registry.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.SC5407A.OperateStatus.DeviceAccessed">
+            <summary>
+            Indicates that the device is opened and accessed.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.SC5407A.OperateStatus.LockExtRefEnable">
+            <summary>
+            Indicates lock state of device to external source.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.SC5407A.OperateStatus.RefFreqOutEnable">
+            <summary>
+            Indicates reference clock signal output state.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.SC5407A.OperateStatus.RefOutFreqSelect">
+            <summary>
+            Indicates 0=10MHz or 1=100MHz output ref clock signal.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.SC5407A.OperateStatus.Lo1PwrEnable">
+            <summary>
+            Indicates LO1 power status.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.SC5407A.OperateStatus.Lo2PwrEnable">
+            <summary>
+            Indicates LO2 power status.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.SC5407A.OperateStatus.Lo3PwrEnable">
+            <summary>
+            Indicates LO3 power status.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.SC5407A.OperateStatus.LoopGain">
+            <summary>
+            Indicates 0=low, 1=normal, 2=high.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.SC5407A.OperateStatus.FastTuneEnable">
+            <summary>
+            Tune state of YIG Oscillator.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.SC5407A.OperateStatus.Lo1OutEnable">
+            <summary>
+            LO output port state.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.SC5407A.OperateStatus.ScPwrEnable">
+            <summary>
+            Signal path power state.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.SC5407A.OperateStatus.BypassConv">
+            <summary>
+            RF-to-IF port direct, no conversion.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.SC5407A.OperateStatus.If2ExtSelect">
+            <summary>
+            IF2 from external port state.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.SC5407A.OperateStatus.BypassIf3Conv">
+            <summary>
+            3rd LO conversion stage bypassed? IF3=IF2.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.SC5407A.OperateStatus.If1FiltSelect">
+            <summary>
+            Selection of 2 filters in the IF1 stage.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.SC5407A.OperateStatus.If2FiltSelect">
+            <summary>
+            Selection of 2 filters in the IF2 stage
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.SC5407A.OperateStatus.InvertSpectrum">
+            <summary>
+            Converted spectrum polarity.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.SC5407A.OperateStatus.AutoGainEnable">
+            <summary>
+            Device automatically adjusts the atten and preamp to set gain of device close to the desired. 
+            This feature is disabled by default. Use of the mathematically algorithms to set gain more precisely.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.SC5407A.OperateStatus.AutoRFFilter">
+            <summary>
+            RF filters selection se to auto.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.SC5407A.SignalPathParams.BypassConverter">
+            <summary>
+            Bypass the conversion stage, the IF input is directly passed onto the RF output
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.SC5407A.SignalPathParams.If2ExtSelect">
+            <summary>
+            Selects the IF2 input port instead of the internal generated IF2
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.SC5407A.SignalPathParams.BypassIf3Conv">
+            <summary>
+            Bypass the IF3 filter and the 3rd stage conversion. IF input is directly passed to the IF2 output port
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.SC5407A.GainParams.RfLevel">
+            <summary>
+            Expected RF output level.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.SC5407A.GainParams.IfLevel">
+            <summary>
+            Expected if level output.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7760.SC5407A.GainParams.LinearMode">
+            <summary>
+            Linear modes: 0=mixer level control, 1=balance of snr and linearity, 2=better snr, best snr, better linearity, best linearity
+            </summary>
+        </member>
+    </members>
+</doc>

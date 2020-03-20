@@ -1,0 +1,359 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JXIPXIe7660</name>
+    </assembly>
+    <members>
+        <member name="F:JXIPXIe7660.PXIe7660.RF_FREQUENCY_PARAM_MIN">
+            <summary>
+            Max/Min values which public property "RFInput.Frequency" could set.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7660.PXIe7660.RF_FREQUENCY_VENDOR_MIN">
+            <summary>
+            Max/Min RF frequency values which the vendor driver supports.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7660.PXIe7660.MAX_NUMBER_OF_DEVICES">
+            <summary>
+            Constants for allocate unmanaged memory to get device information
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7660.PXIe7660._isDeviceListDone">
+            <summary>
+            Static private member, for calling ListDevices() only once and keep listing device results.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7660.PXIe7660._extraSettleTime">
+            <summary>
+            Extra settle (Sleep) time in milliseconds (ms) at the end of committing RF Param operation.
+            It is used only when "RFFrequency" param is changed, in this case, we calculate its value 
+            according to RF frequency tuning step (delta frequency) and tuning mode (Normal/Fast).
+            For other RF parameters changing, its value is 0 ms.
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7660.PXIe7660.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="resourceName"></param>
+        </member>
+        <member name="M:JXIPXIe7660.PXIe7660.Finalize">
+            <summary>
+            Destructor
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7660.PXIe7660.Identity">
+            <summary>
+            Get information of device (SN/Firmware Revision etc).
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7660.PXIe7660.Status">
+            <summary>
+            Get status of device (Temperature etc).
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7660.PXIe7660.Clock">
+            <summary>
+            时钟参数。
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7660.PXIe7660.RFInput">
+            <summary>
+            射频输入参数。
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7660.PXIe7660.IFOutput">
+            <summary>
+            中频输出参数。
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7660.PXIe7660.ListDevices">
+            <summary>
+            List all PXIe-7660 Devices currently installed in system, return null if no PXIe-7660 device is found.
+            列出当前系统中所有PXIe-7660模块的资源名，若未检测到PXie-7660模块，则返回null。
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7660.PXIe7660.Close">
+            <summary>
+            Close device.
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7660.PXIe7660.Open(System.String)">
+            <summary>
+            Open device, read device attributes/CalData and store in class private members. 
+            </summary>
+            <param name="resourceName"></param>
+        </member>
+        <member name="M:JXIPXIe7660.PXIe7660.CommitRFParam">
+            <summary>
+            Apply RF parameters to device.
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7660.PXIe7660.CommitClockParam">
+            <summary>
+            Apply Clock parameters to device
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7660.PXIe7660.GetDeviceStatus">
+            <summary>
+            Get device status and store in class private member "_deviceStatus".
+            This function refreshes temperature from device every "TEMPERATURE_REFRESH_INTERVAL".
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7660.PXIe7660.CalcFrequencyTuneSettleTime(JXIPXIe7660.TuneMode,System.Double)">
+            <summary>
+            Calculate required setttle time according to Tune Mode and Tune Step.
+            </summary>
+            <param name="tuneMode"></param>
+            <param name="tuneStep"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JXIPXIe7660.ClockParams">
+            <summary>
+            参考时钟参数。
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7660.ClockParams.Source">
+            <summary>
+             Configure clock source
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7660.ClockParams.Output">
+            <summary>
+             Configure the clock signal output at "Ref Out" connector.
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7660.ClockParams.#ctor(JXIPXIe7660.ClockSource,JXIPXIe7660.ClockOutput)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="source"></param>
+            <param name="output"></param>
+        </member>
+        <member name="T:JXIPXIe7660.ClockSource">
+            <summary>
+            Clock Source Types.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7660.ClockSource.Internal">
+            <summary>
+            Internal Clock
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7660.ClockSource.RefIn10MHz">
+            <summary>
+            External 10MHz reference clock at "Ref In" connector
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7660.ClockSource.PXIClock10MHz">
+            <summary>
+            10 MHz clock from PXI backplane, Connect "PXI Clk 10" to "Ref In" connector
+            </summary>
+        </member>
+        <member name="T:JXIPXIe7660.ClockOutput">
+            <summary>
+            Clock Output Types
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7660.ClockOutput.None">
+            <summary>
+             The "Ref Out" connector has no signal output.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7660.ClockOutput.RefOut10MHz">
+            <summary>
+             The "Ref Out" connector outputs 10 MHz clock signal.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7660.ClockOutput.RefOut100MHz">
+            <summary>
+             The "Ref Out" connector outputs 100 MHz clock signal.
+            </summary>
+        </member>
+        <member name="T:JXIPXIe7660.RFInputParams">
+            <summary>
+            射频输入参数。
+            </summary>
+        </member>
+        <member name="E:JXIPXIe7660.RFInputParams.FrequencyChanged">
+            <summary>
+            频率参数值改变时触发的事件。
+            </summary>
+        </member>
+        <member name="E:JXIPXIe7660.RFInputParams.ParamChanged">
+            <summary>
+            除了频率之外，其它参数值改变时触发的事件。
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7660.RFInputParams.Frequency">
+            <summary>
+            Input RF Frequency in Hz.
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7660.RFInputParams.ReferenceLevel">
+            <summary>
+            Input reference level in dBm.
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7660.RFInputParams.Bypass">
+            <summary>
+            是否跳过下变频，若Bypass为true，则射频输入的信号直接连接至中频输出。
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7660.RFInputParams.#ctor(System.Double,System.Double,System.Boolean)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="frequency"></param>
+            <param name="referenceLevel"></param>
+            <param name="bypassConversion"></param>
+        </member>
+        <member name="T:JXIPXIe7660.IFOutputParams">
+            <summary>
+            中频输出参数。
+            </summary>
+        </member>
+        <member name="E:JXIPXIe7660.IFOutputParams.FrequencyChanged">
+            <summary>
+            频率参数值改变时触发的事件。
+            </summary>
+        </member>
+        <member name="E:JXIPXIe7660.IFOutputParams.ParamChanged">
+            <summary>
+            除了频率之外，其它参数值改变时触发的事件。
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7660.IFOutputParams.Path">
+            <summary>
+            设置中频输出路径为IF3（默认，1 ~ 500 MHz可调）或IF2（固定1250 MHz，反谱）。
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7660.IFOutputParams.Frequency">
+            <summary>
+            Output IF Frequency in Hz.
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7660.IFOutputParams.Bandwidth">
+            <summary>
+            IF output bandwidth in Hz.
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7660.IFOutputParams.Level">
+            <summary>
+            Norminal IF output level in dBm, default : 0 dBm.
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7660.IFOutputParams.Invert">
+            <summary>
+            Configure whether the downconverter inverts the IF output.
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7660.IFOutputParams.#ctor(JXIPXIe7660.IFOutputPath,System.Double,System.Double,System.Double,System.Boolean)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="frequency"></param>
+            <param name="bandwidth"></param>
+            <param name="outputLevel"></param>
+            <param name="invert"></param>
+        </member>
+        <member name="T:JXIPXIe7660.IFOutputPath">
+            <summary>
+            中频输出路径。
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7660.IFOutputPath.ThirdStage">
+            <summary>
+            第三中频输出。输出中频频率为 1 MHz ～ 500 MHz可设置（5 MHz步进），输出带宽为 80 MHz 或 160 MHz（受中频输出频率影响）。
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7660.IFOutputPath.SecondStage">
+            <summary>
+            第二中频输出，输出中频频率为1250 MHz，输出带宽为80 MHz 或 320 MHz，此时中频输出必定反谱，不可配置（即Invert属性无效）。
+            </summary>
+        </member>
+        <member name="T:JXIPXIe7660.Identity">
+            <summary>
+            Hardware and firmware information of device
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7660.Identity.SerialNumber">
+            <summary>
+            序列号。
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7660.Identity.FirmwareRevision">
+            <summary>
+            固件版本。
+            </summary>
+        </member>
+        <member name="T:JXIPXIe7660.Status">
+            <summary>
+            Status of device
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7660.Status.IsLockedToExtClock">
+            <summary>
+            是否已锁相外部参考时钟。
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7660.Status.Temperature">
+            <summary>
+             设备温度。
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7660.Status.ConversionGain">
+            <summary>
+            从射频输入到中频输出的实际路径增益，dB。
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7660.Status.OutputFrequency">
+            <summary>
+            实际输出信号的中心频率， Hz。
+            </summary>
+        </member>
+        <member name="T:JXIPXIe7660.TuneMode">
+            <summary>
+            Tune Mode Type
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7660.TuneMode.Normal">
+            <summary>
+            Default tune mode
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7660.TuneMode.Fast">
+            <summary>
+            In Fast tune mode, the device settles quicker but might result in worse phase noise.
+            </summary>
+        </member>
+        <member name="T:JXIPXIe7660.NumericValueChangedEventArgs">
+            <summary>
+            浮点数(double)数值改变事件的参数。
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7660.NumericValueChangedEventArgs.OldValue">
+            <summary>
+            Old value.
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7660.NumericValueChangedEventArgs.NewValue">
+            <summary>
+            New value.
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7660.NumericValueChangedEventArgs.#ctor(System.Double,System.Double)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="oldValue"></param>
+            <param name="newVaue"></param>
+        </member>
+        <member name="F:JXIPXIe7660.SC5307A.RF_ATTEN1">
+            <summary>
+            Attenuator registry.
+            </summary>
+        </member>
+    </members>
+</doc>

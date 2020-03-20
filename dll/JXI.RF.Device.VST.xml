@@ -1,0 +1,1116 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JXI.RF.Device.VST</name>
+    </assembly>
+    <members>
+        <member name="T:JXI.RF.Device.VST.IQAcquisitionTask">
+            <summary>
+            IQ采集任务。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.VST.IQAcquisitionTask.DefaultFrequency">
+            <summary>
+            默认频率，在调用AddChannel()添加通道时，若不带frequency参数，则使用此默认值。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.VST.IQAcquisitionTask._iqAcqTask">
+            <summary>
+            基于IFTranceiver的IQ采集任务。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQAcquisitionTask.#ctor(JXI.RF.Device.VST.VectorSignalTranceiver)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="device"></param>
+        </member>
+        <member name="P:JXI.RF.Device.VST.IQAcquisitionTask.Mode">
+            <summary>
+            IQ采集方式, 有限点或连续.
+            IQ acquisition mode, Finite or Continuous.
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.IQAcquisitionTask.Channels">
+            <summary>
+            通道列表，只读。请调用AddChannel()/RemoveChannel()方法添加/移除通道。
+            勿直接在Channels的List对象上执行Add()/Remove()操作。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.IQAcquisitionTask.SampleRate">
+            <summary>
+            IQ采样率，以S/s为单位。
+            IQ acquisition sample rate, in S/s.
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.IQAcquisitionTask.SamplesToAcquire">
+            <summary>
+            有限点采集时，采集的IQ总点数
+            Samples to acquire when acquisition mode is Finite.
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.IQAcquisitionTask.AvailableSamples">
+            <summary>
+            当前可读取的数据点数。采集任务启动后有效。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.IQAcquisitionTask.Trigger">
+            <summary>
+            IQ采集触发设置.
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQAcquisitionTask.AddChannel(System.Int32,System.Double,System.Double)">
+            <summary>
+            添加采集通道。
+            </summary>
+            <param name="indexOfPhysicalChannel"></param>
+            <param name="frequency"></param>
+            <param name="referenceLevel"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQAcquisitionTask.AddChannel(System.Int32)">
+            <summary>
+            添加采集通道。
+            </summary>
+            <param name="indexOfPhysicalChannel"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQAcquisitionTask.RemoveChannel(System.Int32)">
+            <summary>
+            移除已添加的通道，-1为移除所有通道。
+            </summary>
+            <param name="channel"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQAcquisitionTask.Commit">
+            <summary>
+            提交采集参数至设备
+            Commit IQ acquisition parameters to device.
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQAcquisitionTask.Start">
+            <summary>
+            启动IQ采集任务，注：须先调用Commit()。
+            Start IQ acquisition task.
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQAcquisitionTask.Stop">
+            <summary>
+            停止IQ采集任务
+            Start IQ acquisition task.
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQAcquisitionTask.WaitUntilDone(System.Int32)">
+            <summary>
+            等待当前正在执行的采集任务完成
+            </summary>
+            <param name="timeout"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQAcquisitionTask.ReadIQ(System.Numerics.Complex[],System.Int32)">
+            <summary>
+            获取IQ数据, Complex格式，单通道。
+            </summary>
+            <param name="data"></param>
+            <param name="timeout"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQAcquisitionTask.ReadIQ(System.Numerics.Complex[][],System.Int32)">
+            <summary>
+            获取IQ数据, Complex格式，多通道。
+            </summary>
+            <param name="data"></param>
+            <param name="timeout"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQAcquisitionTask.SendSoftwareTrigger">
+            <summary>
+            发送Software Trigger事件, 所有已启动的以Software Trigger为触发类型的任务均被触发.
+            Send software trigger to arm all started tasks that use "Software Trigger" as trigger type.
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.VST.IQFilePlaybackTask">
+            <summary>
+             IQ文件回放任务。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.VST.IQFilePlaybackTask.DefaultFrequency">
+            <summary>
+            默认频率，在调用AddChannel()添加通道时，若不带frequency参数，则使用此默认值。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.VST.IQFilePlaybackTask.NumOfSpectralLines">
+            <summary>
+            预览频谱数据的频谱线数，常量。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.VST.IQFilePlaybackTask._iqGenTask">
+            <summary>
+            基于IFTranceiver的IQ采集任务。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQFilePlaybackTask.#ctor(JXI.RF.Device.VST.VectorSignalTranceiver)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="device"></param>
+        </member>
+        <member name="P:JXI.RF.Device.VST.IQFilePlaybackTask.Channels">
+            <summary>
+            通道列表，只读。请调用AddChannel()/RemoveChannel()方法添加/移除通道。
+            勿直接在Channels的List对象上执行Add()/Remove()操作。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.IQFilePlaybackTask.SampleRate">
+            <summary>
+            IQ采样率（输出更新率）。
+            Specifies the sample rate in Hz. The waveform is generated with this rate.
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.IQFilePlaybackTask.PreviewSpectrum">
+            <summary>
+            预览频谱数据的信息。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.IQFilePlaybackTask.File">
+            <summary>
+            IQ文件的回放参数。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.IQFilePlaybackTask.Status">
+            <summary>
+            任务状态。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQFilePlaybackTask.AddChannel(System.Int32,System.Double,System.Double)">
+            <summary>
+            添加通道。
+            </summary>
+            <param name="indexOfPhysicalChannel"></param>
+            <param name="frequency"></param>
+            <param name="outputLevel"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQFilePlaybackTask.AddChannel(System.Int32)">
+            <summary>
+            添加通道。
+            </summary>
+            <param name="indexOfPhysicalChannel"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQFilePlaybackTask.RemoveChannel(System.Int32)">
+            <summary>
+            移除已添加的通道，-1为移除所有通道。
+            </summary>
+            <param name="channel"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQFilePlaybackTask.Start">
+            <summary>
+            启动文件回放。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQFilePlaybackTask.Stop">
+            <summary>
+            停止文件回放。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQFilePlaybackTask.ReadPreviewSpectrum(System.Double[][])">
+            <summary>
+            读取预览数据：频谱，多通道。
+            </summary>
+            <param name="spectrum"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQFilePlaybackTask.ReadPreviewSpectrum(System.Double[])">
+            <summary>
+            读取预览数据：频谱，单通道。
+            </summary>
+            <param name="spectrum"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQFilePlaybackTask.Commit">
+            <summary>
+            提交生成参数至设备
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQFilePlaybackTask.ThdGetPreviewSpecturm">
+            <summary>
+            计算预览频谱数据
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.VST.IQFilePlaybackParam">
+            <summary>
+            回放的IQ文件参数。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.IQFilePlaybackParam.Path">
+            <summary>
+            文件路径。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.IQFilePlaybackParam.PlayEntireFile">
+            <summary>
+            是否回放整个文件的所有数据，若为false，则由公共属性StartPosition/EndPosition设定回放的数据范围。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.IQFilePlaybackParam.StartPosition">
+            <summary>
+            回放文件的起始位置，以Sample为单位，当 PlayEntireFile == false 时有效。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.IQFilePlaybackParam.EndPosition">
+            <summary>
+            回放文件的终止位置，以Sample为单位，当 PlayEntireFile == false 时有效。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQFilePlaybackParam.#ctor">
+            <summary>
+            构造函数。
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.VST.IQFilePlaybackTaskStatus">
+            <summary>
+            IQ文件回放任务的状态。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.IQFilePlaybackTaskStatus.CurrentPosition">
+            <summary>
+            当前播放的数据相对于文件起始的位置。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.IQFilePlaybackTaskStatus.PreviewAvailable">
+            <summary>
+            新的预览数据是否就绪。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.IQFilePlaybackTaskStatus.BufferOccupancy">
+            <summary>
+            数据缓冲区的状态，百分比数。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.IQFilePlaybackTaskStatus.NumOfGeneratedSamples">
+            <summary>
+            当前已输出的总数据点数。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQFilePlaybackTaskStatus.Reset">
+            <summary>
+            重置所有公共属性为初始值。
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.VST.StandardSignalGenTask">
+            <summary>
+             标准信号发生任务。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.VST.StandardSignalGenTask.DefaultFrequency">
+            <summary>
+            默认频率，在调用AddChannel()添加通道时，若不带frequency参数，则使用此默认值。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.VST.StandardSignalGenTask._iqGenTask">
+            <summary>
+            基于IFTranceiver的IQ采集任务。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.StandardSignalGenTask.#ctor(JXI.RF.Device.VST.VectorSignalTranceiver)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="device"></param>
+        </member>
+        <member name="P:JXI.RF.Device.VST.StandardSignalGenTask.Channels">
+            <summary>
+            通道列表，只读。请调用AddChannel()/RemoveChannel()方法添加/移除通道。
+            勿直接在Channels的List对象上执行Add()/Remove()操作。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.StandardSignalGenTask.AddChannel(System.Int32,System.Double,System.Double)">
+            <summary>
+            添加通道。
+            </summary>
+            <param name="indexOfPhysicalChannel"></param>
+            <param name="frequency"></param>
+            <param name="outputLevel"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.StandardSignalGenTask.AddChannel(System.Int32)">
+            <summary>
+            添加通道。
+            </summary>
+            <param name="indexOfPhysicalChannel"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.StandardSignalGenTask.RemoveChannel(System.Int32)">
+            <summary>
+            移除已添加的通道，-1为移除所有通道。
+            </summary>
+            <param name="channel"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.StandardSignalGenTask.Start">
+            <summary>
+            启动信号发生。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.StandardSignalGenTask.Stop">
+            <summary>
+            停止信号发生。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.StandardSignalGenTask.Commit">
+            <summary>
+            提交生成参数至设备
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.StandardSignalGenTask.ConvertDBmToVpp(System.Double,System.Double)">
+            <summary>
+            已知750x的输入或输出阻抗，根据功率值dBm计算对应的正弦波幅度
+            </summary>
+            <param name="dBm">功率</param>
+            <param name="ohm">阻抗</param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI.RF.Device.VST.StandardSignalGenTask.AmModulationDegree(System.Numerics.Complex[],System.Double)">
+            <summary>
+            计算AM调制度对应的功率损耗
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JXI.RF.Device.VST.StdSignalGenChannelParam">
+            <summary>
+            标准信号生成的通道参数。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.StdSignalGenChannelParam.Signal">
+            <summary>
+            信号参数。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.StdSignalGenChannelParam.#ctor(System.Int32,System.Double,System.Double)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="indexOfPhysicalChannel"></param>
+            <param name="frequency"></param>
+            <param name="outputLevel"></param>
+        </member>
+        <member name="T:JXI.RF.Device.VST.IQWaveformGenTask">
+            <summary>
+             IQ波形发生任务。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.VST.IQWaveformGenTask.DefaultFrequency">
+            <summary>
+            默认频率，在调用AddChannel()添加通道时，若不带frequency参数，则使用此默认值。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.VST.IQWaveformGenTask._iqGenTask">
+            <summary>
+            基于IFTranceiver的IQ采集任务。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQWaveformGenTask.#ctor(JXI.RF.Device.VST.VectorSignalTranceiver)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="device"></param>
+        </member>
+        <member name="P:JXI.RF.Device.VST.IQWaveformGenTask.Channels">
+            <summary>
+            通道列表，只读。请调用AddChannel()/RemoveChannel()方法添加/移除通道。
+            勿直接在Channels的List对象上执行Add()/Remove()操作。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.IQWaveformGenTask.SampleRate">
+            <summary>
+            IQ采样率（输出更新率）。
+            Specifies the sample rate in Hz. The waveform is generated with this rate.
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.IQWaveformGenTask.WaveformLength">
+            <summary>
+            设定波形的长度，以Sample为单位。若波形为分次写入，则必须先设置此属性才能调用WriteWaveform(...)写入波形，若波形为一次写入，可不设置此属性（默认为-1）。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.IQWaveformGenTask.WaveformAutoScale">
+            <summary>
+            是否对波形进行自动归一化处理。
+            在通过Level设定输出功率时，设定的功率为带内功率（即RMS功率），即IQ数据归一化后模的最大值对应的功率。
+            若WaveformAutoScale设置为true，则驱动程序内部会在Start()时自动对写入的数据做归一化运算处理，此操作需占用时间。
+            若WaveformAutoScale设置为false, 则驱动程序内部不作额外处理，用户应自行控制数据的归一化特性。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQWaveformGenTask.AddChannel(System.Int32,System.Double,System.Double)">
+            <summary>
+            添加通道。
+            </summary>
+            <param name="indexOfPhysicalChannel"></param>
+            <param name="frequency"></param>
+            <param name="outputLevel"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQWaveformGenTask.AddChannel(System.Int32)">
+            <summary>
+            添加通道。
+            </summary>
+            <param name="indexOfPhysicalChannel"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQWaveformGenTask.RemoveChannel(System.Int32)">
+            <summary>
+            移除已添加的通道，-1为移除所有通道。
+            </summary>
+            <param name="channel"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQWaveformGenTask.WriteIQ(System.Int16[])">
+            <summary>
+            写入IQ数据，short[]格式，单通道或多通道交织（Channel Interleaved）。
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQWaveformGenTask.WriteIQ(System.Numerics.Complex[])">
+            <summary>
+            写入IQ数据，Complex格式，单通道。
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQWaveformGenTask.WriteIQ(System.Numerics.Complex[][])">
+            <summary>
+            写入IQ数据，Complex格式，多通道。
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQWaveformGenTask.Start">
+            <summary>
+            启动信号发生。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQWaveformGenTask.Stop">
+            <summary>
+            停止信号发生。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.IQWaveformGenTask.Commit">
+            <summary>
+            提交生成参数至设备
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.VST.SpectrumTask">
+            <summary>
+            频谱任务。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.VST.SpectrumTask._liveSpectrum">
+            <summary>
+            实时刷新的频谱数据，多通道。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.VST.SpectrumTask._frameSpectrum">
+            <summary>
+            按帧刷新的频谱数据，多通道。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.VST.SpectrumTask._segments">
+            <summary>
+            频谱分段处理的各段信息。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.VST.SpectrumTask._iqAcqTask">
+            <summary>
+            基于VST的IQ采集任务。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.VST.SpectrumTask._iqAcquisitionEngine">
+            <summary>
+            频谱扫描引擎。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.VST.SpectrumTask._cancellationTokenSource">
+            <summary>
+            用于停止Acquisition/Analysis Engine。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.VST.SpectrumTask._iqBufferBlocks">
+            <summary>
+            若干个Complex[][]数据块（BufferBlock），用于将IQ Acq Engine采集的IQ数据传递给Analysis Engine
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.VST.SpectrumTask._iqEmptyTrucks">
+            <summary>
+            数据队列，用于将IQ Acq Engine采集的IQ数据传递给Analysis Engine。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.VST.SpectrumTask._iqDataTrucks">
+            <summary>
+            数据队列，用于将IQ Acq Engine采集的IQ数据传递给Analysis Engine。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.VST.SpectrumTask._deviceBandwidthMax">
+            <summary>
+            VST的实时带宽，频谱扫频时的分段带宽不能超过此值。
+            只获取此值一次，避免频繁获取时可能有设备访问的互锁冲突。
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.VST.SpectrumTask.EndOfFrameEventHandler">
+            <summary>
+            频谱扫描完成一帧时的委托。
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="E:JXI.RF.Device.VST.SpectrumTask.EndOfFrame">
+            <summary>
+            每当频谱扫描完成一帧时触发本事件。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.SpectrumTask.Mode">
+            <summary>
+            采集模式。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.SpectrumTask.NumberOfFrames">
+            <summary>
+            当采集模式为有限次扫描（Finite）时，扫描的帧数。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.SpectrumTask.Channels">
+            <summary>
+            启用的通道列表。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.SpectrumTask.Frequency">
+            <summary>
+            频谱的频率相关参数。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.SpectrumTask.Average">
+            <summary>
+            频谱平均参数。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.SpectrumTask.SpectralInformation">
+            <summary>
+            频谱数据信息。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.SpectrumTask.Status">
+            <summary>
+            任务状态。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.SpectrumTask.#ctor(JXI.RF.Device.VST.VectorSignalTranceiver)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="device"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.SpectrumTask.AddChannel(System.Int32,System.Double)">
+            <summary>
+            添加采集通道。
+            </summary>
+            <param name="channelIndex"></param>
+            <param name="referenceLevel"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.SpectrumTask.RemoveChannel(System.Int32)">
+            <summary>
+            移除已添加的通道，-1为移除所有通道。
+            </summary>
+            <param name="channelIndex"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.SpectrumTask.Commit">
+            <summary>
+            提交所有设置。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.SpectrumTask.Start">
+            <summary>
+            开始频谱任务。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.SpectrumTask.Stop">
+            <summary>
+            停止频谱任务。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.SpectrumTask.ReadLiveSpectrum(System.Double[][])">
+            <summary>
+            读取当前频谱。
+            </summary>
+            <param name="spectrum"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.SpectrumTask.ReadFrameSpectrum(System.Double[][])">
+            <summary>
+            读取一帧频谱。
+            </summary>
+            <param name="spectrum"></param>
+        </member>
+        <member name="T:JXI.RF.Device.VST.SpectrumTask.SpectrumSegmentProcessParam">
+            <summary>
+            频谱中各次（段）获取IQ并计算频谱所用参数。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.SpectrumTask.SpectrumSegmentProcessParam.Frequency">
+            <summary>
+            中心频率，Hz。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.SpectrumTask.SpectrumSegmentProcessParam.SpectrumTask">
+            <summary>
+            频谱计算类对象，多通道。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.SpectrumTask.SpectrumSegmentProcessParam.ExportIndex">
+            <summary>
+            本次（段）频谱数据的起始索引，对于前(N - 1)段为必为0，最后一段可能需专门计算。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.SpectrumTask.SpectrumSegmentProcessParam.ExportLength">
+            <summary>
+            本次（段）频谱数据的有效长度，对于前(N - 1)段为必为全数组，最后一段可能需专门计算。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.SpectrumTask.SpectrumSegmentProcessParam.IndexInFullSpectrum">
+            <summary>
+            本次（段）频谱在完整频谱数组中的索引位置.
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.SpectrumTask.SpectrumSegmentProcessParam.#ctor(System.Int32)">
+            <summary>
+            构造函数。
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.VST.SpectrumAcquisitionMode">
+            <summary>
+            频谱工作模式。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.VST.SpectrumAcquisitionMode.Finite">
+            <summary>
+            有限次扫描，扫描帧通过“NumberOfFrames”属性进行设置。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.VST.SpectrumAcquisitionMode.Continuous">
+            <summary>
+            连续扫描，扫描持续进行直到调用Stop()方法停止。
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.VST.SpectrumFrequencyParams">
+            <summary>
+            频谱的频率相关参数。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.SpectrumFrequencyParams.Start">
+            <summary>
+            频谱起始频率,以Hz为单位。
+            Start frequency of spectrum, in Hz.
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.SpectrumFrequencyParams.Stop">
+            <summary>
+            频谱终止频率,以Hz为单位。
+            Stop frequency of spectrum, in Hz.
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.SpectrumFrequencyParams.ResolutionBandwidthAuto">
+            <summary>
+            是否自动设置频谱的分辨率带宽（RBW）。
+            Whether spectrum resolution bandwidht is automatically calcuated.
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.SpectrumFrequencyParams.ResolutionBandwidth">
+            <summary>
+            频谱的分辨率带宽（RBW）。
+            Resolution bandwidth of spectrum.
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.SpectrumFrequencyParams.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.SpectrumFrequencyParams.#ctor(System.Double,System.Double,System.Boolean,System.Double)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="frequencyStart">起始频率,以Hz为单位。</param>
+            <param name="frequencyStop">终止频率,以Hz为单位。</param>
+            <param name="resolutionBandwidthAuto">是否自动选择频谱分辨率带宽。</param>
+            <param name="resolutionBandwidth">频率分辨率带宽（RBW），以Hz为单位。</param>
+        </member>
+        <member name="T:JXI.RF.Device.VST.SpectrumChannelParams">
+            <summary>
+            频谱任务的单一通道参数。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.SpectrumChannelParams.IndexOfPhysicalChannel">
+            <summary>
+            物理通道号。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.SpectrumChannelParams.ReferenceLevel">
+            <summary>
+            输入参考电平。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.SpectrumChannelParams.#ctor(System.Int32,System.Double)">
+            <summary>
+            构造函数，创建Channel参数对象
+            </summary>
+            <param name="channelIndex">通道物理序号</param>
+            <param name="referenceLevel"></param>
+        </member>
+        <member name="T:JXI.RF.Device.VST.SpectrumTaskStatus">
+            <summary>
+            频谱任务的状态。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.SpectrumTaskStatus.FrameCount">
+            <summary>
+            当前已完成的扫频帧数。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.SpectrumTaskStatus.ScanSpeed">
+            <summary>
+            扫描速度。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.SpectrumTaskStatus.Reset">
+            <summary>
+            重置所有公共属性为初始值。
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.VST.SpectralInformation">
+            <summary>
+            频谱数据信息：频谱线数、频率步进等。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.SpectralInformation.NumOfLines">
+            <summary>
+            频谱总线数。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.SpectralInformation.FrequencyStart">
+            <summary>
+            频谱的频率起始（f0)。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.SpectralInformation.FrequencyStep">
+            <summary>
+            频谱的频率步进（df），即相邻谱线对应频率之差。
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.VST.VectorSignalTranceiver">
+            <summary>
+            VST Device 类。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.VST.VectorSignalTranceiver._resourceName">
+            <summary>
+            设备资源名。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.VectorSignalTranceiver.#ctor(JXI.RF.Device.IFTransceiver.Model,System.String,JXI.RF.Device.Downconverter.Model,System.Collections.Generic.List{System.String},JXI.RF.Device.Upconverter.Model,System.Collections.Generic.List{System.String})">
+            <summary>
+            实例化VST对象：中频收发模块 + 多个下变频模块 + 多个上变频模块。
+            </summary>
+            <param name="ifTranceiverModel"></param>
+            <param name="ifTranceiverName"></param>
+            <param name="downconverterModel"></param>
+            <param name="downconverterNames"></param>
+            <param name="upconverterModel"></param>
+            <param name="upconverterNames"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.VectorSignalTranceiver.#ctor(JXI.RF.Device.IFTransceiver.Model,System.String,JXI.RF.Device.Downconverter.Model,System.String,JXI.RF.Device.Upconverter.Model,System.String)">
+            <summary>
+            实例化VST对象：中频模块+一个下变频模块 + 一个上变频模块。
+            </summary>
+            <param name="ifTranceiverModel"></param>
+            <param name="ifTranceiverName"></param>
+            <param name="downconverterModel"></param>
+            <param name="downconverterName"></param>
+            <param name="upconverterModel"></param>
+            <param name="upconverterName"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.VectorSignalTranceiver.#ctor(JXI.RF.Device.IFTransceiver.Model,System.String,JXI.RF.Device.Downconverter.Model,System.Collections.Generic.List{System.String})">
+            <summary>
+            实例化VST对象：中频模块+多个下变频模块。
+            </summary>
+            <param name="ifTranceiverModel"></param>
+            <param name="ifTranceiverName"></param>
+            <param name="downconverterModel"></param>
+            <param name="downconverterNames"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.VectorSignalTranceiver.#ctor(JXI.RF.Device.IFTransceiver.Model,System.String,JXI.RF.Device.Downconverter.Model,System.String)">
+            <summary>
+            实例化VST对象：中频模块+一个下变频模块。
+            </summary>
+            <param name="ifTranceiverModel"></param>
+            <param name="ifTranceiverName"></param>
+            <param name="downconverterModel"></param>
+            <param name="downconverterName"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.VectorSignalTranceiver.#ctor(JXI.RF.Device.IFTransceiver.Model,System.String,JXI.RF.Device.Upconverter.Model,System.Collections.Generic.List{System.String})">
+            <summary>
+            实例化VST对象：中频模块+多个上变频模块。
+            </summary>
+            <param name="ifTranceiverModel"></param>
+            <param name="ifTranceiverName"></param>
+            <param name="upconverterModel"></param>
+            <param name="upconverterNames"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.VectorSignalTranceiver.#ctor(JXI.RF.Device.IFTransceiver.Model,System.String,JXI.RF.Device.Upconverter.Model,System.String)">
+            <summary>
+            实例化VST对象：中频模块+一个上变频模块。
+            </summary>
+            <param name="ifTranceiverModel"></param>
+            <param name="ifTranceiverName"></param>
+            <param name="upconverterModel"></param>
+            <param name="upconverterName"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.VectorSignalTranceiver.#ctor(JXI.RF.Device.IFTransceiver.Model,System.String)">
+            <summary>
+            实例化VST对象：仅中频模块，无上下变频模块。
+            </summary>
+            <param name="ifTranceiverModel"></param>
+            <param name="ifTranceiverName"></param>
+        </member>
+        <member name="P:JXI.RF.Device.VST.VectorSignalTranceiver.IFTranceiver">
+            <summary>
+             IF Tranceiver对象。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.VectorSignalTranceiver.Downconverters">
+            <summary>
+             Downconverter对象，若实例化时未配置Downconverter，则为null。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.VectorSignalTranceiver.Upconverters">
+            <summary>
+             Upconverter对象，若实例化时未配置Upconverter，则为null。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.VectorSignalTranceiver.HasDownconverters">
+            <summary>
+            是否包含一个或多个Downconverter对象。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.VectorSignalTranceiver.HasUpconverters">
+            <summary>
+            是否包含一个或多个Upconverter对象。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.VectorSignalTranceiver.Correction">
+            <summary>
+            频率和功率校准参数。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.VectorSignalTranceiver.Close">
+            <summary>
+            关闭模块并释放资源。
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.VST.CorrectionSetting">
+            <summary>
+            频率和功率校准设置。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.CorrectionSetting.Frequency">
+            <summary>
+            频率校准参数。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.CorrectionSetting.RX">
+            <summary>
+            Rx功率校准参数，对所有Acquisition Task生效。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.CorrectionSetting.TX">
+            <summary>
+            Tx功率校准参数，对所有Generation Task生效。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.CorrectionSetting.#ctor">
+            <summary>
+            构造函数。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.CorrectionSetting.LoadFromFile(System.String)">
+            <summary>
+            从文件读取所有参数。
+            </summary>
+            <param name="fileFullPath"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.CorrectionSetting.SaveToFile(System.String)">
+            <summary>
+            将所有参数存储至文件。
+            </summary>
+            <param name="fileFullPath"></param>
+        </member>
+        <member name="T:JXI.RF.Device.VST.VstTask">
+            <summary>
+            VST任务基类。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.VstTask.#ctor(JXI.RF.Device.VST.VectorSignalTranceiver)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="device"></param>
+        </member>
+        <member name="P:JXI.RF.Device.VST.VstTask.Device">
+            <summary>
+            创建任务时所用的VectorSignalTranceiver对象。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.VstTask.IsRunning">
+            <summary>
+            任务是否在运行中。
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.VST.VstTask.TaskCompletedEventHandler">
+            <summary>
+            任务完成时的委托。
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="E:JXI.RF.Device.VST.VstTask.TaskCompleted">
+            <summary>
+            任务完成时触发本事件。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.VstTask.Start">
+            <summary>
+            启动任务（虚函数），将IsRunning属性置为true。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.VstTask.Stop">
+            <summary>
+            停止任务（虚函数），将IsRunning属性置为false。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.VstTask.EnumTypeCast(JXI.RF.Device.VST.SpectrumAverageMode)">
+            <summary>
+            频谱平均方式枚举类型转换。
+            </summary>
+            <param name="averageMode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI.RF.Device.VST.VstTask.OnTaskCompleted(System.Object,JXI.RF.Device.VST.TaskCompletedEventArgs)">
+            <summary>
+            用于从派生类触发基类事件的内部方法。
+            注：事件是特殊类型的委托，只可以从声明它们的类中调用，派生类无法直接调用基类中声明的事件。
+            在需要允许派生类调用基类事件时，可以在包含该事件的基类中创建受保护的虚调用方法，通过调用或重写此调用方法，派生类便可以间接调用该事件。
+            注：不要在基类中声明虚拟事件，也不要在派生类中重写这些事件，C#编译器无法正确处理这些事件，并且无法预知该派生的事件的用户是否真正订阅了基类事件。
+            来自：https://msdn.microsoft.com/zh-cn/library/hy3sefw3.aspx
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="T:JXI.RF.Device.VST.VstSigGenTask">
+            <summary>
+            VST信号发生任务基类
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.VstSigGenTask.#ctor(JXI.RF.Device.VST.VectorSignalTranceiver)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="device"></param>
+        </member>
+        <member name="P:JXI.RF.Device.VST.VstSigGenTask.EnableALC">
+            <summary>
+            是否启用自动功率控制以实时补偿温漂。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.VstSigGenTask.LevelDriftOfCHs">
+            <summary>
+            各通道的当前电平漂移值（相对于任务启动时），dB。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.VstSigGenTask.RxchannelsCorrection">
+            <summary>
+            Rx通道频率和功率校准
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.VST.SpectrumAverageMode">
+            <summary>
+            频谱平均类型。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.VST.SpectrumAverageMode.NoAveraging">
+            <summary>
+            不平均。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.VST.SpectrumAverageMode.RmsAverage">
+            <summary>
+            基于功率的线性移动平均。
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.VST.SpectrumAverageMode.PeakHold">
+            <summary>
+            峰值保持。
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.VST.SpectrumAveragingParams">
+            <summary>
+            频谱平均参数。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.SpectrumAveragingParams.Mode">
+            <summary>
+            频谱平均方式。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.SpectrumAveragingParams.Size">
+            <summary>
+            频谱平均次数，当平均方式为RmsAverage时有效。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.SpectrumAveragingParams.#ctor">
+            <summary>
+            构造函数。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.SpectrumAveragingParams.#ctor(JXI.RF.Device.VST.SpectrumAverageMode,System.Int32)">
+            <summary>
+             构造函数。
+            </summary>
+            <param name="mode"></param>
+            <param name="size"></param>
+        </member>
+        <member name="M:JXI.RF.Device.VST.SpectrumAveragingParams.CopyFrom(JXI.RF.Device.VST.SpectrumAveragingParams)">
+            <summary>
+            复制对象内容。
+            </summary>
+            <param name="source"></param>
+        </member>
+        <member name="T:JXI.RF.Device.VST.TaskCompletedEventArgs">
+            <summary>
+            任务完成的事件参数。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.TaskCompletedEventArgs.Error">
+            <summary>
+            任务执行的错误信息。如果任务执行期间发生错误（异常终止），则为实例化的异常类对象，否则为null。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.TaskCompletedEventArgs.#ctor">
+            <summary>
+            构造函数。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.TaskCompletedEventArgs.#ctor(System.String,System.Exception)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="message"></param>
+            <param name="innerException"></param>
+        </member>
+        <member name="T:JXI.RF.Device.VST.TaskDataAvailableEventArgs">
+            <summary>
+            任务数据有效的事件参数。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.VST.TaskDataAvailableEventArgs.Count">
+            <summary>
+            数据计数。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.VST.TaskDataAvailableEventArgs.#ctor(System.Int32)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="count"></param>
+        </member>
+    </members>
+</doc>

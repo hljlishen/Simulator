@@ -1,0 +1,324 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JXI.RF.Device.Downconverter</name>
+    </assembly>
+    <members>
+        <member name="T:JXI.RF.Device.Downconverter.Downconverter">
+            <summary>
+            下变频器的基类。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Downconverter.Downconverter.Identity">
+            <summary>
+            Get information of device (SN/Firmware Revision etc).
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Downconverter.Downconverter.Status">
+            <summary>
+            Get status of device (Temperature etc).
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Downconverter.Downconverter.Clock">
+            <summary>
+            时钟参数。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Downconverter.Downconverter.RFInput">
+            <summary>
+            射频输入参数。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Downconverter.Downconverter.IFOutput">
+            <summary>
+            中频输出参数。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.Downconverter.Downconverter.#ctor(System.String)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="resourceName"></param>
+        </member>
+        <member name="M:JXI.RF.Device.Downconverter.Downconverter.CreateDownconverter(JXI.RF.Device.Downconverter.Model,System.String)">
+            <summary>
+            实例化Downconverter。
+            </summary>
+            <param name="model"></param>
+            <param name="resourceName"></param>
+        </member>
+        <member name="M:JXI.RF.Device.Downconverter.Downconverter.ListDevices(JXI.RF.Device.Downconverter.Model)">
+            <summary>
+            列出系统中的所有指定型号的下变频设备。
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI.RF.Device.Downconverter.Downconverter.Close">
+            <summary>
+            关闭设备并释放占用的资源。
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.Downconverter.ClockParams">
+            <summary>
+            参考时钟参数。
+            </summary>
+        </member>
+        <member name="E:JXI.RF.Device.Downconverter.ClockParams.ParamChanged">
+            <summary>
+            参数值改变时触发的事件。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Downconverter.ClockParams.Source">
+            <summary>
+             Configure clock source
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Downconverter.ClockParams.Output">
+            <summary>
+             Configure the clock signal output at "Ref Out" connector.
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.Downconverter.ClockParams.#ctor(JXI.RF.Device.Downconverter.ClockSource,JXI.RF.Device.Downconverter.ClockOutput)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="source"></param>
+            <param name="output"></param>
+        </member>
+        <member name="T:JXI.RF.Device.Downconverter.ClockSource">
+            <summary>
+            Clock Source Types.
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.Downconverter.ClockSource.Internal">
+            <summary>
+            Internal Clock
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.Downconverter.ClockSource.RefIn10MHz">
+            <summary>
+            External 10MHz reference clock
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.Downconverter.ClockSource.PXIClock10MHz">
+            <summary>
+            10 MHz clock from PXI backplane,
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.Downconverter.ClockOutput">
+            <summary>
+            Clock Output Types
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.Downconverter.ClockOutput.None">
+            <summary>
+             The "Ref Out" connector has no signal output.
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.Downconverter.ClockOutput.RefOut10MHz">
+            <summary>
+             The "Ref Out" connector outputs 10 MHz clock signal.
+            </summary>
+        </member>
+        <member name="F:JXI.RF.Device.Downconverter.ClockOutput.RefOut100MHz">
+            <summary>
+             The "Ref Out" connector outputs 100 MHz clock signal.
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.Downconverter.RFInputParams">
+            <summary>
+            射频输入参数。
+            </summary>
+        </member>
+        <member name="E:JXI.RF.Device.Downconverter.RFInputParams.ParamChanged">
+            <summary>
+            参数值改变时触发的事件。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Downconverter.RFInputParams.Frequency">
+            <summary>
+            Input RF Frequency in Hz.
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Downconverter.RFInputParams.ReferenceLevel">
+            <summary>
+            Input reference level in dBm.
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.Downconverter.RFInputParams.#ctor(System.Double,System.Double)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="frequency"></param>
+            <param name="referenceLevel"></param>
+        </member>
+        <member name="T:JXI.RF.Device.Downconverter.IFOutputParams">
+            <summary>
+            中频输出参数。
+            </summary>
+        </member>
+        <member name="E:JXI.RF.Device.Downconverter.IFOutputParams.ParamChanged">
+            <summary>
+            参数值改变时触发的事件。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Downconverter.IFOutputParams.Frequency">
+            <summary>
+            Output IF Frequency in Hz.
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Downconverter.IFOutputParams.Bandwidth">
+            <summary>
+            IF output bandwidth in Hz.
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Downconverter.IFOutputParams.Level">
+            <summary>
+            Norminal IF output level in dBm, default : 0 dBm.
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Downconverter.IFOutputParams.Invert">
+            <summary>
+            Configure whether the downconverter inverts the IF output.
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.Downconverter.IFOutputParams.#ctor(System.Double,System.Double,System.Double,System.Boolean)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="frequency"></param>
+            <param name="bandwidth"></param>
+            <param name="outputLevel"></param>
+            <param name="invert"></param>
+        </member>
+        <member name="T:JXI.RF.Device.Downconverter.Identity">
+            <summary>
+            Hardware and firmware information of device
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Downconverter.Identity.SerialNumber">
+            <summary>
+            序列号。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Downconverter.Identity.FirmwareRevision">
+            <summary>
+            固件版本。
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.Downconverter.Status">
+            <summary>
+            Status of device
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Downconverter.Status.IsLockedToExtClock">
+            <summary>
+            是否已锁相外部参考时钟。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Downconverter.Status.Temperature">
+            <summary>
+             设备温度。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Downconverter.Status.ConversionGain">
+            <summary>
+            从射频输入到中频输出的实际路径增益，dB。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Device.Downconverter.Status.OutputFrequency">
+            <summary>
+            实际输出信号的中心频率， Hz。
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.Downconverter.Model">
+            <summary>
+            Downconverter型号。
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.Downconverter.DownconverterSimulation">
+            <summary>
+            下变频仿真类。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.Downconverter.DownconverterSimulation.#ctor(System.String)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="resourceName"></param>
+        </member>
+        <member name="M:JXI.RF.Device.Downconverter.DownconverterSimulation.ListDevices">
+            <summary>
+            列出所有仿真Downconverter设备。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:JXI.RF.Device.Downconverter.DownconverterPXIe7660">
+            <summary>
+            PXIe-7660下变频类。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.Downconverter.DownconverterPXIe7660.#ctor(System.String)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="resourceName"></param>
+        </member>
+        <member name="M:JXI.RF.Device.Downconverter.DownconverterPXIe7660.ListDevices">
+            <summary>
+            列出当前系统中所有PXIe-7660模块的资源名，若未检测到PXIe-7660模块，则返回null。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JXI.RF.Device.Downconverter.DownconverterPXIe7660.Close">
+            <summary>
+            关闭设备并释放占用的资源。
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.Downconverter.DownconverterPXIe7639">
+            <summary>
+            PXIe-7639下变频类。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.Downconverter.DownconverterPXIe7639.#ctor(System.String)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="resourceName"></param>
+        </member>
+        <member name="M:JXI.RF.Device.Downconverter.DownconverterPXIe7639.ListDevices">
+            <summary>
+            列出当前系统中所有PXIe-7639模块的资源名，若未检测到PXIe-7639模块，则返回null。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JXI.RF.Device.Downconverter.DownconverterPXIe7639.Close">
+            <summary>
+            关闭设备并释放占用的资源。
+            </summary>
+        </member>
+        <member name="T:JXI.RF.Device.Downconverter.DownconverterPXIe7625">
+            <summary>
+            PXIe-7625下变频类。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Device.Downconverter.DownconverterPXIe7625.#ctor(System.String)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="resourceName"></param>
+        </member>
+        <member name="M:JXI.RF.Device.Downconverter.DownconverterPXIe7625.ListDevices">
+            <summary>
+            列出当前系统中所有PXIe-7625模块的资源名，若未检测到PXIe-7625模块，则返回null。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JXI.RF.Device.Downconverter.DownconverterPXIe7625.Close">
+            <summary>
+            关闭设备并释放占用的资源。
+            </summary>
+        </member>
+    </members>
+</doc>

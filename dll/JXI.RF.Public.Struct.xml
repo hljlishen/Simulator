@@ -1,0 +1,171 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JXI.RF.Public.Struct</name>
+    </assembly>
+    <members>
+        <member name="T:JXI.RF.Public.Struct.NumericValueChangedEventArgs">
+            <summary>
+            浮点数(double)数值改变事件的参数。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Public.Struct.NumericValueChangedEventArgs.OldValue">
+            <summary>
+            Old value.
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Public.Struct.NumericValueChangedEventArgs.NewValue">
+            <summary>
+            New value.
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Public.Struct.NumericValueChangedEventArgs.#ctor(System.Double,System.Double)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="oldValue"></param>
+            <param name="newVaue"></param>
+        </member>
+        <member name="T:JXI.RF.Public.Struct.FrequencyCorrector">
+            <summary>
+            频率校准设置。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Public.Struct.FrequencyCorrector.Enabled">
+            <summary>
+            是否开启频率补偿。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Public.Struct.FrequencyCorrector.Factor">
+            <summary>
+            频率补偿系数，以ppm为单位。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Public.Struct.FrequencyCorrector.GetCorrectionValue(System.Double)">
+            <summary>
+            获取指定频率处须补偿的频率偏差值，Hz。
+            </summary>
+            <param name="frequency"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI.RF.Public.Struct.FrequencyCorrector.Correct(System.Double)">
+            <summary>
+            根据校准系数和输入频率值，计算补偿后的频率值。
+            </summary>
+            <param name="frequency"></param>
+        </member>
+        <member name="T:JXI.RF.Public.Struct.FrequencyResponseCorrector">
+            <summary>
+            频率响应修正类。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Public.Struct.FrequencyResponseCorrector.Enabled">
+            <summary>
+            是否开启补偿。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Public.Struct.FrequencyResponseCorrector.Data">
+            <summary>
+            各补偿曲线数据。请勿在此列表对象上调用List对象的Add()方法，而是调用FrequencyResponseCorrector类的Add()方法来添加曲线。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Public.Struct.FrequencyResponseCorrector.#ctor">
+            <summary>
+            创建数据为空的频率响应修正类。对于数据为空的频率响应修正类，获取的校准值总是0。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Public.Struct.FrequencyResponseCorrector.Add(JXI.RF.Public.Struct.FrequencyResponseCurve)">
+            <summary>
+            添加频率响应曲线，添加后，所有曲线在Data列表中根据各曲线的ReferenceLevel属性值的大小升序排列。
+            </summary>
+            <param name="curve"></param>
+        </member>
+        <member name="M:JXI.RF.Public.Struct.FrequencyResponseCorrector.GetCorrectionValue(System.Double,System.Double)">
+            <summary>
+            获取指定参考电平和频率处的校准系数。
+            </summary>
+            <param name="referenceLevel"></param>
+            <param name="frequency"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI.RF.Public.Struct.FrequencyResponseCorrector.CorrectSpectrum(System.Double[],System.Double,System.Double,System.Double)">
+            <summary>
+            根据校准数据，修正输入频谱。
+            </summary>
+            <param name="spectrum"></param>
+            <param name="f0"></param>
+            <param name="df"></param>
+            <param name="referenceLevel"></param>
+        </member>
+        <member name="T:JXI.RF.Public.Struct.FrequencyResponseCurve">
+            <summary>
+            单一频率响应曲线。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Public.Struct.FrequencyResponseCurve.ReferenceLevel">
+            <summary>
+            参考电平。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Public.Struct.FrequencyResponseCurve.Data">
+            <summary>
+            曲线数据。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Public.Struct.FrequencyResponseCurve.#ctor">
+            <summary>
+            创建数据为空的频率响应曲线。对于数据为空的曲线，获取的数值总是0。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Public.Struct.FrequencyResponseCurve.#ctor(System.Double,System.Double[],System.Double[])">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="referenceLevel"></param>
+            <param name="frequencyBins"></param>
+            <param name="calibrationFactor"></param>
+        </member>
+        <member name="M:JXI.RF.Public.Struct.FrequencyResponseCurve.GetCorrectionFactor(System.Double)">
+            <summary>
+            获取曲线上指定频点处的数值。对于数据为空的曲线，获取的数值总是0。
+            </summary>
+            <param name="frequency"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JXI.RF.Public.Struct.FrequencyResponseCurve.CorrectSpectrum(System.Double[],System.Double,System.Double)">
+            <summary>
+            根据频率响应曲线，修正输入数据。
+            </summary>
+            <param name="spectrum"></param>
+            <param name="f0"></param>
+            <param name="df"></param>
+        </member>
+        <member name="T:JXI.RF.Public.Struct.FrequencyResponseBin">
+            <summary>
+            频响曲线的一个点。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Public.Struct.FrequencyResponseBin.Frequency">
+            <summary>
+            频率，Hz。
+            </summary>
+        </member>
+        <member name="P:JXI.RF.Public.Struct.FrequencyResponseBin.Level">
+            <summary>
+            电平值。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Public.Struct.FrequencyResponseBin.#ctor">
+            <summary>
+            构造函数。
+            </summary>
+        </member>
+        <member name="M:JXI.RF.Public.Struct.FrequencyResponseBin.#ctor(System.Double,System.Double)">
+            <summary>
+            构造函数。
+            </summary>
+            <param name="frequency"></param>
+            <param name="level"></param>
+        </member>
+    </members>
+</doc>

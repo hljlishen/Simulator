@@ -1,0 +1,226 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JXIPXIe7639</name>
+    </assembly>
+    <members>
+        <member name="F:JXIPXIe7639.PXIe7639.DATE_SIZE_IN_UINT">
+            <summary>
+            Constants for allocate unmanaged memory to get device information
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7639.PXIe7639._isDeviceListDone">
+            <summary>
+            Static private member, for calling ListDevices() only once and keep listing device results.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7639.PXIe7639._extraSettleTime">
+            <summary>
+            Extra settle (Sleep) time in milliseconds (ms) at the end of committing RF Param operation.
+            It is used only when "RFFrequency" param is changed, in this case, we calculate its value 
+            according to RF frequency tuning step (delta frequency) and tuning mode (Normal/Fast).
+            For other RF parameters changing, its value is 0 ms.
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7639.PXIe7639.#ctor(System.Int32)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="deviceIndex"></param>
+        </member>
+        <member name="M:JXIPXIe7639.PXIe7639.Finalize">
+            <summary>
+            Destructor
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7639.PXIe7639.DeviceNames">
+            <summary>
+             Names of all PXIe-7639 devices currently installed in system.
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7639.PXIe7639.DeviceInfo">
+            <summary>
+            Get information of device (SN/Firmware Revision etc).
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7639.PXIe7639.DeviceStatus">
+            <summary>
+            Get status of device (Temperature etc).
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7639.PXIe7639.ClockSource">
+            <summary>
+             Configure clock source
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7639.PXIe7639.ClockOut">
+            <summary>
+             Configure the clock signal output at "Ref Out" connector.
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7639.PXIe7639.RFFrequency">
+            <summary>
+            Input RF Frequency in Hz.
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7639.PXIe7639.Bandwidth">
+            <summary>
+            Input bandwidth in Hz.
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7639.PXIe7639.ReferenceLevel">
+            <summary>
+            Input reference level in dBm.
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7639.PXIe7639.IFNorminalLevel">
+            <summary>
+            Norminal IF output level in dBm, default : 0 dBm.
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7639.PXIe7639.IFFrequency">
+            <summary>
+            IF output frequency in Hz.
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7639.PXIe7639.IFInvert">
+            <summary>
+            Configure whether the downconverter inverts the IF output.
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7639.PXIe7639.ConversionGain">
+            <summary>
+            Downconverter gain in dB.
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7639.PXIe7639.TuneMode">
+            <summary>
+            Tune mode, default is Normal
+            </summary>
+        </member>
+        <member name="P:JXIPXIe7639.PXIe7639.MixerLevel">
+            <summary>
+            Mixer level in dBm, default is -20 dBm.
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7639.PXIe7639.ListDevices">
+            <summary>
+            List all PXIe-7639 Devices currently installed in system.
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7639.PXIe7639.OpenDevice(System.Int32)">
+            <summary>
+            Open device, read device attributes/CalData and store in class private members. 
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7639.PXIe7639.CommitRFParamChanges">
+            <summary>
+            Apply RF parameters to device.
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7639.PXIe7639.CommitClockParamChanges">
+            <summary>
+            Apply Clock parameters to device
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7639.PXIe7639.GetDeviceStatus">
+            <summary>
+            Get device status and store in class private member "_deviceStatus".
+            This function refreshes temperature from device every "TEMPERATURE_REFRESH_INTERVAL".
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7639.PXIe7639.GetDeviceGain">
+            <summary>
+            Get device current gain.
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7639.PXIe7639.CloseDevice">
+            <summary>
+            Close device.
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7639.PXIe7639.CalcRFFreqTuneSettleTime(JXIPXIe7639.EnumTuneMode,System.Double)">
+            <summary>
+            Calculate required setttle time according to Tune Mode and Tune Step.
+            </summary>
+            <param name="tuneMode"></param>
+            <param name="tuneStep"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JXIPXIe7639.PXIe7639.AllocUnmanagedMemInsideStruct">
+            <summary>
+             Allocate unmanaged memory inside _deviceAttribute and _CalibrationData struct.
+            </summary>
+        </member>
+        <member name="M:JXIPXIe7639.PXIe7639.FreeUnmanagedMemInsideStruct">
+            <summary>
+            Free unmanaged memory inside _deviceAttribute and _CalibrationData struct.
+            </summary>
+        </member>
+        <member name="T:JXIPXIe7639.EnumClockSource">
+            <summary>
+            Clock Source Types.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7639.EnumClockSource.OnboardClock">
+            <summary>
+            Onboard Clock
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7639.EnumClockSource.RefIn10MHz">
+            <summary>
+            External 10MHz reference clock at "Ref In" connector
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7639.EnumClockSource.PXIClock10MHz">
+            <summary>
+            10 MHz clock from PXI backplane, Connect "PXI Clk 10" to "Ref In" connector
+            </summary>
+        </member>
+        <member name="T:JXIPXIe7639.EnumClockOut">
+            <summary>
+            Clock Output Types
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7639.EnumClockOut.None">
+            <summary>
+             The "Ref Out" connector has no signal output.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7639.EnumClockOut.RefOut10MHz">
+            <summary>
+             The "Ref Out" connector outputs 10 MHz clock signal.
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7639.EnumClockOut.RefOut100MHz">
+            <summary>
+             The "Ref Out" connector outputs 100 MHz clock signal.
+            </summary>
+        </member>
+        <member name="T:JXIPXIe7639.DeviceInformation">
+            <summary>
+            Hardware and firmware information of device
+            </summary>
+        </member>
+        <member name="T:JXIPXIe7639.DeviceStatus">
+            <summary>
+            Status of device
+            </summary>
+        </member>
+        <member name="T:JXIPXIe7639.EnumTuneMode">
+            <summary>
+            Tune Mode Type
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7639.EnumTuneMode.Normal">
+            <summary>
+            Default tune mode
+            </summary>
+        </member>
+        <member name="F:JXIPXIe7639.EnumTuneMode.Fast">
+            <summary>
+            In Fast tune mode, the device settles quicker but might result in worse phase noise.
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -31,6 +31,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JXI.RF.Device.Downconverter, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dll\JXI.RF.Device.Downconverter.dll</HintPath>
+    </Reference>
+    <Reference Include="JXI.RF.Device.IFTransceiver, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dll\JXI.RF.Device.IFTransceiver.dll</HintPath>
+    </Reference>
+    <Reference Include="JXI.RF.Device.Upconverter, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dll\JXI.RF.Device.Upconverter.dll</HintPath>
+    </Reference>
+    <Reference Include="JXI.RF.Device.VST, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dll\JXI.RF.Device.VST.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeviceDrive.cs" />
     <Compile Include="FPGA.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
