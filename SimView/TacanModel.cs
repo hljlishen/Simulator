@@ -18,6 +18,6 @@ namespace SimView
         public virtual string IdentifyCode_ini { get; set; } = "ABC";
         public string FilePath => "TacanState.ini";
         public string Section => "TacanState";
-        internal EncodeType EncodeType { get; set; }
+        internal EncodeMode EncodeMode { get; set; }
     }
 }

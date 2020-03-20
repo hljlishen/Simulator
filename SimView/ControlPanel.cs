@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using FPGA;
-using JXI750x;
-using JXIPXIe7660;
-using JXIPXIe7760;
 using Mapper;
 using PPI;
 
@@ -11,23 +7,27 @@ namespace SimView
 {
     public partial class ControlPanel : Form
     {
-        private JXI750xAWGTask aotask;
-        private JXI750xDigitizerTask aiTask;
         private PPIDisplay display;
         private IScreenToCoordinateMapper mapper;
-        private IDeviceController controller;
-        public ControlPanel(IDeviceController controller)
+        private ITacanController controller;
+        private InputValidation validation;
+        public ControlPanel(ITacanController controller)
         {
             InitializeComponent();
 
+            //controller.Write(0x54000, 0xAA);
             mapper = new SquaredScreenRectDecorator(new ScreenToCoordinateMapper());
-            display = new PPIDisplay(ppi_pb, mapper);
-            //var dd = new DeviceDrive();
-            //dd.SetFrequencyAndPower(1000 * 1E6, 0);
 
+            display = new PPIDisplay(ppi_pb, mapper);
             display.DmeStateChanged += Display_DmeStateChanged;
             this.controller = controller;
             UpdateForm(controller.Model);
+
+            validation = new InputValidation();
+            validation.AddValidation(channel_tb, new IntStrInRange(ValueInterval.CloseClose(126, 1)));
+            validation.AddValidation(randomPulse_tb, new IntStrInRange(ValueInterval.CloseClose(10000, 0)));
+            validation.AddValidation(modulation15_tb, new DoubleStrInRange(ValueInterval.CloseClose(100, 0)));
+            validation.AddValidation(modulation135_tb, new DoubleStrInRange(ValueInterval.CloseClose(100, 0)));
         }
         private void Display_DmeStateChanged(double arg1, double arg2)
         {
@@ -40,39 +40,19 @@ namespace SimView
             dis_tb.Text = model.Distance_ini.ToString("0.00");
             az_tb.Text = model.Azimuth_ini.ToString("0.00");
             channel_tb.Text = model.Channel_ini.ToString();
-            //responsePower_tb.Text = model.ResponsePower_ini.ToString();
-            trackBar1.Value = (int)model.ResponsePower_ini;
+            responsePower_tkb.Value = (int)model.ResponsePower_ini;
+            randomPulse_tb.Text = model.RandomPulse_ini.ToString();
+            modulation15_tb.Text = model.Modulation15_ini.ToString();
+            modulation135_tb.Text = model.Modulation135_ini.ToString();
+            responseRate_tb.Text = model.ResponseRate_ini.ToString();
+            identifyCode_tb.Text = model.IdentifyCode_ini.ToString();
+            disRate_tb.Text = model.DistanceRate_ini.ToString();
+            azRate_tb.Text = model.AzimuthRate_ini.ToString();
             display.SetDmeState(model.Azimuth_ini, model.Distance_ini);
         }
 
         private void ControlPanel_Load(object sender, EventArgs e)
         {
-            aotask = new JXI750xAWGTask(0);
-            aotask.Mode = AOMode.ContinuousWrapping;
-            aotask.SampleRate = 20e6;
-            aotask.WaveformLength = 10 * 1024;
-            aotask.TimeBaseRate = 250e6; //强制250MS/s
-            aotask.EnableDUC = true;
-            aotask.DataFormat = DataFormat.Complex;
-            //if (checkBox1.Checked)
-            //{
-            aotask.AddChannel(-1, 70e6, 1.0, 0);
-            //}
-            //else
-            //{
-            //    aotask.AddChannel(0, (double)numIFCenterFreq.Value * 1e6, 1.0, 0);
-            //}
-
-            aotask.Commit();
-            aiTask = new JXI750xDigitizerTask(0);
-            aiTask.SampleRate = 20e6;
-            //FPGADrive.FPGA fpga = FPGADrive.FPGA.GetInstance();
-            //fpga.Write(0x54008, 10);
-            //fpga.Write(0x54000, 11);
-            //fpga.Write(0x54004, 12);
-            //int ret;
-            //while (true)
-            //    _ = fpga.Read(0x54008, out ret);
         }
 
         private void Dis_tb_KeyPress(object sender, KeyPressEventArgs e)
@@ -95,18 +75,50 @@ namespace SimView
 
         private void Confirm_btn_Click(object sender, EventArgs e)
         {
+            if(!validation.IsAllInputsValidate())
+            {
+                validation.Cue();
+                ShowHint();
+                return;
+            }
             controller.SetAzimuth(double.Parse(az_tb.Text));
             controller.SetDistance(double.Parse(dis_tb.Text));
-            controller.SetResponsePower(double.Parse(responsePower_tb.Text));   //SetResponsePower要在SetChannel之前
+            controller.SetResponsePower(double.Parse(responsePower_tb.Text));
             controller.SetChannel(uint.Parse(channel_tb.Text));
-            controller.SetEncodeMode(x_rb.Checked ? EncodeType.X : EncodeType.Y);
+            controller.SetEncodeMode(x_rb.Checked ? EncodeMode.X : EncodeMode.Y);
+            controller.SetRandomPulse(uint.Parse(randomPulse_tb.Text));
+            controller.SetModulation15(uint.Parse(modulation15_tb.Text));
+            controller.SetModulation135(uint.Parse(modulation135_tb.Text));
+            controller.SetResponseRate(double.Parse(responseRate_tb.Text));
+            controller.SetIdentifyCode(identifyCode_tb.Text);
+            controller.SetAzimuthRate(double.Parse(azRate_tb.Text));
+            controller.SetDistanceRate(double.Parse(disRate_tb.Text));
 
             controller.CommitChanges();
         }
 
+        private void ShowHint()
+        {
+            var timer = new Timer
+            {
+                Interval = 3000
+            };
+            timer.Tick += Timer_Tick;
+            timer.Start();
+            hint_lab.Text = "存在不合法输入";
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            var t = sender as Timer;
+            t.Tick -= Timer_Tick;
+            t.Dispose();
+            hint_lab.Text = "";
+        }
+
         private void TrackBar1_ValueChanged(object sender, EventArgs e)
         {
-            responsePower_tb.Text = trackBar1.Value.ToString();
+            responsePower_tb.Text = responsePower_tkb.Value.ToString();
         }
     }
 }

@@ -63,7 +63,7 @@ namespace Simulator
             aotask.Commit();
             aiTask = new JXI750xDigitizerTask(0);
             aiTask.SampleRate = 20e6;
-            FPGADrive.FPGA fpga = FPGADrive.FPGA.GetInstance();
+            FPGADrives.FPGADrive fpga = FPGADrives.FPGADrive.GetInstance();
             //fpga.Write(0x54008, 10);
             int ret;
             while(true)

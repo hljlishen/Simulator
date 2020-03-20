@@ -43,21 +43,22 @@
             this.label6 = new System.Windows.Forms.Label();
             this.channel_tb = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.randomPulse_tb = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.modulation15_tb = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.modulation135_tb = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.responsePower_tb = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.textBox10 = new System.Windows.Forms.TextBox();
+            this.responseRate_tb = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.identifyCode_tb = new System.Windows.Forms.TextBox();
             this.confirm_btn = new System.Windows.Forms.Button();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.responsePower_tkb = new System.Windows.Forms.TrackBar();
+            this.hint_lab = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ppi_pb)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.responsePower_tkb)).BeginInit();
             this.SuspendLayout();
             // 
             // ppi_pb
@@ -200,12 +201,12 @@
             this.label7.TabIndex = 3;
             this.label7.Text = "随机填充脉冲";
             // 
-            // textBox6
+            // randomPulse_tb
             // 
-            this.textBox6.Location = new System.Drawing.Point(146, 141);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(100, 25);
-            this.textBox6.TabIndex = 5;
+            this.randomPulse_tb.Location = new System.Drawing.Point(146, 141);
+            this.randomPulse_tb.Name = "randomPulse_tb";
+            this.randomPulse_tb.Size = new System.Drawing.Size(100, 25);
+            this.randomPulse_tb.TabIndex = 5;
             // 
             // label8
             // 
@@ -217,12 +218,12 @@
             this.label8.TabIndex = 3;
             this.label8.Text = "15Hz调制度";
             // 
-            // textBox7
+            // modulation15_tb
             // 
-            this.textBox7.Location = new System.Drawing.Point(146, 203);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(100, 25);
-            this.textBox7.TabIndex = 5;
+            this.modulation15_tb.Location = new System.Drawing.Point(146, 203);
+            this.modulation15_tb.Name = "modulation15_tb";
+            this.modulation15_tb.Size = new System.Drawing.Size(100, 25);
+            this.modulation15_tb.TabIndex = 5;
             // 
             // label9
             // 
@@ -234,12 +235,12 @@
             this.label9.TabIndex = 3;
             this.label9.Text = "135Hz调制度";
             // 
-            // textBox8
+            // modulation135_tb
             // 
-            this.textBox8.Location = new System.Drawing.Point(146, 271);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(100, 25);
-            this.textBox8.TabIndex = 5;
+            this.modulation135_tb.Location = new System.Drawing.Point(146, 271);
+            this.modulation135_tb.Name = "modulation135_tb";
+            this.modulation135_tb.Size = new System.Drawing.Size(100, 25);
+            this.modulation135_tb.TabIndex = 5;
             // 
             // label10
             // 
@@ -268,12 +269,12 @@
             this.label11.TabIndex = 3;
             this.label11.Text = "应答概率";
             // 
-            // textBox10
+            // responseRate_tb
             // 
-            this.textBox10.Location = new System.Drawing.Point(146, 474);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(100, 25);
-            this.textBox10.TabIndex = 5;
+            this.responseRate_tb.Location = new System.Drawing.Point(146, 474);
+            this.responseRate_tb.Name = "responseRate_tb";
+            this.responseRate_tb.Size = new System.Drawing.Size(100, 25);
+            this.responseRate_tb.TabIndex = 5;
             // 
             // label12
             // 
@@ -285,12 +286,12 @@
             this.label12.TabIndex = 3;
             this.label12.Text = "识别码";
             // 
-            // textBox11
+            // identifyCode_tb
             // 
-            this.textBox11.Location = new System.Drawing.Point(146, 550);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(100, 25);
-            this.textBox11.TabIndex = 5;
+            this.identifyCode_tb.Location = new System.Drawing.Point(146, 550);
+            this.identifyCode_tb.Name = "identifyCode_tb";
+            this.identifyCode_tb.Size = new System.Drawing.Size(100, 25);
+            this.identifyCode_tb.TabIndex = 5;
             // 
             // confirm_btn
             // 
@@ -302,29 +303,39 @@
             this.confirm_btn.UseVisualStyleBackColor = true;
             this.confirm_btn.Click += new System.EventHandler(this.Confirm_btn_Click);
             // 
-            // trackBar1
+            // responsePower_tkb
             // 
-            this.trackBar1.Location = new System.Drawing.Point(12, 387);
-            this.trackBar1.Minimum = -90;
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(266, 56);
-            this.trackBar1.TabIndex = 7;
-            this.trackBar1.ValueChanged += new System.EventHandler(this.TrackBar1_ValueChanged);
+            this.responsePower_tkb.Location = new System.Drawing.Point(12, 387);
+            this.responsePower_tkb.Minimum = -90;
+            this.responsePower_tkb.Name = "responsePower_tkb";
+            this.responsePower_tkb.Size = new System.Drawing.Size(266, 56);
+            this.responsePower_tkb.TabIndex = 7;
+            this.responsePower_tkb.ValueChanged += new System.EventHandler(this.TrackBar1_ValueChanged);
+            // 
+            // hint_lab
+            // 
+            this.hint_lab.AutoSize = true;
+            this.hint_lab.ForeColor = System.Drawing.Color.Red;
+            this.hint_lab.Location = new System.Drawing.Point(57, 704);
+            this.hint_lab.Name = "hint_lab";
+            this.hint_lab.Size = new System.Drawing.Size(0, 15);
+            this.hint_lab.TabIndex = 8;
             // 
             // ControlPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1084, 732);
-            this.Controls.Add(this.trackBar1);
+            this.Controls.Add(this.hint_lab);
+            this.Controls.Add(this.responsePower_tkb);
             this.Controls.Add(this.confirm_btn);
-            this.Controls.Add(this.textBox11);
-            this.Controls.Add(this.textBox10);
+            this.Controls.Add(this.identifyCode_tb);
+            this.Controls.Add(this.responseRate_tb);
             this.Controls.Add(this.responsePower_tb);
-            this.Controls.Add(this.textBox8);
-            this.Controls.Add(this.textBox7);
+            this.Controls.Add(this.modulation135_tb);
+            this.Controls.Add(this.modulation15_tb);
             this.Controls.Add(this.label12);
-            this.Controls.Add(this.textBox6);
+            this.Controls.Add(this.randomPulse_tb);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.channel_tb);
             this.Controls.Add(this.label10);
@@ -348,7 +359,7 @@
             this.Text = "ControlPanel";
             this.Load += new System.EventHandler(this.ControlPanel_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ppi_pb)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.responsePower_tkb)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -371,18 +382,19 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox channel_tb;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox randomPulse_tb;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.TextBox modulation15_tb;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.TextBox modulation135_tb;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox responsePower_tb;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox textBox10;
+        private System.Windows.Forms.TextBox responseRate_tb;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.TextBox identifyCode_tb;
         private System.Windows.Forms.Button confirm_btn;
-        private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.TrackBar responsePower_tkb;
+        private System.Windows.Forms.Label hint_lab;
     }
 }

@@ -111,9 +111,9 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FPGA\FPGADrive.csproj">
+    <ProjectReference Include="..\FPGA\DeviceDrive.csproj">
       <Project>{ac127cf0-7828-41f5-976d-b80789add67c}</Project>
-      <Name>FPGADrive</Name>
+      <Name>DeviceDrive</Name>
     </ProjectReference>
     <ProjectReference Include="..\IniBind\IniBind.csproj">
       <Project>{5d6ba190-193d-4ed1-91c8-a57f8da30924}</Project>

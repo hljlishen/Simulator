@@ -19,7 +19,6 @@ namespace PPI
                 mapper.SetCoordinateYRange(range, -range);
                 state.Update(mapper.ScreenCenter);
                 DrawBackground();
-                Canvas.Refresh();
             }
         }
         public uint DistanceMarkerCount
@@ -29,13 +28,16 @@ namespace PPI
             {
                 distanceMarkerCount = value;
                 DrawBackground();
-                Canvas.Refresh();
             }
         }
         public PPIDisplay(PictureBox canvas, IScreenToCoordinateMapper mapper)
         {
             Canvas = canvas;
-            Canvas.Paint += Canvas_Paint;
+            var t = new Timer();
+            t.Interval = 10;
+            t.Tick += T_Tick;
+            t.Start();
+
             canvas.SizeChanged += Canvas_SizeChanged;
             Canvas.MouseMove += Canvas_MouseMove;
             Canvas.MouseDown += Canvas_MouseDown;
@@ -46,6 +48,19 @@ namespace PPI
             mapper.SetCoordinateYRange(range, -range);
             state = new CoordinateState(mapper);
             DrawBackground();
+        }
+
+        private void T_Tick(object sender, EventArgs e)
+        {
+            var newBitmap = new Bitmap(Background);
+            using (Graphics graphics = Graphics.FromImage(newBitmap))
+            {
+                InitializeGraphics(graphics);
+                DrawTarget(graphics);
+            }
+
+            Canvas.Image?.Dispose();
+            Canvas.Image = newBitmap;
         }
 
         private void DrawBackground()
@@ -76,7 +91,6 @@ namespace PPI
             {
                 state.Update(e.Location);
                 DmeStateChanged?.Invoke(state.Azimuth, state.Distance);
-                Canvas.Refresh();
             }
             catch
             {
@@ -88,11 +102,12 @@ namespace PPI
             mapper.SetScreenArea(0, Canvas.Width, 0, Canvas.Height);
             state.UpdateScreenLocation();
             DrawBackground();
-            Canvas.Refresh();
+            //Canvas.Refresh();
         }
 
         private void Canvas_Paint(object sender, PaintEventArgs e)
         {
+            //throw new Exception("");
             var newBitmap = new Bitmap(Background);
             using (Graphics graphics = Graphics.FromImage(newBitmap))
             {

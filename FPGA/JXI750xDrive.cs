@@ -1,16 +1,15 @@
 ﻿using JXI.RF.Device.IFTransceiver;
 using JXI.RF.Device.VST;
 using System.Collections.Generic;
-using System.Threading;
 
-namespace FPGA
+namespace IFTransceiverDrives
 {
-    public class DeviceDrive
+    public class JXI750xDrive
     {
         private VectorSignalTranceiver device;
         private StandardSignalGenTask standardGenTask;
 
-        public DeviceDrive()
+        public JXI750xDrive()
         {
             var dcNames = new List<string>() { "10001AF3" };
             var ucnames = new List<string>() { "10001713" };

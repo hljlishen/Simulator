@@ -1,13 +1,14 @@
-﻿using FPGA;
+﻿using FPGADrives;
 using System;
+using IFTransceiverDrives;
 
 namespace SimView
 {
-    public interface IDeviceController
+    public interface ITacanController
     {
         TacanModel Model { get; }
         void SetChannel(uint channelNumber);
-        void SetEncodeMode(EncodeType encodeType);
+        void SetEncodeMode(EncodeMode encodeMode);
         void SetAzimuth(double az);
         void SetDistance(double dis);
         void SetDistanceRate(double disRate);
@@ -18,19 +19,21 @@ namespace SimView
         void SetResponsePower(double power);
         void SetResponseRate(double rate);
         void SetIdentifyCode(string code);
-
         void CommitChanges();
+
+        void Write(int address, int data);
     }
 
-    public enum EncodeType
+    public enum EncodeMode
     {
         X,
         Y
     }
 
-    class PXES2590Controller : IDeviceController
+    class PXES2590Controller : ITacanController
     {
-        private DeviceDrive device = new DeviceDrive();
+        private JXI750xDrive ifTransceiver = new JXI750xDrive();
+        private FPGADrive fpga = FPGADrive.GetInstance();
         public PXES2590Controller(TacanModel model)
         {
             Model = model;
@@ -43,19 +46,19 @@ namespace SimView
         public void SetAzimuthRate(double azRate) => Model.AzimuthRate_ini = azRate;
 
         public void SetChannel(uint channelNumber) => Model.Channel_ini = channelNumber;
-        public void SetEncodeMode(EncodeType encodeType)
+        public void SetEncodeMode(EncodeMode encodeMode)
         {
-            Model.EncodeMode_ini = encodeType == EncodeType.X ? "x" : "y";
-            Model.EncodeType = encodeType;
+            Model.EncodeMode_ini = encodeMode == EncodeMode.X ? "x" : "y";
+            Model.EncodeMode = encodeMode;
         }
 
-        private double CalFrequency(EncodeType type, uint channel)
+        private double CalFrequency(EncodeMode type, uint channel)
         {
             switch (type)
             {
-                case EncodeType.X:
+                case EncodeMode.X:
                     return CalXFrequency(channel);
-                case EncodeType.Y:
+                case EncodeMode.Y:
                     return CalYFrequency(channel);
                 default:
                     throw new Exception($"错误的EncodeType类型:{type}");
@@ -104,8 +107,13 @@ namespace SimView
 
         public void CommitChanges()
         {
-            var freq = CalFrequency(Model.EncodeType, Model.Channel_ini);
-            device.SetFrequencyAndPower(freq, Model.ResponsePower_ini);
+            var freq = CalFrequency(Model.EncodeMode, Model.Channel_ini);
+            ifTransceiver.SetFrequencyAndPower(freq, Model.ResponsePower_ini);
+        }
+
+        public void Write(int address, int data)
+        {
+            fpga.Write(address, data);
         }
     }
 }
