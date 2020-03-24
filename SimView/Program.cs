@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IFTransceiverDrives;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +17,8 @@ namespace SimView
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            var controller = new PXES2590Controller(IniBind.IniFileObjectFactory<TacanModel>.CreateObject());
+            //var controller = new PXES2590Controller(IniBind.IniFileObjectFactory<TacanModel>.CreateObject(), new JXI750xSignalController());
+            var controller = new PXES2590Controller(IniBind.IniFileObjectFactory<TacanModel>.CreateObject(), new JXI750xSignalController());
             Application.Run(new ControlPanel(controller));
         }
     }

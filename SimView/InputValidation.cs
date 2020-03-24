@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace SimView
 {
     public class InputValidation
     {
-        private Dictionary<TextBox, StringRule> ruleMap = new Dictionary<TextBox, StringRule>();
-        private Dictionary<TextBox, string> textBeforeChange = new Dictionary<TextBox, string>();
+        private Dictionary<Control, StringRule> ruleMap = new Dictionary<Control, StringRule>();
+        private Dictionary<Control, string> textBeforeChange = new Dictionary<Control, string>();
         public ErrorProvider errorProvider = new ErrorProvider() {BlinkStyle = ErrorBlinkStyle.NeverBlink };
         public bool ForbiddenOutRangeInput { get; set; } = false;
-        public event Action<TextBox, StringRule> UnvalidatedInput;
-        public void AddValidation(TextBox tb, StringRule rule)
+        public event Action<Control, StringRule> UnvalidatedInput;
+        public Control CueControl { get; set; }
+        public void AddValidation(Control tb, StringRule rule)
         {
             if (ruleMap.ContainsKey(tb))
                 return;
@@ -22,7 +24,7 @@ namespace SimView
             if (rule.Pass(tb.Text))
                 textBeforeChange.Add(tb, tb.Text);
             else
-                throw new TextBoxValueDoesntMatchRuleException($"<{tb.Name}>的Text属性值不满足正则表达式:{rule.RegexExpression}");
+                throw new TextBoxValueDoesntMatchRuleException($"<{tb.Name}>的Text属性值不满足正则表达式:{rule.ToString()}");
         }
 
         private void Tb_TextChanged(object sender, System.EventArgs e)
@@ -58,21 +60,32 @@ namespace SimView
 
         public void Cue()
         {
-            var timer = new System.Windows.Forms.Timer();
+            var timer = new Timer();
             timer.Interval = 3000;
             timer.Tick += Timer_Tick;
             timer.Start();
             errorProvider.BlinkStyle = ErrorBlinkStyle.AlwaysBlink;
             errorProvider.BlinkRate = 200;
+            if(CueControl != null)
+            {
+                if (CueControl.ForeColor != Color.Red)
+                    CueControl.ForeColor = Color.Red;
+                CueControl.Text = "输入存在错误，请检查";
+            }
+
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            var t = sender as System.Windows.Forms.Timer;
+            var t = sender as Timer;
             t.Stop();
             t.Tick -= Timer_Tick;
             t.Dispose();
             errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink;
+            if (CueControl != null)
+            {
+                CueControl.Text = "";
+            }
         }
     }
 

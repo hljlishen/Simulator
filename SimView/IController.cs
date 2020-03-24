@@ -30,13 +30,14 @@ namespace SimView
         Y
     }
 
-    class PXES2590Controller : ITacanController
+    public class PXES2590Controller : ITacanController
     {
-        private JXI750xDrive ifTransceiver = new JXI750xDrive();
+        private ISignalController ifTransceiver = new JXI750xDriveFakeSignal();
         private FPGADrive fpga = FPGADrive.GetInstance();
-        public PXES2590Controller(TacanModel model)
+        public PXES2590Controller(TacanModel model, ISignalController ifTransceiver)
         {
             Model = model;
+            this.ifTransceiver = ifTransceiver;
         }
 
         public TacanModel Model { get; private set; }
@@ -89,6 +90,8 @@ namespace SimView
             }
         }
 
+        private double CalResponseFrequency(uint channel) => (1024 + channel) * 1E6;
+
         public void SetDistance(double dis) => Model.Distance_ini = dis;
 
         public void SetDistanceRate(double disRate) => Model.DistanceRate_ini = disRate;
@@ -107,8 +110,8 @@ namespace SimView
 
         public void CommitChanges()
         {
-            var freq = CalFrequency(Model.EncodeMode, Model.Channel_ini);
-            ifTransceiver.SetFrequencyAndPower(freq, Model.ResponsePower_ini);
+            ifTransceiver.SetUpConverterState(CalFrequency(Model.EncodeMode, Model.Channel_ini), Model.ResponsePower_ini);
+            ifTransceiver.SetDownConverterState(CalResponseFrequency(Model.Channel_ini), 0);
         }
 
         public void Write(int address, int data)

@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 namespace IFTransceiverDrives
 {
-    public class JXI750xDrive
+    public class JXI750xDriveFakeSignal : ISignalController
     {
         private VectorSignalTranceiver device;
         private StandardSignalGenTask standardGenTask;
 
-        public JXI750xDrive()
+        public JXI750xDriveFakeSignal()
         {
             var dcNames = new List<string>() { "10001AF3" };
             var ucnames = new List<string>() { "10001713" };
@@ -18,7 +18,7 @@ namespace IFTransceiverDrives
             //device.Correction.LoadFromFile("D:\\software\\vst-appdriver\\CSharp Source\\Test Panel\\VST Generation and Analysis Test Panel\\bin\\Debug\\Calibration Of VST.ini");
 
             // 设置中频模块的参考时钟、基准时钟速率等参数。
-            device.IFTranceiver.ClockSource = ClockSource.Internal;
+            device.IFTranceiver.ClockSource = JXI.RF.Device.IFTransceiver.ClockSource.Internal;
             device.IFTranceiver.TimebaseRate = 240.0 * 1E6; //TimeRate base
 
             device.Downconverters[0].Clock.Source = JXI.RF.Device.Downconverter.ClockSource.Internal;
@@ -28,13 +28,13 @@ namespace IFTransceiverDrives
             device.Upconverters[0].Clock.Output = JXI.RF.Device.Upconverter.ClockOutput.None;
         }
 
-        public void SetFrequencyAndPower(double frequency, double outputPower)
+        public void SetDownConverterState(double frequency, double outputPower)
         {
-            //if (standardGenTask != null && standardGenTask.IsRunning)
-            //{
-            //    standardGenTask.Stop();
+            
+        }
 
-            //}
+        public void SetUpConverterState(double frequency, double outputPower)
+        {
             standardGenTask = new StandardSignalGenTask(device);
             // 添加通道，各通道可以有不同的Frequency / Reference Level。
             standardGenTask.AddChannel(0, frequency, outputPower);

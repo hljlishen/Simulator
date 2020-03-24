@@ -1,5 +1,7 @@
 ﻿using Mapper;
 using Rule;
+using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace SimView
@@ -7,13 +9,14 @@ namespace SimView
     public class StringRule : IRule<string>
     {
         protected Regex Regex;
-        public string RegexExpression { get => Regex.ToString(); }
         protected StringRule(string regexExpression)
         {
             Regex = new Regex(regexExpression);
         }
-        public virtual string Hint { get; } = "";
+        public virtual string Hint { get; } = "错误";
         public virtual bool Pass(string input) => Regex.IsMatch(input);
+
+        public override string ToString() => Regex.ToString();
     }
 
     public class IntStrInRange : StringRule
@@ -42,7 +45,7 @@ namespace SimView
     public class DoubleStrInRange : StringRule
     {
         private ValueInterval interval;
-        public DoubleStrInRange(ValueInterval interval) : base(@"^[1-9]*[0-9]?(\.[0-9]{1,2})?$")
+        public DoubleStrInRange(ValueInterval interval) : base(@"^[0-9]*\.?[0-9]+")
         {
             this.interval = interval;
         }
@@ -60,5 +63,18 @@ namespace SimView
         }
 
         public override string Hint { get => $"请输入{interval.ToString()}范围内的浮点";}
+    }
+
+    public class LetterLengthRule : StringRule
+    {
+        private uint max, min;
+        public LetterLengthRule(uint maxLength, uint minLength) : base("")
+        {
+            max = maxLength;
+            min = minLength;
+            Regex = new Regex($"^[a-zA-Z]{{{minLength},{maxLength}}}$");
+        }
+
+        public override string Hint { get => $"请输入长度{min}-{max}的字母"; }
     }
 }

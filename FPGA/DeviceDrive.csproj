@@ -51,6 +51,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\SeeSharp\JXInst\Hardware\DAQ\JXI750x\Bin\JXI750x.dll</HintPath>
     </Reference>
+    <Reference Include="JXIPXIe7660, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a79afaf53efac3bf, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\vst-appdriver\CSharp Source\Public\External Library\JXIPXIe7660.dll</HintPath>
+    </Reference>
+    <Reference Include="JXIPXIe7760, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2c1edab97b17ec8c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\vst-appdriver\CSharp Source\Public\External Library\JXIPXIe7760.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -61,8 +69,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ISignalController.cs" />
     <Compile Include="JXI750xDrive.cs" />
     <Compile Include="FPGA.cs" />
+    <Compile Include="JXI750xSignalController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

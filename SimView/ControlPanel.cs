@@ -23,11 +23,17 @@ namespace SimView
             this.controller = controller;
             UpdateForm(controller.Model);
 
-            validation = new InputValidation();
-            validation.AddValidation(channel_tb, new IntStrInRange(ValueInterval.CloseClose(126, 1)));
-            validation.AddValidation(randomPulse_tb, new IntStrInRange(ValueInterval.CloseClose(10000, 0)));
-            validation.AddValidation(modulation15_tb, new DoubleStrInRange(ValueInterval.CloseClose(100, 0)));
-            validation.AddValidation(modulation135_tb, new DoubleStrInRange(ValueInterval.CloseClose(100, 0)));
+            validation = new InputValidation
+            {
+                CueControl = hint_lab
+            };
+            validation.AddValidation(channel_tb, new IntStrInRange(126, 1));
+            validation.AddValidation(randomPulse_tb, new IntStrInRange(10000, 0));
+            validation.AddValidation(modulation15_tb, new DoubleStrInRange(100, 0));
+            validation.AddValidation(modulation135_tb, new DoubleStrInRange(100, 0));
+            validation.AddValidation(responseRate_tb, new DoubleStrInRange(100, 0));
+            validation.AddValidation(responsePower_tb, new DoubleStrInRange(10, -100));
+            validation.AddValidation(identifyCode_tb, new LetterLengthRule(4, 3));
         }
         private void Display_DmeStateChanged(double arg1, double arg2)
         {
@@ -78,7 +84,6 @@ namespace SimView
             if(!validation.IsAllInputsValidate())
             {
                 validation.Cue();
-                ShowHint();
                 return;
             }
             controller.SetAzimuth(double.Parse(az_tb.Text));
@@ -95,25 +100,6 @@ namespace SimView
             controller.SetDistanceRate(double.Parse(disRate_tb.Text));
 
             controller.CommitChanges();
-        }
-
-        private void ShowHint()
-        {
-            var timer = new Timer
-            {
-                Interval = 3000
-            };
-            timer.Tick += Timer_Tick;
-            timer.Start();
-            hint_lab.Text = "存在不合法输入";
-        }
-
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            var t = sender as Timer;
-            t.Tick -= Timer_Tick;
-            t.Dispose();
-            hint_lab.Text = "";
         }
 
         private void TrackBar1_ValueChanged(object sender, EventArgs e)
