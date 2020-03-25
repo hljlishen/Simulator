@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
-using Mapper;
 using PPI;
+using Utilities.Mapper;
 
 namespace SimView
 {

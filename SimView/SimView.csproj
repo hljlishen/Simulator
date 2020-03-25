@@ -101,21 +101,13 @@
       <Project>{ac127cf0-7828-41f5-976d-b80789add67c}</Project>
       <Name>DeviceDrive</Name>
     </ProjectReference>
-    <ProjectReference Include="..\IniBind\IniBind.csproj">
-      <Project>{5d6ba190-193d-4ed1-91c8-a57f8da30924}</Project>
-      <Name>IniBind</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mapper\Mapper.csproj">
-      <Project>{5ffa42d8-cdf6-4c02-96d1-bb934830d6c6}</Project>
-      <Name>Mapper</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PPI\PPI.csproj">
       <Project>{646b555e-dba5-4a8a-a20c-0308bef6aa64}</Project>
       <Name>PPI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RuleFrame\RuleFrame.csproj">
-      <Project>{029f434b-348a-4142-a0f9-25b8cd03b73a}</Project>
-      <Name>RuleFrame</Name>
+    <ProjectReference Include="D:\lishen\Utilities-master\Utilities.csproj">
+      <Project>{BCE36124-179E-45A2-8B0A-D4DB9597277B}</Project>
+      <Name>Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

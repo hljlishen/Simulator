@@ -81,9 +81,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Mapper\Mapper.csproj">
-      <Project>{5ffa42d8-cdf6-4c02-96d1-bb934830d6c6}</Project>
-      <Name>Mapper</Name>
+    <ProjectReference Include="D:\lishen\Utilities-master\Utilities.csproj">
+      <Project>{BCE36124-179E-45A2-8B0A-D4DB9597277B}</Project>
+      <Name>Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

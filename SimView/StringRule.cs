@@ -1,8 +1,6 @@
-﻿using Mapper;
-using Rule;
-using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
+using Utilities.Rules;
+using Utilities.ValueIntervals;
 
 namespace SimView
 {

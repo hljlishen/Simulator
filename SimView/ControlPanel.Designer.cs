@@ -96,7 +96,7 @@
             // 
             // az_tb
             // 
-            this.az_tb.Location = new System.Drawing.Point(395, 78);
+            this.az_tb.Location = new System.Drawing.Point(394, 78);
             this.az_tb.Name = "az_tb";
             this.az_tb.Size = new System.Drawing.Size(225, 25);
             this.az_tb.TabIndex = 2;
